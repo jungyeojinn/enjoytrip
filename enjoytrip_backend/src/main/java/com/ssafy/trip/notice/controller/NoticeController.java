@@ -1,8 +1,10 @@
-package com.ssafy.trip.notice;
+package com.ssafy.trip.notice.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +18,7 @@ import com.ssafy.trip.notice.model.NoticeDto;
 import com.ssafy.trip.notice.model.service.NoticeService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/notice")
 public class NoticeController {
 
@@ -26,27 +29,29 @@ public class NoticeController {
 		this.noticeService = noticeService;
 	}
 	
-	@GetMapping("/list")
-	public ResponseEntity<?> getNoticeList() throws SQLException {
-		return ResponseEntity.ok().body(noticeService.getListNotice());
+	@GetMapping("/")
+	public ResponseEntity<?> getAllNotices() throws SQLException {
+		List<NoticeDto> noticeList = noticeService.getListNotice();
+		return ResponseEntity.ok().body(noticeList);
 	}
 	
-	@GetMapping("/{noticeId}")
-	public ResponseEntity<?> getNotice(@PathVariable("noticeId") int noticeId) throws SQLException {
-		return ResponseEntity.ok().body(noticeService.getNotice(noticeId));
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getNotice(@PathVariable("id") int noticeId) throws SQLException {
+		NoticeDto notice = noticeService.getNotice(noticeId);
+		return ResponseEntity.ok().body(notice);
 	}
-	@PostMapping("/{noticeId}")
+	@PostMapping("/{id}")
 	public ResponseEntity<?> writeNotice(@ModelAttribute NoticeDto notice) throws SQLException {
 		noticeService.writeNotice(notice);
 		return ResponseEntity.ok().build();
 	}
-	@PatchMapping("/{noticeId}")
-	public ResponseEntity<?> updateNoticeList(@ModelAttribute NoticeDto notice) throws SQLException {
+	@PatchMapping("/{id}")
+	public ResponseEntity<?> updateNotice(@ModelAttribute NoticeDto notice) throws SQLException {
 		noticeService.modifyNotice(notice);
 		return ResponseEntity.ok().build();
 	}
-	@DeleteMapping("/{noticeId}")
-	public ResponseEntity<?> deleteNoticeList(@PathVariable("noticeId") int noticeId) throws SQLException {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteNotice(@PathVariable("id") int noticeId) throws SQLException {
 		noticeService.deleteNotice(noticeId);
 		return ResponseEntity.ok().build();
 	}

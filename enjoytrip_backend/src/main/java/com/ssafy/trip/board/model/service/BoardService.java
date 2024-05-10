@@ -14,4 +14,6 @@ public interface BoardService {
 	void deleteBoards(int[] ids)throws SQLException ;
 	
 	void updateHit(int id)  throws SQLException ;
+	
+	BoardDto getBoardWithHit(int id)  throws SQLException ;
 }

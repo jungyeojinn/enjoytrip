@@ -11,14 +11,14 @@ public class BoardDto {
 	private String modified_at;
 	
 	// join
-	private int users_id;
+	private int user_id;
 
 	public BoardDto() {
 		super();
 	}
 
 	public BoardDto(int id, int type, String title, String content, String img, int views, String created_at,
-			String modified_at, int users_id) {
+			String modified_at, int user_id) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -28,7 +28,7 @@ public class BoardDto {
 		this.views = views;
 		this.created_at = created_at;
 		this.modified_at = modified_at;
-		this.users_id = users_id;
+		this.user_id = user_id;
 	}
 
 	public BoardDto(int type, String title, String content, String img, int views) {
@@ -119,18 +119,18 @@ public class BoardDto {
 	}
 
 	public int getUsers_id() {
-		return users_id;
+		return user_id;
 	}
 
-	public void setUsers_id(int users_id) {
-		this.users_id = users_id;
+	public void setUsers_id(int user_id) {
+		this.user_id = user_id;
 	}
 
 	@Override
 	public String toString() {
 		return "[id=" + id + ", type=" + type + ", title=" + title + ", content=" + content + ", img=" + img
-				+ ", views=" + views + ", created_at=" + created_at + ", modified_at=" + modified_at + ", users_id="
-				+ users_id + "]";
+				+ ", views=" + views + ", created_at=" + created_at + ", modified_at=" + modified_at + ", user_id="
+				+ user_id + "]";
 	}
 	
 }

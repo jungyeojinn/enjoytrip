@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="registBoard" parameterType="boardDto">
-	insert into board (type, title, content, img, views, created_at, modified_at, users_id)
-	values (#{type}, #{title}, #{content}, #{img}, 0, now(), now(), #{users_id})
+	insert into board (type, title, content, img, views, created_at, modified_at, user_id)
+	values (#{type}, #{title}, #{content}, #{img}, 0, now(), now(), #{user_id})
 	</insert>
 	
 	<update id="updateBoard" parameterType="boardDto">

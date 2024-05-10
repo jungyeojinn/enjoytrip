@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ssafy.trip.board.model.BoardDto;
 import com.ssafy.trip.board.model.mapper.BoardMapper;
 
@@ -55,6 +57,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateHit(int id) throws SQLException {
 		boardMapper.updateHit(id);
+	}
+
+	@Override
+	@Transactional
+	public BoardDto getBoardWithHit(int id) throws SQLException {
+		updateHit(id);
+		return getBoard(id);
 	}
 	
 }

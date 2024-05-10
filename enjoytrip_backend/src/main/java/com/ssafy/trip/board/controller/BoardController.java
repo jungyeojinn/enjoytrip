@@ -1,13 +1,20 @@
 package com.ssafy.trip.board.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.xml.transform.OutputKeys;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +22,10 @@ import com.ssafy.trip.board.model.BoardDto;
 import com.ssafy.trip.board.model.service.BoardService;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/board")
 public class BoardController {
-	
+
 	private BoardService boardservice;
 
 	public BoardController(BoardService boardservice) {
@@ -24,46 +33,42 @@ public class BoardController {
 		this.boardservice = boardservice;
 	}
 
-	@GetMapping("/board/list")
-	public ResponseEntity<?> board_list() throws SQLException {
-		return ResponseEntity.ok().body(boardservice.boardList());
+	@GetMapping("/")
+	public ResponseEntity<?> getAllBoards() throws SQLException {
+		List<BoardDto> boardlist = boardservice.boardList();
+		return ResponseEntity.ok().body(boardlist);
 	}
-	
-	@GetMapping("/board/regist")
-	public String board_regist() {
-		return null;
-	}
-	
-	@PostMapping("/board/regist")
-	public ResponseEntity<?> board_registf(@RequestBody BoardDto board) throws SQLException {
+
+	@PostMapping("/")
+	public ResponseEntity<?> writeBoard(@RequestBody BoardDto board) throws SQLException {
 		boardservice.registBoard(board);
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/board/detail")
-	public String board_detail(Model model, @RequestBody BoardDto board, @RequestParam(value="id") int id) throws SQLException {
-		model.addAttribute("board", boardservice.getBoard(id));
-		boardservice.updateHit(id);
-		return "board/detail";
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getBoard(@PathVariable("id") int id) throws SQLException {
+		BoardDto board = boardservice.getBoardWithHit(id);
+		return ResponseEntity.ok().body(board);
 	}
-	
-	@GetMapping("/board/update")
-	public String board_update(@RequestParam(value="id") int id, Model model) throws SQLException {
-		model.addAttribute("board", boardservice.getBoard(id));
-		return "board/update";
-	}
-	
-	@PostMapping("/board/update")
-	public String board_updatef(@RequestBody BoardDto board) throws SQLException {
+
+	@PutMapping("/")
+	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board) throws SQLException {
 		boardservice.updateBoard(board);
-		return "redirect:/product/detail?code="+board.getId();
+		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/board/delete")
-	public String board_delete(@RequestParam(value="del_board", required=false) int[] ids) throws SQLException {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteBoard(@PathVariable("id") int id)
+			throws SQLException {
+		boardservice.deleteBoard(id);
+		return ResponseEntity.ok().build();
+	}
+
+	@DeleteMapping("/")
+	public ResponseEntity<?> deleteBoards(@RequestParam(value = "del-board", required = false) int[] ids)
+			throws SQLException {
 		boardservice.deleteBoards(ids);
-		return "redirect:/board/list";
+		return ResponseEntity.ok().build();
 	}
-	
-	
+
 }

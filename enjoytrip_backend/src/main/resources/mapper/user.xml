@@ -15,14 +15,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<insert id="regi" parameterType="userDto">
-		insert into user (user_id,
-		nickName,
-		password,
+		insert into user (user_id, nickName, password,
 		email_id, email_domain, join_date, authorities_id)
 		values
 		(#{userId}, #{nickName}, #{password}, #{emailId},
 		#{emailDomain},
-		now(), 0)
+		now(), #{authoritiesId})
 	</insert>
 
 	<select id="login" parameterType="userDto" resultType="userDto">

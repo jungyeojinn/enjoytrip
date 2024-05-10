@@ -15,10 +15,9 @@ public class UserDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDto(int id, String userId, String nickName, String password, String emailId, String emailDomain,
+	public UserDto(String userId, String nickName, String password, String emailId, String emailDomain,
 			String joinDate, int authoritiesId) {
 		super();
-		this.id = id;
 		this.userId = userId;
 		this.nickName = nickName;
 		this.password = password;
@@ -28,10 +27,9 @@ public class UserDto {
 		this.authoritiesId = authoritiesId;
 	}
 
-	public UserDto(int id, String userId, String nickName, String password, String emailId, String emailDomain,
+	public UserDto(String userId, String nickName, String password, String emailId, String emailDomain,
 			int authoritiesId) {
 		super();
-		this.id = id;
 		this.userId = userId;
 		this.nickName = nickName;
 		this.password = password;
