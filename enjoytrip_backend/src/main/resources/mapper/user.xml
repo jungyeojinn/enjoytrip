@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.user.model.mapper.UserMapper">
+
+	<resultMap type="userDto" id="user">
+		<result column="user_id" property="userId" />
+		<result column="nickname" property="nickName" />
+		<result column="password" property="password" />
+		<result column="email_id" property="emailId" />
+		<result column="email_domain" property="emailDomain" />
+		<result column="join_date" property="joinDate" />
+		<result column="authorities_id" property="authoritiesId" />
+	</resultMap>
+
+	<insert id="regi" parameterType="userDto">
+		insert into user (user_id,
+		nickName,
+		password,
+		email_id, email_domain, join_date, authorities_id)
+		values
+		(#{userId}, #{nickName}, #{password}, #{emailId},
+		#{emailDomain},
+		now(), 0)
+	</insert>
+
+	<select id="login" parameterType="userDto" resultType="userDto">
+		select
+		user_id, nickname
+		from user
+		where user_id=#{userId} and
+		password=#{password}
+	</select>
+
+	<select id="getUser" parameterType="string" resultType="userDto">
+		select
+		user_id, nickname from user
+		where user_id=#{userId}
+	</select>
+
+	<update id="updateUser" parameterType="userDto">
+		update user set
+		nickname=#{nickName}, password=#{password},
+		email_id=#{emailId},
+		email_domain=#{emailDomain}
+		where user_id=#{userId}
+	</update>
+
+	<delete id="deleteUser" parameterType="string">
+		delete from user
+		where
+		user_id=#{userId}
+	</delete>
+
+	<select id="getPassword" parameterType="string"
+		resultType="string">
+		select
+		password from user
+		where user_id=#{userId}
+	</select>
+</mapper>

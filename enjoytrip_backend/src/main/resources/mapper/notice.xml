@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.trip.notice.model.mapper.NoticeMapper">
+
+	<resultMap type="noticeDto" id="notice">
+		<result column="notice_id" property="noticeId" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="register_time" property="registerTime" />
+	</resultMap>
+
+    <select id="getListNotice" resultMap="notice">
+        SELECT notice_id, subject, content, register_time
+        FROM notice
+        ORDER BY notice_id DESC
+    </select>
+    
+    <insert id="writeNotice" parameterType="noticeDto">
+        INSERT INTO notice (subject, content, register_time)
+        VALUES (#{subject}, #{content}, now())
+    </insert>
+    
+	<select id="getNotice" parameterType="int" resultMap="notice">
+        SELECT notice_id, subject, content, register_time
+        FROM notice
+        WHERE notice_id = #{noticeId}
+    </select>
+    
+    <update id="modifyNotice" parameterType="noticeDto">
+        UPDATE notice
+        SET subject = #{subject}, content = #{content}
+        WHERE notice_id = #{noticeId}
+    </update>
+
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM notice
+        WHERE article_id = #{noticeId}
+    </delete>
+
+    <select id="getTotalNoticeCount" resultType="int">
+        SELECT COUNT(*)
+        FROM notice
+        <if test="param != null">
+            <where>
+                <if test="param.title != null">
+                    AND subject LIKE CONCAT('%', #{param.title}, '%')
+                </if>
+                <!-- 필요한 경우 다른 조건 추가 -->
+            </where>
+        </if>
+    </select>
+
+</mapper>
