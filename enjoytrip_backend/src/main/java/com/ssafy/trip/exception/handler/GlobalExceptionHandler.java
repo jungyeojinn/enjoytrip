@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ssafy.trip.exception.AuthorizationFailedException;
+import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.TokenExpiredException;
@@ -24,6 +25,14 @@ public class GlobalExceptionHandler {
 		return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(new BaseResponseDto(BaseResponseCode.AUTHORIZATION_FAILED));
+    }
+	
+	@ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<BaseResponseDto> handleDuplicateUserException(DuplicateUserException e) {
+        log.error("DuplicateUserException handle");
+		return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST.value())
+                .body(new BaseResponseDto(BaseResponseCode.DUPLICATE_USER));
     }
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -48,5 +57,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(new BaseResponseDto(BaseResponseCode.INVALID_INPUT));
-    }	
+    }
 }

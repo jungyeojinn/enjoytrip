@@ -41,17 +41,11 @@ public class UserController {
 	// }
 
 	@PostMapping("/login")
-	public String login(HttpSession session, @ModelAttribute UserDto user) throws Exception {
+	public ResponseEntity<?> login(@ModelAttribute UserDto user) throws Exception {
 		logger.debug("login {}", user);
 		UserDto login = userService.login(user);
 		// session.setMaxInactiveInterval(30*60);
-		if (login != null) {
-			session.setAttribute("login", login);
-			return "redirect:/";
-		} else {
-			session.invalidate();
-			return "redirect:/";
-		}
+		return ResponseEntity.ok().body(login);
 	}
 
 	// @GetMapping("/logout")
@@ -63,30 +57,30 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	@ResponseBody
-	public ResponseEntity<UserDto> getuser(@PathVariable String id) throws Exception {
-		ResponseEntity<UserDto> response = new ResponseEntity<UserDto>(userService.getUser(id), HttpStatus.OK);
-		logger.debug("logout {}", userService.getUser(id));
-		return response;
+	public ResponseEntity<UserDto> getuser(@PathVariable("id") String id) throws Exception {
+		logger.debug("getuser {}", id);
+		UserDto user = userService.getUser(id);
+		return ResponseEntity.ok().body(user);
 	}
 
 	@PostMapping("/")
-	public String regiaf(@RequestBody UserDto user) throws Exception {
+	public ResponseEntity<?> regiaf(@RequestBody UserDto user) throws Exception {
 		logger.debug("sign up {}", user);
 		userService.regi(user);
-		return "redirect:/";
+		return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 	}
 
 	@PatchMapping("/")
 	@ResponseBody
 	public ResponseEntity<?> updateuser(@RequestBody UserDto user) throws Exception {
 		userService.updateUser(user);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body("회원정보 수정 성공");
 	}
 
 	@DeleteMapping("/")
 	@ResponseBody
-	public ResponseEntity<?> deleteuser(@RequestParam("id") Integer id) throws Exception {
+	public ResponseEntity<?> deleteuser(@RequestParam("userId") String id) throws Exception {
 		userService.deleteUser(id);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body("회원삭제 성공");
 	}
 }
