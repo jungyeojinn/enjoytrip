@@ -26,10 +26,16 @@ public class AttractionController {
 		this.attractionService = attractionService;
 	}
 	
+	@GetMapping("/areacode/")
+	public ResponseEntity<?> getSido() {
+		List<AreaCodeDto> sido = attractionService.sidoCode();
+		return ResponseEntity.ok().body(sido);
+	}
+	
 	@GetMapping("/areacode/{sido}")
-	public ResponseEntity<?> getAreaCode(@PathVariable("sido") int sidoCode) {
-		List<AreaCodeDto> areaCodes = attractionService.areaCode(sidoCode);
-		return ResponseEntity.ok().body(areaCodes);
+	public ResponseEntity<?> getGugun(@PathVariable("sido") int sidoCode) {
+		List<AreaCodeDto> gugun = attractionService.gugunCode(sidoCode);
+		return ResponseEntity.ok().body(gugun);
 	}
 	
 	@GetMapping("/")
@@ -38,5 +44,11 @@ public class AttractionController {
 			@RequestParam(value = "contenttypeid", required = false) int[] contentTypeId) {
 		List<AttractionInfoDto> attractionInfoList = attractionService.list(sidoCode, gugunCode, contentTypeId);
 		return ResponseEntity.ok().body(attractionInfoList);
+	}
+	
+	@GetMapping("/{content-id}")
+	public ResponseEntity<?> getAttraictionInfos(@PathVariable("content-id") int contentId) {
+		AttractionInfoDto attraction = attractionService.getAttractionWithDetail(contentId);
+		return ResponseEntity.ok().body(attraction);
 	}
 }
