@@ -2,20 +2,21 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.board.model.mapper.CommentMapper">
+<mapper namespace="com.ssafy.trip.comments.model.mapper.CommentMapper">
 	
-	<select id="commentList" resultType="commentDto">
+	<select id="commentList" parameterType="int" resultType="commentDto">
 		select id, content, board_id, user_id from comments
+		where board_id=#{id}
 	</select>
 	
 	<select id="getComment" parameterType="int" resultType="commentDto">
 		select id, content, board_id, user_id from comments
-		where id=#{id}
+		where board_id=#{id}
 	</select>
 	
 	<insert id="registComment" parameterType="commentDto">
-		insert into comments (id, content, board_id, user_id)
-		values (#{id}, #{content}, #{board_id}, #{user_id})
+		insert into comments ( content, board_id, user_id)
+		values ( #{content}, #{board_id}, #{user_id})
 	</insert>
 	
 	<update id="updateComment" parameterType="commentDto">

@@ -8,11 +8,25 @@ public class CommentDto {
     private int board_id;
     private int user_id;
 
+    public CommentDto() {
+    }
+
     public CommentDto(int id, String content, int board_id, int user_id) {
         this.id = id;
         this.content = content;
         this.board_id = board_id;
         this.user_id = user_id;
+    }
+
+    public CommentDto(String content,int board_id, int user_id ) {
+        this.board_id = board_id;
+        this.user_id = user_id;
+        this.content = content;
+    }
+
+    public CommentDto(int id, String content) {
+        this.id = id;
+        this.content = content;
     }
 
     public int getId() {
@@ -35,6 +49,7 @@ public class CommentDto {
         return board_id;
     }
 
+
     public void setBoard_id(int board_id) {
         this.board_id = board_id;
     }
@@ -56,4 +71,6 @@ public class CommentDto {
                 ", user_id=" + user_id +
                 '}';
     }
+
+
 }

@@ -17,14 +17,14 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<CommentDto> commentList() throws SQLException {
-        return commentMapper.commentList();
+    public List<CommentDto> commentList(int id) throws SQLException {
+        return commentMapper.commentList(id);
     }
 
-    @Override
+   /* @Override
     public CommentDto getComment(int id) throws SQLException {
         return commentMapper.getComment(id);
-    }
+    }*/
 
     @Override
     public void registComment(CommentDto comment) throws SQLException {
