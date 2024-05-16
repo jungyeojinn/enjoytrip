@@ -50,8 +50,13 @@
 		    )
 	  	</if>
 	</sql>
+	
+	<select id="sidoCode" resultMap="areacode">
+	select sido_code, sido_name
+	from sido
+	</select>
 
-	<select id="areaCode" parameterType="int" resultMap="areacode">
+	<select id="gugunCode" parameterType="int" resultMap="areacode">
 	<if test="_sidoCode != 0">
 		select s.sido_code, s.sido_name, g.gugun_code, g.gugun_name
 		from sido s, gugun g

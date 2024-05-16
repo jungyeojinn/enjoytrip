@@ -21,14 +21,31 @@ public class AttractionServiceImpl implements AttractionService {
 	}
 	
 	@Override
-	public List<AreaCodeDto> areaCode(int sidoCode) {
-		System.out.println("areaCode call!!!");
-		return attractionDao.areaCode(sidoCode);
+	public List<AreaCodeDto> sidoCode() {
+		List<AreaCodeDto> sido = attractionDao.sidoCode();
+		if (sido == null || sido.size() == 0) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		}
+		return sido;
+	}
+
+
+	@Override
+	public List<AreaCodeDto> gugunCode(int sidoCode) {
+		List<AreaCodeDto> gugun = attractionDao.gugunCode(sidoCode);
+		if (gugun == null || gugun.size() == 0) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		}
+		return gugun;
 	}
 
 	@Override
 	public List<AttractionInfoDto> list(int sidoCode, int gugunCode, int[] contentTypeId) {
-		return attractionDao.list(sidoCode, gugunCode, contentTypeId);
+		List<AttractionInfoDto> attractionInfoList = attractionDao.list(sidoCode, gugunCode, contentTypeId);
+		if (attractionInfoList == null || attractionInfoList.size() == 0) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		}
+		return attractionInfoList;
 	}
 
 	@Override

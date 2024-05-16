@@ -26,10 +26,16 @@ public class AttractionController {
 		this.attractionService = attractionService;
 	}
 	
+	@GetMapping("/areacode/")
+	public ResponseEntity<?> getSido() {
+		List<AreaCodeDto> sido = attractionService.sidoCode();
+		return ResponseEntity.ok().body(sido);
+	}
+	
 	@GetMapping("/areacode/{sido}")
-	public ResponseEntity<?> getAreaCode(@PathVariable("sido") int sidoCode) {
-		List<AreaCodeDto> areaCodes = attractionService.areaCode(sidoCode);
-		return ResponseEntity.ok().body(areaCodes);
+	public ResponseEntity<?> getGugun(@PathVariable("sido") int sidoCode) {
+		List<AreaCodeDto> gugun = attractionService.gugunCode(sidoCode);
+		return ResponseEntity.ok().body(gugun);
 	}
 	
 	@GetMapping("/")
