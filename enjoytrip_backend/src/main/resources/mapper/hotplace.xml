@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.trip.hotplace.model.mapper.HotplaceMapper">
+
+	<resultMap type="HotplaceDto" id="hotplace">
+		<result column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="img" property="img"/>
+		<result column="description" property="description"/>
+		<result column="placeName" property="placeName"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="like_count" property="likeCount"/>
+	</resultMap>
+	
+	<resultMap type="HotplaceDto" id="hotplaceWithId" extends="hotplace">
+		<result column="id" property="userId"/>
+	</resultMap>
+
+	<resultMap type="HotplaceDto" id="hotplaceWithUser" extends="hotplace">
+		<result column="id" property="userId"/>
+		<result column="user_id" property="userUserId"/>
+		<result column="nickname" property="userNickname"/>
+	</resultMap>
+	
+	<insert id="insertHotplace" parameterType="hotplaceDto">
+		insert into hotplaces (title, img, description, placeName, latitude, longitude, like_count, user_id)
+		values (#{title}, #{img}, #{description}, #{placeName}, #{latitude}, #{longitude}, 0, #{userId})
+	</insert>
+	
+	<select id="listHotplaces" resultMap="hotplace">
+		select id, title, img, description, placeName, latitude, longitude, like_count
+		from hotplaces
+	</select>
+	
+	<select id="userHotplaces" parameterType="int" resultMap="hotplace">
+		select title, img, description, placeName, latitude, longitude
+		from hotplaces
+		where user_id = #{userId}
+	</select>
+	
+	<select id="getHotplace" parameterType="int" resultMap="hotplaceWithUser">
+		select h.id, h.title, h.img, h.description, h.placeName, h.latitude, h.longitude, h.like_count,
+			h.user_id, u.user_id, u.nickname
+		from hotplaces h, user u
+		where id = #{id} and h.user_id = u.id
+	</select>
+	
+	<update id="updateHotplace" parameterType="hotplaceDto">
+		update hotplaces
+		set title = #{title}, img = #{img}, description = #{description},
+		 placeName = #{placeName}, latitude = #{latitude}, longitude = #{longitude}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteHotplace" parameterType="int">
+		delete from hotplaces
+		where id = #{id}
+	</delete>
+	
+	<update id="plusLikeCount" parameterType="int">
+		update hotplaces
+		set like_count = like_count + 1
+		where id = #{id}
+	</update>
+	
+	<update id="minusLikeCount" parameterType="int">
+		update hotplaces
+		set like_count = like_count - 1
+		where id = #{id}
+	</update>
+</mapper>
