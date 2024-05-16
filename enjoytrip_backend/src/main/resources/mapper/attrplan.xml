@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.trip.attrplan.model.mapper.AttrplanMapper">
+
+	<select id="AttrplanList" resultType="attrplanDto">
+		SELECT title, start_date, end_date, img
+		FROM plans
+		ORDER BY title DESC
+	</select>
+
+	<select id="AttrplanListbyId" parameterType="int" resultType="attrplanDto">
+		SELECT plans_id, title, start_date, end_date, img
+		FROM plans
+		WHERE user_id = #{user_id}
+		ORDER BY title DESC
+	</select>
+
+	<insert id="registAttrplan" parameterType="attrplanDto">
+		INSERT INTO plans (title, start_date, end_date, img, user_id)
+		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, #{user_id})
+	</insert>
+
+	<select id="getAttrplan" parameterType="int" resultType="attrplanDto">
+		SELECT plans_id, title, start_date, end_date, img, user_id
+		FROM plans
+		WHERE plans_id = #{plans_id}
+	</select>
+
+	<update id="updateAttrplan" parameterType="attrplanDto">
+		UPDATE plans
+		SET title = #{title}, start_date = #{start_date}, end_date = #{end_date}, img = #{img}
+		WHERE plans_id = #{plans_id}
+	</update>
+
+	<delete id="deleteAttrplan" parameterType="int">
+		DELETE FROM plans
+		WHERE plans_id = #{plans_id}
+	</delete>
+
+</mapper>
