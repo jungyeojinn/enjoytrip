@@ -8,4 +8,5 @@ import com.ssafy.trip.attraction.model.AttractionInfoDto;
 public interface AttractionService {
 	List<AreaCodeDto> areaCode(int sidoCode);
 	List<AttractionInfoDto> list(int sidoCode, int gugunCode, int[] contentTypeId); 
+	AttractionInfoDto getAttractionWithDetail(int contentId);
 }

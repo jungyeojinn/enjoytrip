@@ -71,7 +71,13 @@
 	 <include refid="searchAttraction"></include>
 	</select>
 	
-	
+	<select id="getAttractionInfoWithDescription" parameterType="int" resultMap="attractionInfoWithDescription">
+	select i.content_id, i.content_type_id, i.title, i.addr1, i.addr2, i.zipcode, i.tel, i.first_image,
+	 i.first_image2, i.readcount, i.sido_code, i.gugun_code, i.latitude, i.longitude, i.mlevel,
+	 d.homepage, d.overview, d.telname
+	 from attraction_info i, attraction_description d
+	 where i.content_id = #{contentId} and i.content_id = d.content_id
+	</select>
 	
 <!-- 
 	<resultMap type="boardDto" id="article">

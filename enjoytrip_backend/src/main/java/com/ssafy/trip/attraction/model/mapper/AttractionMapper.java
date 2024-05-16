@@ -11,4 +11,5 @@ import com.ssafy.trip.attraction.model.AttractionInfoDto;
 public interface AttractionMapper {
 	List<AreaCodeDto> areaCode(int sidoCode);
 	List<AttractionInfoDto> list(int sidoCode, int gugunCode, int[] contentTypeId); 
+	AttractionInfoDto getAttractionInfoWithDescription(int contentId);
 }

@@ -39,4 +39,10 @@ public class AttractionController {
 		List<AttractionInfoDto> attractionInfoList = attractionService.list(sidoCode, gugunCode, contentTypeId);
 		return ResponseEntity.ok().body(attractionInfoList);
 	}
+	
+	@GetMapping("/{content-id}")
+	public ResponseEntity<?> getAttraictionInfos(@PathVariable("content-id") int contentId) {
+		AttractionInfoDto attraction = attractionService.getAttractionWithDetail(contentId);
+		return ResponseEntity.ok().body(attraction);
+	}
 }

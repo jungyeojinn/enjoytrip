@@ -161,4 +161,22 @@ public class AttractionInfoDto {
 	public void setMlevel(String mlevel) {
 		this.mlevel = mlevel;
 	}
+	public String getHomepage() {
+		return homepage;
+	}
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
+	}
+	public String getOverview() {
+		return overview;
+	}
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+	public String getTelname() {
+		return telname;
+	}
+	public void setTelname(String telname) {
+		this.telname = telname;
+	}
 }
