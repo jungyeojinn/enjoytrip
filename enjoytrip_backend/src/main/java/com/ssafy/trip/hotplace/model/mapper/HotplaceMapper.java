@@ -9,10 +9,11 @@ import com.ssafy.trip.hotplace.model.HotplaceDto;
 @Mapper
 public interface HotplaceMapper {
 	int insertHotplace(HotplaceDto hotplace);
-	List<HotplaceDto> list();
-	List<HotplaceDto> userHotplace();
+	List<HotplaceDto> listHotplace();
+	List<HotplaceDto> userHotplace(int id);
 	HotplaceDto getHotplace(int id);
 	int updateHotplace(HotplaceDto hotplace);
 	int deleteHotplace(int id);
-	int addLikeCount(int id);
+	int plusLikeCount(int id);
+	int minusLikeCount(int id);
 }

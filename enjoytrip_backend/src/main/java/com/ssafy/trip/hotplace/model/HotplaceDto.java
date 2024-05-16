@@ -22,10 +22,9 @@ public class HotplaceDto {
 	}
 	
 	//join 없음
-	public HotplaceDto(int id, String title, String img, String description, String placeName, BigDecimal latitude,
+	public HotplaceDto(String title, String img, String description, String placeName, BigDecimal latitude,
 			BigDecimal longitude, int likeCount) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.img = img;
 		this.description = description;
@@ -36,10 +35,23 @@ public class HotplaceDto {
 	}
 
 	// join 있음
-	public HotplaceDto(int id, String title, String img, String description, String placeName, BigDecimal latitude,
+	public HotplaceDto(String title, String img, String description, String placeName, BigDecimal latitude,
+			BigDecimal longitude, int likeCount, int userId) {
+		super();
+		this.title = title;
+		this.img = img;
+		this.description = description;
+		this.placeName = placeName;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.likeCount = likeCount;
+		this.userId = userId;
+	}
+
+	// join 있음
+	public HotplaceDto(String title, String img, String description, String placeName, BigDecimal latitude,
 			BigDecimal longitude, int likeCount, int userId, String userUserId, String userNickname) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.img = img;
 		this.description = description;
