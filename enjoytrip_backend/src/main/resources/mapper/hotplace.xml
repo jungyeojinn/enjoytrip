@@ -30,21 +30,22 @@
 		values (#{id}, #{title}, #{img}, #{description}, #{placeName}, #{latitude}, #{longitude}, 0, #{userId})
 	</insert>
 	
-	<select id="listHotplace" resultMap="hotplace">
+	<select id="listHotplaces" resultMap="hotplace">
 		select id, title, img, description, place_name, latitude, longitude, like_count
 		from hotplaces
 	</select>
 	
-	<select id="userHotplace" parameterType="int" resultMap="hotplace">
+	<select id="userHotplaces" parameterType="int" resultMap="hotplace">
 		select id, title, img, description, place_name, latitude, longitude, like_count
 		from hotplaces
 		where user_id = #{userId}
 	</select>
 	
-	<select id="getHotplace" parameterType="int" resultMap="hotplace">
-		select id, title, img, description, place_name, latitude, longitude, like_count
-		from hotplaces
-		where id = #{id}
+	<select id="getHotplace" parameterType="int" resultMap="hotplaceWithUser">
+		select h.id, h.title, h.img, h.description, h.place_name, h.latitude, h.longitude, h.like_count,
+			h.user_id, u.user_id, u.nickname
+		from hotplaces h, user u
+		where id = #{id} and h.user_id = u.id
 	</select>
 	
 	<update id="updateHotplace" parameterType="hotplaceDto">

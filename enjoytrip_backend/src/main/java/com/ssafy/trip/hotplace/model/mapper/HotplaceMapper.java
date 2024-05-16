@@ -9,8 +9,8 @@ import com.ssafy.trip.hotplace.model.HotplaceDto;
 @Mapper
 public interface HotplaceMapper {
 	int insertHotplace(HotplaceDto hotplace);
-	List<HotplaceDto> listHotplace();
-	List<HotplaceDto> userHotplace(int id);
+	List<HotplaceDto> listHotplaces();
+	List<HotplaceDto> userHotplaces(int id);
 	HotplaceDto getHotplace(int id);
 	int updateHotplace(HotplaceDto hotplace);
 	int deleteHotplace(int id);
