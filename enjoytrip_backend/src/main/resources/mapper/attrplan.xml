@@ -15,31 +15,31 @@
 
 	<select id="AttrplanList" resultMap="attrplan">
 		SELECT title, startDate, endDate, img
-		FROM attrplan left join user
-		on attrplan.userId = user.user_id
+		FROM plans left join user
+		on plans.userId = user.user_id
 		ORDER BY title DESC
 	</select>
 
 	<insert id="attrplanDto" parameterType="attrplanDto">
-		INSERT INTO attrplan (title, startDate, endDate, img, userId)
+		INSERT INTO plans (title, startDate, endDate, img, userId)
 		VALUES (#{title}, #{startDate}, #{endDate}, #{img}, #{userId})
 	</insert>
 
-	<select id="getAttrplan" parameterType="String" resultMap="attrplan">
+	<select id="getAttrplan" parameterType="int" resultMap="attrplan">
 		SELECT title, startDate, endDate, img
-		FROM attrplan left join user
-		on attrplan.userId = user.user_id
+		FROM plans left join user
+		on plans.userId = user.user_id
 		WHERE title = #{title}
 	</select>
 
 	<update id="updateAttrplan" parameterType="attrplanDto">
-		UPDATE attrplan
+		UPDATE plans
 		SET title = #{title}, startDate = #{startDate}, endDate = #{endDate}, img = #{img}
 		WHERE plansId = #{plansId}
 	</update>
 
 	<delete id="deleteAttrplan" parameterType="int">
-		DELETE FROM attrplan
+		DELETE FROM plans
 		WHERE plansId = #{plansId}
 	</delete>
 

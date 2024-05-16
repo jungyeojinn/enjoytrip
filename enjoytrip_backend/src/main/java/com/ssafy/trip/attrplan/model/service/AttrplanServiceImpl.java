@@ -25,8 +25,8 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public AttrplanDto getAttrplan(String title) throws SQLException {
-		return attrplanMapper.getAttrplan(title);
+	public AttrplanDto getAttrplan(int plans_id) throws SQLException {
+		return attrplanMapper.getAttrplan(plans_id);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void deleteAttrplan(String title) throws SQLException {
-		attrplanMapper.deleteAttrplan(title);
+	public void deleteAttrplan(int plans_id) throws SQLException {
+		attrplanMapper.deleteAttrplan(plans_id);
 	}
 }
