@@ -1,7 +1,7 @@
-<template>
-  여행지
-</template>
-
 <script setup>
-//
+import Container from '@/components/attraction/Container.vue';
 </script>
+
+<template>
+  <Container />
+</template>

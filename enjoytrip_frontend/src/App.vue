@@ -13,4 +13,8 @@ import AppHeader from '@/components/AppHeader.vue';
   </v-app>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  width: 100vw;
+}
+</style>
