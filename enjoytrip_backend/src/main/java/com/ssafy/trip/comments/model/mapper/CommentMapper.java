@@ -9,8 +9,7 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    List<CommentDto> commentList(int id)  throws SQLException;
-    //CommentDto getComment(int id)  throws SQLException ;
+    List<CommentDto> commentList(int id)  throws SQLException ;
     void registComment(CommentDto comment) throws SQLException ;
     void updateComment(CommentDto comment) throws SQLException ;
     void deleteComment(int id) throws SQLException ;

@@ -34,12 +34,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body("댓글 등록 성공");
     }
 
-    /*@RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getComment(@PathVariable("id") int id) throws SQLException {
-        CommentDto comment = commentservice.getComment(id);
-        return ResponseEntity.ok().body(comment);
-    }*/
-
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateComment(@RequestBody CommentDto comment) throws SQLException {
         commentservice.updateComment(comment);

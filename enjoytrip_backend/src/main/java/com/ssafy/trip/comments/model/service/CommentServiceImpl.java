@@ -21,11 +21,6 @@ public class CommentServiceImpl implements CommentService{
         return commentMapper.commentList(id);
     }
 
-   /* @Override
-    public CommentDto getComment(int id) throws SQLException {
-        return commentMapper.getComment(id);
-    }*/
-
     @Override
     public void registComment(CommentDto comment) throws SQLException {
         commentMapper.registComment(comment);
@@ -40,4 +35,5 @@ public class CommentServiceImpl implements CommentService{
     public void deleteComment(int id) throws SQLException {
         commentMapper.deleteComment(id);
     }
+
 }
