@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.comments.model.mapper.CommentMapper">
+	
+	<select id="commentList" parameterType="int" resultType="commentDto">
+		select a.id as user_id, a.nickname as user_nickname, b.content, b.board_id, b.id
+		from comments b join user a
+		on a.id=b.user_id
+		where b.board_id=#{id}
+	</select>
+	
+	<insert id="registComment" parameterType="commentDto">
+		insert into comments ( content, board_id, user_id)
+		values ( #{content}, #{board_id}, #{user_id})
+	</insert>
+	
+	<update id="updateComment" parameterType="commentDto">
+		update comments set content=#{content}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comments where id=#{id}
+	</delete>
+
+</mapper>
