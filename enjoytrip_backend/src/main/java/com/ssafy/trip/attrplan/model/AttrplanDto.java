@@ -20,7 +20,6 @@ public class AttrplanDto {
 		super();
 	}
 
-	@Builder
 	public AttrplanDto(String title, String start_date, String end_date, String img, int user_id) {
 		this.title = title;
 		this.start_date = start_date;

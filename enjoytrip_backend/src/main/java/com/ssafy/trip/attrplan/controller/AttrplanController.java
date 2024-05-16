@@ -2,6 +2,10 @@ package com.ssafy.trip.attrplan.controller;
 
 import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.service.AttrplanService;
+import com.ssafy.trip.exception.InvalidInputException;
+import com.ssafy.trip.exception.ResourceNotFoundException;
+import com.ssafy.trip.exception.dto.BaseResponseDto;
+import com.ssafy.trip.exception.util.BaseResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -64,7 +68,7 @@ public class AttrplanController {
     public ResponseEntity<AttrplanDto> updateAttrplan(
             @PathVariable("id") int plans_id,
             @RequestBody Map<String, Object> updateAttrplanDto
-    ) throws SQLException {
+    ) throws Exception {
         AttrplanDto attrplanDto = attrplanService.getAttrplan(plans_id);
         if(attrplanDto != null){
             if(updateAttrplanDto.containsKey("title")){
@@ -80,7 +84,7 @@ public class AttrplanController {
                 attrplanDto.setImg((String)updateAttrplanDto.get("img"));
             }
             attrplanService.updateAttrplan(attrplanDto);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         return new ResponseEntity<>(attrplanDto, HttpStatus.OK);
     }
 
