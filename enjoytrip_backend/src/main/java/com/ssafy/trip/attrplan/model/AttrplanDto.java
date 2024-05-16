@@ -2,8 +2,10 @@ package com.ssafy.trip.attrplan.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class AttrplanDto {
 	private int plans_id;
 	private String title;

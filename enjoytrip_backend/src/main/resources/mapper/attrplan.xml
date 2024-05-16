@@ -4,43 +4,39 @@
 
 <mapper namespace="com.ssafy.trip.attrplan.model.mapper.AttrplanMapper">
 
-	<resultMap type="attrplanDto" id="attrplan">
-		<result column="plans_id" property="plansId" />
-		<result column="title" property="title" />
-		<result column="start_date" property="startDate" />
-		<result column="end_date" property="endDate" />
-		<result column="img" property="img" />
-		<result column="user_id" property="userId" />
-	</resultMap>
-
-	<select id="AttrplanList" resultMap="attrplan">
-		SELECT title, startDate, endDate, img
-		FROM plans left join user
-		on plans.userId = user.user_id
+	<select id="AttrplanList" resultType="attrplanDto">
+		SELECT title, start_date, end_date, img
+		FROM plans
 		ORDER BY title DESC
 	</select>
 
-	<insert id="attrplanDto" parameterType="attrplanDto">
-		INSERT INTO plans (title, startDate, endDate, img, userId)
-		VALUES (#{title}, #{startDate}, #{endDate}, #{img}, #{userId})
+	<select id="AttrplanListbyId" parameterType="int" resultType="attrplanDto">
+		SELECT plans_id, title, start_date, end_date, img
+		FROM plans
+		WHERE user_id = #{user_id}
+		ORDER BY title DESC
+	</select>
+
+	<insert id="registAttrplan" parameterType="attrplanDto">
+		INSERT INTO plans (title, start_date, end_date, img, user_id)
+		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, #{user_id})
 	</insert>
 
-	<select id="getAttrplan" parameterType="int" resultMap="attrplan">
-		SELECT title, startDate, endDate, img
-		FROM plans left join user
-		on plans.userId = user.user_id
-		WHERE title = #{title}
+	<select id="getAttrplan" parameterType="int" resultType="attrplanDto">
+		SELECT plans_id, title, start_date, end_date, img, user_id
+		FROM plans
+		WHERE plans_id = #{plans_id}
 	</select>
 
 	<update id="updateAttrplan" parameterType="attrplanDto">
 		UPDATE plans
-		SET title = #{title}, startDate = #{startDate}, endDate = #{endDate}, img = #{img}
-		WHERE plansId = #{plansId}
+		SET title = #{title}, start_date = #{start_date}, end_date = #{end_date}, img = #{img}
+		WHERE plans_id = #{plans_id}
 	</update>
 
 	<delete id="deleteAttrplan" parameterType="int">
 		DELETE FROM plans
-		WHERE plansId = #{plansId}
+		WHERE plans_id = #{plans_id}
 	</delete>
 
 </mapper>
