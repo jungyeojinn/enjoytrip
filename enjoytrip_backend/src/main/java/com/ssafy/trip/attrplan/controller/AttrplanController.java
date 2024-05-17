@@ -1,7 +1,9 @@
 package com.ssafy.trip.attrplan.controller;
 
 import com.ssafy.trip.attrplan.model.AttrplanDto;
+import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
 import com.ssafy.trip.attrplan.model.service.AttrplanService;
+import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.dto.BaseResponseDto;
@@ -58,18 +60,18 @@ public class AttrplanController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAttrplan(
-            @PathVariable("id") int plans_id
+            @PathVariable("id") int id
     ) throws SQLException {
-        AttrplanDto attrplanDto = attrplanService.getAttrplan(plans_id);
+        AttrplanDto attrplanDto = attrplanService.getAttrplan(id);
         return ResponseEntity.ok().body(attrplanDto);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<AttrplanDto> updateAttrplan(
-            @PathVariable("id") int plans_id,
+            @PathVariable("id") int id,
             @RequestBody Map<String, Object> updateAttrplanDto
-    ) throws Exception {
-        AttrplanDto attrplanDto = attrplanService.getAttrplan(plans_id);
+    ) throws SQLException {
+        AttrplanDto attrplanDto = attrplanService.getAttrplan(id);
         if(attrplanDto != null){
             if(updateAttrplanDto.containsKey("title")){
                 attrplanDto.setTitle((String)updateAttrplanDto.get("title"));
@@ -90,10 +92,47 @@ public class AttrplanController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAttrplan(
-            @PathVariable("id") int plans_id
+            @PathVariable("id") int id
     ) throws SQLException {
-        attrplanService.deleteAttrplan(plans_id);
+        attrplanService.deleteAttrplan(id);
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/like/{id}")
+    public ResponseEntity<?> addLikeAttrplan(
+            @PathVariable("id") int plans_id,
+            @RequestBody Map<String, String> user_id
+    ) throws SQLException {
+        int id;
+        try {
+            id = attrplanService.getUserid(user_id.get("user_id"));
+        } catch (Exception e) {
+            throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
+        }
+        AttrplanLikeDto attrplanLike = new AttrplanLikeDto(id, plans_id);
+        if(attrplanService.getAttrplanLike(attrplanLike)>0){
+            throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+        } else
+            attrplanService.likeAttrplan(attrplanLike);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/dislike/{id}")
+    public ResponseEntity<?> subLikeAttrplan(
+            @PathVariable("id") int plans_id,
+            @RequestBody Map<String, String> user_id
+    ) throws SQLException {
+        int id;
+        try {
+            log.debug("user_id:{}", user_id);
+            id = attrplanService.getUserid(user_id.get("user_id"));
+        } catch (Exception e) {
+            throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
+        }
+        AttrplanLikeDto attrplanLike = new AttrplanLikeDto(id, plans_id);
+        if(attrplanService.getAttrplanLike(attrplanLike)>0){
+            attrplanService.dislikeAttrplan(attrplanLike);
+        } else throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+        return ResponseEntity.ok().build();
+    }
 }
