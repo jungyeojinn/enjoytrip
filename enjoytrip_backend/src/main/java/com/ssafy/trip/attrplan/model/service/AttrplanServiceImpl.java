@@ -2,6 +2,7 @@ package com.ssafy.trip.attrplan.model.service;
 
 import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
+import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
 import com.ssafy.trip.attrplan.model.mapper.AttrplanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,5 +76,15 @@ public class AttrplanServiceImpl implements AttrplanService {
 	@Override
 	public int getUserid(String user_id) throws SQLException {
 		return attrplanMapper.getUserid(user_id);
+	}
+
+	@Override
+	public void Add2Attrplan(AttrplanOrderDto AttrplanOrder) throws SQLException {
+		attrplanMapper.Add2Attrplan(AttrplanOrder);
+	}
+
+	@Override
+	public void Del2Attrplan(int attr_id) throws SQLException {
+		attrplanMapper.Del2Attrplan(attr_id);
 	}
 }

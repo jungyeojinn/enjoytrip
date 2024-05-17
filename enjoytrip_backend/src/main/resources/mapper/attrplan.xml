@@ -72,4 +72,14 @@
 		FROM user
 		WHERE user_id = #{user_id}
 	</select>
+
+	<insert id="Add2Attrplan" parameterType="attrplanorderDto">
+		INSERT INTO attraction_order (order, plans_id, attraction_info_id)
+		VALUES (#{order}, #{plans_id}, #{attraction_info_id})
+	</insert>
+
+	<delete id="Del2Attrplan" parameterType="int">
+		DELETE FROM attraction_order
+		WHERE plans_id = #{plans_id}
+	</delete>
 </mapper>
