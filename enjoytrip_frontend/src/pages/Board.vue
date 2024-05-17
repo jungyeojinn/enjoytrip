@@ -1,7 +1,7 @@
-<template>
-  게시판
-</template>
-
 <script setup>
-//
+import Container from "@/components/board/Container.vue";
 </script>
+
+<template>
+  <Container />
+</template>
