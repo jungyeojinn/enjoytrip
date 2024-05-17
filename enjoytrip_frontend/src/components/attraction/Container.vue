@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import ArrtractionList from "./AttractionList.vue";
+import SelectList from "./SelectList.vue";
 import KakaoMap from "./KakaoMap.vue";
 
 const selectPlace = ref([]);
@@ -8,7 +8,7 @@ const selectPlace = ref([]);
 
 <template>
   <div class="container d-flex w-100">
-    <ArrtractionList />
+    <SelectList />
     <KakaoMap />
   </div>
 </template>
