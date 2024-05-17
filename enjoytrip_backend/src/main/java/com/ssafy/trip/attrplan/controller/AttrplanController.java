@@ -101,11 +101,11 @@ public class AttrplanController {
     @PostMapping("/like/{id}")
     public ResponseEntity<?> addLikeAttrplan(
             @PathVariable("id") int plans_id,
-            @RequestBody String user_id
+            @RequestBody Map<String, String> user_id
     ) throws SQLException {
         int id;
         try {
-            id = attrplanService.getUserid(user_id);
+            id = attrplanService.getUserid(user_id.get("user_id"));
         } catch (Exception e) {
             throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
         }
@@ -117,20 +117,21 @@ public class AttrplanController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/unlike/{id}")
+    @PostMapping("/dislike/{id}")
     public ResponseEntity<?> subLikeAttrplan(
             @PathVariable("id") int plans_id,
-            @RequestBody String user_id
+            @RequestBody Map<String, String> user_id
     ) throws SQLException {
         int id;
         try {
-            id = attrplanService.getUserid(user_id);
+            log.debug("user_id:{}", user_id);
+            id = attrplanService.getUserid(user_id.get("user_id"));
         } catch (Exception e) {
             throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
         }
         AttrplanLikeDto attrplanLike = new AttrplanLikeDto(id, plans_id);
         if(attrplanService.getAttrplanLike(attrplanLike)>0){
-            attrplanService.unlikeAttrplan(attrplanLike);
+            attrplanService.dislikeAttrplan(attrplanLike);
         } else throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
         return ResponseEntity.ok().build();
     }

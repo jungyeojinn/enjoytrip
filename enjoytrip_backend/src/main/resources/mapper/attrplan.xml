@@ -18,12 +18,12 @@
 	</select>
 
 	<insert id="registAttrplan" parameterType="attrplanDto">
-		INSERT INTO plans (title, start_date, end_date, img, user_id, like_count)
-		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, #{user_id}, 0)
+		INSERT INTO plans (title, start_date, end_date, img, like_count, user_id)
+		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, 0, #{user_id})
 	</insert>
 
 	<select id="getAttrplan" parameterType="int" resultType="attrplanDto">
-		SELECT id, title, start_date, end_date, img, user_id, like_count
+		SELECT id, title, start_date, end_date, img, like_count, user_id
 		FROM plans
 		WHERE id = #{id}
 	</select>
@@ -44,25 +44,25 @@
 		VALUES (#{user_id}, #{plans_id})
 	</insert>
 
-	<update id="Addlike" parameterType="int">
+	<update id="AddLike" parameterType="int">
 		UPDATE plans
 		SET like_count = like_count+1
 		WHERE id=#{id}
 	</update>
 
-	<update id="Minuslike" parameterType="int">
+	<update id="SubLike" parameterType="int">
 		UPDATE plans
 		SET like_count = like_count-1
 		WHERE id=#{id}
 	</update>
 
-	<delete id="unlikeAttrplan" parameterType="attrplanlikeDto">
+	<delete id="dislikeAttrplan" parameterType="attrplanlikeDto">
 		DELETE FROM plan_likes
 		WHERE user_id=#{user_id} AND plans_id=#{plans_id}
 	</delete>
 
 	<select id="getAttrplanLike" parameterType="attrplanlikeDto" resultType="int">
-		SELECT CNT(*)
+		SELECT COUNT(id)
 		FROM plan_likes
 		WHERE user_id=#{user_id} AND plans_id=#{plans_id}
 	</select>

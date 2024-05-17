@@ -20,8 +20,8 @@ public interface AttrplanMapper {
 
 	void likeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
 	void AddLike(int id) throws SQLException;
-	void unlikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
-	void MinusLike(int id) throws SQLException;
+	void dislikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
+	void SubLike(int id) throws SQLException;
 	int getAttrplanLike(AttrplanLikeDto AttrplanLike) throws SQLException;
 
 	int getUserid(String user_id) throws SQLException;

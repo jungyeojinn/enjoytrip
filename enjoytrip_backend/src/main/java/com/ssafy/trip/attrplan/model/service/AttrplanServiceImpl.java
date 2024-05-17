@@ -62,9 +62,9 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void unlikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException {
-		attrplanMapper.unlikeAttrplan(AttrplanLike);
-		attrplanMapper.MinusLike(AttrplanLike.getPlans_id());
+	public void dislikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException {
+		attrplanMapper.dislikeAttrplan(AttrplanLike);
+		attrplanMapper.SubLike(AttrplanLike.getPlans_id());
 	}
 
 	@Override

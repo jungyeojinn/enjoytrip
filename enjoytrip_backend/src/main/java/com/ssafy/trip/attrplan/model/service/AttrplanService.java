@@ -16,7 +16,7 @@ public interface AttrplanService {
 	void deleteAttrplan(int id) throws SQLException ;
 
 	void likeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
-	void unlikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
+	void dislikeAttrplan(AttrplanLikeDto AttrplanLike) throws SQLException;
 	int getAttrplanLike(AttrplanLikeDto AttrplanLike) throws SQLException;
 //	void updateHit(int id)  throws SQLException ;
 

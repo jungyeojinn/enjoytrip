@@ -21,23 +21,23 @@ public class AttrplanDto {
 		super();
 	}
 
-	public AttrplanDto(String title, String start_date, String end_date, String img, int user_id, int like_count) {
+	public AttrplanDto(String title, String start_date, String end_date, String img, int like_count, int user_id) {
 		this.title = title;
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.img = img;
-		this.user_id = user_id;
 		this.like_count = like_count;
+		this.user_id = user_id;
 	}
 
-	public AttrplanDto(int id, String title, String start_date, String end_date, String img, int user_id, int like_count) {
+	public AttrplanDto(int id, String title, String start_date, String end_date, String img, int like_count, int user_id) {
 		this.id = id;
 		this.title = title;
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.img = img;
-		this.user_id = user_id;
 		this.like_count = like_count;
+		this.user_id = user_id;
 	}
 
 	public AttrplanDto(String title, String start_date, String end_date, String img, int like_count) {
