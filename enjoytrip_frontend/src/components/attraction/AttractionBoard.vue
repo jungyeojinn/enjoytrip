@@ -25,17 +25,33 @@ const desserts = ref([
     calcium: "8%",
     iron: "1%",
   },
+  {
+    name: "제목3",
+    description: "여행계획3",
+    color: "#F4A261",
+    calories: 237,
+    fat: 9,
+    carbs: 37,
+    protein: 4.3,
+    sodium: 129,
+    calcium: "8%",
+    iron: "1%",
+  },
 ]);
 </script>
 <template>
-  <v-data-iterator class="container" :items="desserts" item-value="name">
+  <v-data-iterator
+    class="container justify-sm-space-between"
+    :items="desserts"
+    item-value="name"
+  >
     <template v-slot:default="{ items, isExpanded, toggleExpand }">
       <v-row>
         <v-col
           v-for="item in items"
           :key="item.raw.name"
           cols="12"
-          md="6"
+          md="4"
           sm="12"
         >
           <v-card>

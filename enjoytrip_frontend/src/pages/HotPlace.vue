@@ -1,7 +1,7 @@
-<template>
-  핫 플레이스
-</template>
-
 <script setup>
-//
+import Container from "@/components/hotplace/Container.vue";
 </script>
+
+<template>
+  <Container />
+</template>
