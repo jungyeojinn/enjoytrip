@@ -13,7 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +52,19 @@ public class AttrplanController {
         return ResponseEntity.ok().body(attrplanDtoList);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> registAttrplan(
-            @RequestBody(required = true) AttrplanDto attrplanDto
-    ) throws SQLException {
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
+    public ResponseEntity<?> registAttrplan(@RequestParam(value = "title") String title,
+                                            @RequestParam(value = "start_date") String start_date,
+                                            @RequestParam(value = "end_date") String end_date,
+                                            @RequestParam(value = "user_id") int user_id,
+                                            @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
+        AttrplanDto attrplanDto = new AttrplanDto(title,start_date,end_date,user_id);
+        // 이미지 파일 처리
+        if (img != null && !img.isEmpty()) {
+            byte[] imageBytes = img.getBytes();
+            attrplanDto.setImg(imageBytes);
+        }
+
         attrplanService.registAttrplan(attrplanDto);
         return ResponseEntity.ok().build();
     }
@@ -65,6 +76,7 @@ public class AttrplanController {
         AttrplanDto attrplanDto = attrplanService.getAttrplan(id);
         return ResponseEntity.ok().body(attrplanDto);
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<AttrplanDto> updateAttrplan(

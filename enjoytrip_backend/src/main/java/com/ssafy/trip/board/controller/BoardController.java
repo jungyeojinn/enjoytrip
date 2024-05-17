@@ -1,5 +1,6 @@
 package com.ssafy.trip.board.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -7,19 +8,11 @@ import javax.xml.transform.OutputKeys;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.trip.board.model.BoardDto;
 import com.ssafy.trip.board.model.service.BoardService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin
@@ -39,8 +32,18 @@ public class BoardController {
 		return ResponseEntity.ok().body(boardlist);
 	}
 
-	@PostMapping("/")
-	public ResponseEntity<?> writeBoard(@RequestBody BoardDto board) throws SQLException {
+	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> writeBoard(@RequestParam(value = "title") String title,
+										@RequestParam(value = "content") String content,
+										@RequestParam(value = "type") int type,
+										@RequestParam(value = "user_id") int user_id,
+										@RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
+		BoardDto board=new BoardDto(user_id, type, title, content);
+		// 이미지 파일 처리
+		if (img != null && !img.isEmpty()) {
+			byte[] imageBytes = img.getBytes();
+			board.setImg(imageBytes);
+		}
 		boardservice.registBoard(board);
 		return ResponseEntity.ok().build();
 	}
