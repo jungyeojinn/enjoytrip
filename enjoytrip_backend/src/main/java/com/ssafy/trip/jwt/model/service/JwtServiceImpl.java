@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
+import com.ssafy.trip.jwt.config.JwtProperties;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -25,22 +26,23 @@ public class JwtServiceImpl implements JwtService {
 
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
-//	SALT는 토큰 유효성 확인 시 사용하기 때문에 외부에 노출되지 않게 주의해야 한다.
-	private static final String SALT = "ssafySecret";
+	private final JwtProperties jwtProperties;
 	
-	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 30; // 분단위
-	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 60; // 주단위
+	public JwtServiceImpl(JwtProperties jwtProperties) {
+		super();
+		this.jwtProperties = jwtProperties;
+	}
 
 	@Override
 	public <T> String createAccessToken(String key, T data) {
-		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
+		return create(key, data, "access-token", 1000 * 60 * jwtProperties.getAccessTokenExpireMinutes());
 //		return create(key, data, "access-token", 1000 * 10 * ACCESS_TOKEN_EXPIRE_MINUTES);
 	}
 
 //	AccessToken에 비해 유효기간을 길게...
 	@Override
 	public <T> String createRefreshToken(String key, T data) {
-		return create(key, data, "refresh-token", 1000 * 60 * 3* REFRESH_TOKEN_EXPIRE_MINUTES);
+		return create(key, data, "refresh-token", 1000 * 60 * 3* jwtProperties.getRefreshTokenExpireMinutes());
 //		return create(key, data, "refresh-token", 1000 * 30 * ACCESS_TOKEN_EXPIRE_MINUTES);
 	}
 
@@ -83,7 +85,7 @@ public class JwtServiceImpl implements JwtService {
 		byte[] key = null;
 		try {
 			// charset 설정 안하면 사용자 플랫폼의 기본 인코딩 설정으로 인코딩 됨.
-			key = SALT.getBytes("UTF-8");
+			key = jwtProperties.getSalt().getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			if (logger.isInfoEnabled()) {
 				e.printStackTrace();
@@ -125,7 +127,7 @@ public class JwtServiceImpl implements JwtService {
 		String jwt = request.getHeader("access-token");
 		Jws<Claims> claims = null;
 		try {
-			claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
+			claims = Jwts.parser().setSigningKey(jwtProperties.getSalt().getBytes("UTF-8")).parseClaimsJws(jwt);
 		} catch (Exception e) {
 //			if (logger.isInfoEnabled()) {
 //				e.printStackTrace();
