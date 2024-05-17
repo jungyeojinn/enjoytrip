@@ -1,3 +1,7 @@
-<script setup></script>
+<script setup>
+import AtrractionBoard from "@/components/attraction/AttractionBoard.vue";
+</script>
 
-<template>여행 계획 리스트</template>
+<template>
+  <AtrractionBoard />
+</template>
