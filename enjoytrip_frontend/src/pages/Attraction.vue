@@ -1,5 +1,5 @@
 <script setup>
-import Container from '@/components/attraction/Container.vue';
+import Container from "@/components/attraction/Container.vue";
 </script>
 
 <template>

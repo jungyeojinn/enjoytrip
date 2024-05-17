@@ -1,27 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 
 const sido = ref([
-  { area: '서울', code: 'FL' },
-  { area: '경기', code: 'GA' },
-  { area: '강원', code: 'NE' },
-  { area: '제주', code: 'CA' },
-  { area: '부산', code: 'NY' },
+  { area: "서울", code: "FL" },
+  { area: "경기", code: "GA" },
+  { area: "강원", code: "NE" },
+  { area: "제주", code: "CA" },
+  { area: "부산", code: "NY" },
 ]);
 
-const emit = defineEmits(['changeSido', 'changeGungu', 'changeType']);
+const selectSido = ref({ area: "", code: "" });
+const selectGungu = ref({ area: "", code: "" });
+const selectType = ref({ area: "", code: "" });
 
-const handleSido = (value) => {
-  emit('changeSido', value);
-}
+const emit = defineEmits([]);
 
-const handleGungu = (value) => {
-  emit('changeGungu', value);
-}
+const changeSido = (sido) => {
+  console.log(`시도 요청 ${sido}`);
+};
 
-const handleType = (value) => {
-  emit('changeType', value);
-}
+const changeGungu = (gungu) => {
+  console.log(`군구 요청 ${gungu}`);
+};
+
+const chageType = (typeNumber) => {
+  console.log(`여행지 타입 요청 ${typeNumber}`);
+};
 
 const markers = ref([]);
 const infowindow = ref(null);
@@ -108,11 +112,44 @@ onMounted(() => {
   <div class="w-75">
     <div id="select-area" class="d-flex">
       <h3 class="d-flex align-sm-center">여행지 선택</h3>
-      <v-select max-width="150" :items="sido" label="시도" @update:modelValue="handleSido" variant="solo"></v-select>
-      <v-select max-width="150" :items="sido" label="군구" @update:modelValue="handleGungu" variant="solo"></v-select>
-      <v-select max-width="150" :items="sido" label="여행지 유형" @update:modelValue="handleType" variant="solo"></v-select>
+      <v-select
+        v-model="selectSido"
+        hide-details="true"
+        max-width="150"
+        :items="sido"
+        label="시도"
+        @update:model-value="changeSido"
+        item-title="area"
+        itme-value="code"
+        variant="solo"
+        return-object
+      ></v-select>
+      <v-select
+        v-model="selectGungu"
+        hide-details="true"
+        max-width="150"
+        :items="sido"
+        label="군구"
+        @update:modelValue="changeGungu"
+        item-title="area"
+        itme-value="code"
+        variant="solo"
+        return-object
+      ></v-select>
+      <v-select
+        v-model="selectType"
+        hide-details="true"
+        max-width="150"
+        :items="sido"
+        label="여행지 유형"
+        @update:modelValue="chageType"
+        item-title="area"
+        itme-value="code"
+        variant="solo"
+        return-object
+      ></v-select>
     </div>
-    <div id="map"> 지도 영역</div>
+    <div id="map">지도 영역</div>
   </div>
 </template>
 
