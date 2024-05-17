@@ -5,38 +5,71 @@
 <mapper namespace="com.ssafy.trip.attrplan.model.mapper.AttrplanMapper">
 
 	<select id="AttrplanList" resultType="attrplanDto">
-		SELECT title, start_date, end_date, img
+		SELECT title, start_date, end_date, img, like_count
 		FROM plans
 		ORDER BY title DESC
 	</select>
 
 	<select id="AttrplanListbyId" parameterType="int" resultType="attrplanDto">
-		SELECT plans_id, title, start_date, end_date, img
+		SELECT id, title, start_date, end_date, img, like_count
 		FROM plans
 		WHERE user_id = #{user_id}
 		ORDER BY title DESC
 	</select>
 
 	<insert id="registAttrplan" parameterType="attrplanDto">
-		INSERT INTO plans (title, start_date, end_date, img, user_id)
-		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, #{user_id})
+		INSERT INTO plans (title, start_date, end_date, img, user_id, like_count)
+		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, #{user_id}, 0)
 	</insert>
 
 	<select id="getAttrplan" parameterType="int" resultType="attrplanDto">
-		SELECT plans_id, title, start_date, end_date, img, user_id
+		SELECT id, title, start_date, end_date, img, user_id, like_count
 		FROM plans
-		WHERE plans_id = #{plans_id}
+		WHERE id = #{id}
 	</select>
 
 	<update id="updateAttrplan" parameterType="attrplanDto">
 		UPDATE plans
 		SET title = #{title}, start_date = #{start_date}, end_date = #{end_date}, img = #{img}
-		WHERE plans_id = #{plans_id}
+		WHERE id = #{id}
 	</update>
 
 	<delete id="deleteAttrplan" parameterType="int">
 		DELETE FROM plans
-		WHERE plans_id = #{plans_id}
+		WHERE id = #{id}
 	</delete>
 
+	<insert id="likeAttrplan" parameterType="attrplanlikeDto">
+		INSERT INTO plan_likes (user_id, plans_id)
+		VALUES (#{user_id}, #{plans_id})
+	</insert>
+
+	<update id="Addlike" parameterType="int">
+		UPDATE plans
+		SET like_count = like_count+1
+		WHERE id=#{id}
+	</update>
+
+	<update id="Minuslike" parameterType="int">
+		UPDATE plans
+		SET like_count = like_count-1
+		WHERE id=#{id}
+	</update>
+
+	<delete id="unlikeAttrplan" parameterType="attrplanlikeDto">
+		DELETE FROM plan_likes
+		WHERE user_id=#{user_id} AND plans_id=#{plans_id}
+	</delete>
+
+	<select id="getAttrplanLike" parameterType="attrplanlikeDto" resultType="int">
+		SELECT CNT(*)
+		FROM plan_likes
+		WHERE user_id=#{user_id} AND plans_id=#{plans_id}
+	</select>
+
+	<select id="getUserid" parameterType="String" resultType="int">
+		SELECT id
+		FROM user
+		WHERE user_id = #{user_id}
+	</select>
 </mapper>
