@@ -1,15 +1,14 @@
-<script setup></script>
+<script setup>
+import Profile from "@/components/common/Profile.vue";
+</script>
 
 <template>
   <v-toolbar border color="#FFFFFF">
-    <v-container
-      id="header-wrap"
-      class="d-flex justify-space-between align-center"
-    >
-      <router-link to="/">
-        <img src="/src/assets/logo.png" style="width: 80px" />
-      </router-link>
-      <nav class="navbar d-flex justify-space-between">
+    <v-container id="header-wrap" class="d-flex justify-space-between">
+      <nav class="navbar d-flex justify-space-between align-center">
+        <router-link to="/" class="mr-10">
+          <img src="/src/assets/logo.png" style="width: 80px" />
+        </router-link>
         <router-link to="/hotplace" exact-active-class="active-link"
           >핫플레이스</router-link
         >
@@ -23,7 +22,7 @@
           >여행지 탐색</router-link
         >
       </nav>
-      <v-btn icon="mdi-account-circle"></v-btn>
+      <Profile />
     </v-container>
   </v-toolbar>
 </template>
