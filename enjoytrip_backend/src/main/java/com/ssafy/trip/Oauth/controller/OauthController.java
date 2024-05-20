@@ -21,7 +21,4 @@ public class OauthController {
     public ResponseEntity<?> authNaver(@RequestParam("code") String code, @RequestParam("state") String state){
         return ResponseEntity.status(HttpStatus.OK).body(code+" "+state);
     }
-
-
-
 }
