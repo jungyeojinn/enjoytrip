@@ -123,6 +123,12 @@
 		    <version>2.4.0-b180830.0359</version>
 		</dependency>
 
+		<!-- Paging -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
 		<!-- Swagger -->
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
