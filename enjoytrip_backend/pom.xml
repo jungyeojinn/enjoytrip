@@ -85,7 +85,7 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+<!--		 https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -95,7 +95,7 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>3.0.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- JWT -->
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
