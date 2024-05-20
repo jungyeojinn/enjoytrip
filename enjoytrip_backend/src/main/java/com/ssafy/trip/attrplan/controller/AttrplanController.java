@@ -2,6 +2,7 @@ package com.ssafy.trip.attrplan.controller;
 
 import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
+import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
 import com.ssafy.trip.attrplan.model.service.AttrplanService;
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.InvalidInputException;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +28,6 @@ import java.util.UUID;
 @CrossOrigin
 @RequestMapping("/attrplan")
 public class AttrplanController {
-    private static final Logger log = LoggerFactory.getLogger(AttrplanController.class);
-
     //빌더 패턴 사용
 //    AttrplanDto attrplan = AttrplanDto.builder()
 //            .img("/diflskdfj")
@@ -154,7 +154,6 @@ public class AttrplanController {
     ) throws SQLException {
         int id;
         try {
-            log.debug("user_id:{}", user_id);
             id = attrplanService.getUserid(user_id.get("user_id"));
         } catch (Exception e) {
             throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
@@ -163,6 +162,23 @@ public class AttrplanController {
         if(attrplanService.getAttrplanLike(attrplanLike)>0){
             attrplanService.dislikeAttrplan(attrplanLike);
         } else throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+        return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/{id}/add")
+    public ResponseEntity<?> addAttr2plan(
+            @PathVariable("id") int plans_id,
+            @RequestBody AttrplanOrderDto[] attrInfos
+    ) throws SQLException {
+        attrplanService.Add2Attrplan(attrInfos, plans_id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/sub")
+    public ResponseEntity<?> subAttr2plan(
+            @PathVariable("id") int plans_id
+    ) throws SQLException {
+        attrplanService.Del2Attrplan(plans_id);
         return ResponseEntity.ok().build();
     }
 }
