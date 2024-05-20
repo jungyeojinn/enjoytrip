@@ -1,17 +1,21 @@
 <script setup>
-// props 지명, 주소, 상세 설명
+const props = defineProps(['locateInfo']);
+console.log(props.locateInfo);
 </script>
 
 <template>
   <v-card class="mx-auto d-flex" max-width="344">
-    <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-      cover
-    ></v-img>
-    <v-card-item>
-      <v-card-title> Top western road trips </v-card-title>
-      <v-card-subtitle> 1,000 miles of wonder </v-card-subtitle>
-      <v-card-text class="pl-0">내용</v-card-text>
+    <v-card-item style="flex: 0.7">
+      <v-avatar size="70">
+        <v-img :src="props.locateInfo.firstImage" cover></v-img>
+      </v-avatar>
+    </v-card-item>
+    <v-card-item class="pl-0" style="flex: 2">
+      <v-card-title> {{ props.locateInfo.title }} </v-card-title>
+      <v-card-subtitle> {{ props.locateInfo.addr1 }} </v-card-subtitle>
+      <v-col cols="auto" class="pl-0">
+        <v-btn size="small">삭제</v-btn>
+      </v-col>
     </v-card-item>
   </v-card>
 </template>

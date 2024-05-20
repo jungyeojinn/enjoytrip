@@ -23,7 +23,7 @@ const typeOption = ref([{
   contentTypeId: 39, contentTypeName: "음식점"
 }]);
 
-const emit = defineEmits([]);
+const emit = defineEmits(['setMarker']);
 
 const selectSido = ref(null);
 const selectGungu = ref(null);
@@ -56,15 +56,16 @@ const changeSido = (sido) => {
 const changeGungu = (gungu) => {
   if (gungu === 0) return;
 
-  // getContent(sido, setGungu, () => { });
-  console.log(`군구 요청 ${gungu}`);
 };
 
 const chageType = (typeNumber) => {
   if (selectSido.value === null || selectGungu.value === null) return;
   if (selectSido.value === 0 || selectGungu.value === 0) return;
-  console.log(`여행지 타입 요청 ${typeNumber}`);
-  getContent(selectSido.value, selectGungu.value, selectType.value, ({ data }) => console.log(data), () => { });
+
+  getContent(selectSido.value, selectGungu.value, selectType.value, ({ data }) => {
+    emit('setMarker', data);
+  }, () => { });
+
 };
 
 onMounted(() => {

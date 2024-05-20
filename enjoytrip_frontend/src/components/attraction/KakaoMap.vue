@@ -1,10 +1,39 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { createMarker, createBounds, removeAllMarker } from '@/utils/kakao';
 import SelectAttraction from './SelectAttraction.vue';
+import Aside from './Aside.vue';
 
 const markers = ref([]);
+const locate = ref([]);
 const infowindow = ref(null);
 const map = ref(null);
+
+const emit = defineEmits(['addPlace']);
+
+const clickButton = (value) => {
+  emit('addPlace', value);
+}
+
+const setMarker = (data) => {
+  locate.value = data.map((elem) => {
+    if (elem.firstImage.length > 0) {
+      return elem;
+    } else {
+      return { ...elem, firstImage: "/src/assets/img-placeholder.png" };
+    }
+  });
+  let markerArr = [];
+
+  createBounds(map.value, data);
+  removeAllMarker(markers.value);
+
+  data.forEach((elem) => {
+    createMarker(map.value, elem, markerArr);
+  });
+
+  markers.value = markerArr;
+}
 
 const initMap = () => {
   const container = document.getElementById("map");
@@ -14,60 +43,6 @@ const initMap = () => {
   };
 
   map.value = new kakao.maps.Map(container, options);
-};
-
-const changeSize = (size) => {
-  const container = document.getElementById("map");
-  container.style.width = `${size}px`;
-  container.style.height = `${size}px`;
-  toRaw(map.value).relayout();
-};
-
-const displayMarker = (markerPositions) => {
-  if (markers.value.length > 0) {
-    markers.value.forEach((marker) => marker.setMap(null));
-  }
-
-  const positions = markerPositions.map(
-    (position) => new kakao.maps.LatLng(...position)
-  );
-
-  if (positions.length > 0) {
-    markers.value = positions.map(
-      (position) =>
-        new kakao.maps.Marker({
-          map: toRaw(map.value),
-          position,
-        })
-    );
-
-    const bounds = positions.reduce(
-      (bounds, latlng) => bounds.extend(latlng),
-      new kakao.maps.LatLngBounds()
-    );
-
-    toRaw(map.value).setBounds(bounds);
-  }
-};
-
-const displayInfoWindow = () => {
-  if (infowindow.value && infowindow.value.getMap()) {
-    toRaw(map.value).setCenter(infowindow.value.getPosition());
-    return;
-  }
-
-  var iwContent = '<div style="padding:5px;">Hello World!</div>',
-    iwPosition = new kakao.maps.LatLng(33.450701, 126.570667),
-    iwRemoveable = true;
-
-  infowindow.value = new kakao.maps.InfoWindow({
-    map: toRaw(map.value),
-    position: iwPosition,
-    content: iwContent,
-    removable: iwRemoveable,
-  });
-
-  toRaw(map.value).setCenter(iwPosition);
 };
 
 onMounted(() => {
@@ -85,8 +60,9 @@ onMounted(() => {
 
 <template>
   <div class="w-75 h-100">
-    <SelectAttraction />
-    <div id="map">지도 영역</div>
+    <SelectAttraction @set-marker="setMarker" />
+    <div id="map"></div>
+    <Aside :locate="locate" @click-button="clickButton" />
   </div>
 </template>
 

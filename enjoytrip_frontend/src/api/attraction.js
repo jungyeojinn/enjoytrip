@@ -29,4 +29,8 @@ const getContent = async (
     .catch(fail);
 };
 
-export { getSido, getGungu, getContent };
+const getOneContent = async (contentId, success, fail) => {
+  await api.get(`/attraction/${contentId}`).then(success).catch(fail);
+};
+
+export { getSido, getGungu, getContent, getOneContent };
