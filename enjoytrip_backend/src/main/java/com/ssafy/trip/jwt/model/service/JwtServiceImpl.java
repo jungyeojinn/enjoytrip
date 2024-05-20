@@ -100,11 +100,12 @@ public class JwtServiceImpl implements JwtService {
 //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
 	@Override
 	public boolean checkToken(String jwt) {
+		logger.info("jwt service checkToken method {}", jwt);
 		try {
 //			Json Web Signature? 서버에서 인증을 근거로 인증정보를 서버의 private key로 서명 한것을 토큰화 한것
 //			setSigningKey : JWS 서명 검증을 위한  secret key 세팅
 //			parseClaimsJws : 파싱하여 원본 jws 만들기
-			Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
+			Jws<Claims> claims = Jwts.parser().setSigningKey(jwtProperties.getSalt().getBytes("UTF-8")).parseClaimsJws(jwt);
 //			Claims 는 Map의 구현체 형태
 			logger.debug("claims: {}", claims);
 			return true;
@@ -124,7 +125,10 @@ public class JwtServiceImpl implements JwtService {
 	public Map<String, Object> get(String key) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
-		String jwt = request.getHeader("access-token");
+		String jwtWithBearer = request.getHeader("Autorization");
+		logger.info("jwt service get method {}", jwtWithBearer);
+		String jwt = jwtWithBearer.substring(7);
+		logger.info("jwt service get method {}", jwt);
 		Jws<Claims> claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(jwtProperties.getSalt().getBytes("UTF-8")).parseClaimsJws(jwt);
