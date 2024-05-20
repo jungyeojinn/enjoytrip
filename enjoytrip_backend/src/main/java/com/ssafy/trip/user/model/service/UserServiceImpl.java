@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void regi(UserDto user) throws SQLException {
+	public void regi(UserDto user) {
 		// 이미 아이디가 같은 유저가 있다면 안됨
 		UserDto alreadyUser = getUser(user.getUserId());
 		if (alreadyUser == null) {
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public LoginResponse login(UserDto user) throws SQLException {
+	public LoginResponse login(UserDto user) {
 		UserDto login = userDao.login(user);
 		if (login == null) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
@@ -73,11 +73,21 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@Transactional
-	public void logout(String userId) throws SQLException {
+	public void logout(String userId) {
 		UserDto user = getUser(userId);
 		int result = userDao.deleteRefreshToken(user.getId());
 		if (result == 0) {
 			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+		}
+	}
+
+	@Override
+	public UserDto loginNaver(UserDto user) {
+		UserDto login = userDao.loginNaver(user);
+		if (login == null) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		} else {
+			return login;
 		}
 	}
 
@@ -88,17 +98,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(UserDto user) throws SQLException {
+	public void updateUser(UserDto user) {
 		userDao.updateUser(user);
 	}
 
 	@Override
-	public void deleteUser(String userId) throws SQLException {
+	public void deleteUser(String userId) {
 		userDao.deleteUser(userId);
 	}
 
 	@Override
-	public String getPassword(String userId) throws SQLException {
+	public String getPassword(String userId) {
 		return userDao.getPassword(userId);
 	}
 

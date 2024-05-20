@@ -11,14 +11,15 @@ import com.ssafy.trip.user.model.UserDto;
 @Mapper
 public interface UserMapper {
 	int regi(UserDto user);
-	
 	UserDto login(UserDto user);
+	UserDto loginNaver(UserDto user);
 	UserDto getUser(String userId);
 	UserDto getUserById(int userId);
-	int updateUser(UserDto user);
-	int deleteUser(String userId);
+	void updateUser(UserDto user);
+	void deleteUser(String userId);
 	String getPassword(String userId);
-	
+
+	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);
 	String getRefreshToken(int userId);
 	int deleteRefreshToken(int userId);
