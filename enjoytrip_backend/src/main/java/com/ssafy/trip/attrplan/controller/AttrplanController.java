@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -135,12 +136,19 @@ public class AttrplanController {
     }
 
     @PostMapping("/{id}/add")
+    @Transactional
     public ResponseEntity<?> addAttr2plan(
             @PathVariable("id") int plans_id,
-            @RequestBody Map<String, Integer>[] attrInfo
+            @RequestBody AttrplanOrderDto[] attrInfos
     ) throws SQLException {
-
-
+        for (int i = 0; i < attrInfos.length; i++) {
+            AttrplanOrderDto attrplanOrder = AttrplanOrderDto.builder()
+                    .order(attrInfos[i].getOrder())
+                    .plans_id(plans_id)
+                    .attraction_info_id(attrInfos[i].getAttraction_info_id())
+                    .build();
+            attrplanService.Add2Attrplan(attrplanOrder);
+        }
         return ResponseEntity.ok().build();
     }
 
@@ -148,7 +156,7 @@ public class AttrplanController {
     public ResponseEntity<?> subAttr2plan(
             @PathVariable("id") int plans_id
     ) throws SQLException {
-
+        attrplanService.Del2Attrplan(plans_id);
         return ResponseEntity.ok().build();
     }
 }

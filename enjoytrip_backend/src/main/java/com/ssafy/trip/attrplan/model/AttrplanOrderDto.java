@@ -1,9 +1,14 @@
 package com.ssafy.trip.attrplan.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@JsonDeserialize(builder = AttrplanOrderDto.AttrplanOrderDtoBuilder.class)
 public class AttrplanOrderDto {
     int id;
     int order;
@@ -34,5 +39,9 @@ public class AttrplanOrderDto {
                 ", plans_id=" + plans_id +
                 ", attraction_info_id=" + attraction_info_id +
                 '}';
+    }
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class AttrplanOrderDtoBuilder {
     }
 }

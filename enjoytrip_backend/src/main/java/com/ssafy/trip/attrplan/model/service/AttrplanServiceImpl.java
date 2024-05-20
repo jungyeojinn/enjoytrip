@@ -84,7 +84,7 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void Del2Attrplan(int attr_id) throws SQLException {
-		attrplanMapper.Del2Attrplan(attr_id);
+	public void Del2Attrplan(int plans_id) throws SQLException {
+		attrplanMapper.Del2Attrplan(plans_id);
 	}
 }

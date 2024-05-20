@@ -31,5 +31,5 @@ public interface AttrplanMapper {
 	// 순서..?
 	// 1개의 plans 안에 n개의 attraction_info가 포함 -> 순서가 존재할 것이다.
 	void Add2Attrplan(AttrplanOrderDto AttrplanOrder) throws SQLException;
-	void Del2Attrplan(int attr_id) throws SQLException;
+	void Del2Attrplan(int plans_id) throws SQLException;
 }

@@ -74,7 +74,7 @@
 	</select>
 
 	<insert id="Add2Attrplan" parameterType="attrplanorderDto">
-		INSERT INTO attraction_order (order, plans_id, attraction_info_id)
+		INSERT INTO attraction_order (`order`, plans_id, attraction_info_id)
 		VALUES (#{order}, #{plans_id}, #{attraction_info_id})
 	</insert>
 
