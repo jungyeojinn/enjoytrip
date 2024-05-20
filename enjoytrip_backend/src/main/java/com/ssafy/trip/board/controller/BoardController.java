@@ -8,6 +8,9 @@ import java.util.UUID;
 
 import javax.xml.transform.OutputKeys;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +32,10 @@ public class BoardController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<?> getAllBoards() throws SQLException {
-		List<BoardDto> boardlist = boardservice.boardList();
-		return ResponseEntity.ok().body(boardlist);
+	public ResponseEntity<Page<BoardDto>> getAllBoards(@PageableDefault(size = 10) Pageable pageable, @RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException {
+		return ResponseEntity.ok().body(boardservice.boardList(pageable, offset, pageSize));
 	}
+
 
 	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
 	public ResponseEntity<?> writeBoard(@RequestParam(value = "title") String title,
