@@ -4,17 +4,17 @@ import AppHeader from '@/components/AppHeader.vue';
 </script>
 
 <template>
-  <v-app id="app">
+  <v-app>
     <AppHeader />
     <main>
       <RouterView />
     </main>
-    <AppFooter />
   </v-app>
 </template>
 
 <style scoped>
 main {
   width: 100vw;
+  height: 100%;
 }
 </style>

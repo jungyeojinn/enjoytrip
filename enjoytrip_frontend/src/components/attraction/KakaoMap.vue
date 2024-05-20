@@ -1,31 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-
-const sido = ref([
-  { area: "서울", code: "FL" },
-  { area: "경기", code: "GA" },
-  { area: "강원", code: "NE" },
-  { area: "제주", code: "CA" },
-  { area: "부산", code: "NY" },
-]);
-
-const selectSido = ref({ area: "", code: "" });
-const selectGungu = ref({ area: "", code: "" });
-const selectType = ref({ area: "", code: "" });
-
-const emit = defineEmits([]);
-
-const changeSido = (sido) => {
-  console.log(`시도 요청 ${sido}`);
-};
-
-const changeGungu = (gungu) => {
-  console.log(`군구 요청 ${gungu}`);
-};
-
-const chageType = (typeNumber) => {
-  console.log(`여행지 타입 요청 ${typeNumber}`);
-};
+import SelectAttraction from './SelectAttraction.vue';
 
 const markers = ref([]);
 const infowindow = ref(null);
@@ -109,53 +84,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-75">
-    <div id="select-area" class="d-flex">
-      <h3 class="d-flex align-sm-center">여행지 선택</h3>
-      <v-select
-        v-model="selectSido"
-        hide-details="true"
-        max-width="150"
-        :items="sido"
-        label="시도"
-        @update:model-value="changeSido"
-        item-title="area"
-        itme-value="code"
-        variant="solo"
-        return-object
-      ></v-select>
-      <v-select
-        v-model="selectGungu"
-        hide-details="true"
-        max-width="150"
-        :items="sido"
-        label="군구"
-        @update:modelValue="changeGungu"
-        item-title="area"
-        itme-value="code"
-        variant="solo"
-        return-object
-      ></v-select>
-      <v-select
-        v-model="selectType"
-        hide-details="true"
-        max-width="150"
-        :items="sido"
-        label="여행지 유형"
-        @update:modelValue="chageType"
-        item-title="area"
-        itme-value="code"
-        variant="solo"
-        return-object
-      ></v-select>
-    </div>
+  <div class="w-75 h-100">
+    <SelectAttraction />
     <div id="map">지도 영역</div>
   </div>
 </template>
 
 <style scoped>
 #map {
-  height: 90%;
+  height: 100%;
 }
 
 #select-area {

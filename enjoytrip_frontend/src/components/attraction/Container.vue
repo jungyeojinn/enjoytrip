@@ -15,6 +15,6 @@ const selectPlace = ref([]);
 
 <style scoped>
 .container {
-  height: 88vh;
+  height: 100%;
 }
 </style>
