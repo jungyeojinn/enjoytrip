@@ -21,6 +21,13 @@ public class AttrplanDto {
 		super();
 	}
 
+	public AttrplanDto(String title, String start_date, String end_date, int user_id) {
+		this.title = title;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.user_id = user_id;
+	}
+
 	public AttrplanDto(String title, String start_date, String end_date, String img, int like_count, int user_id) {
 		this.title = title;
 		this.start_date = start_date;
@@ -40,7 +47,7 @@ public class AttrplanDto {
 		this.user_id = user_id;
 	}
 
-	public AttrplanDto(String title, String start_date, String end_date, String img, int like_count) {
+	public AttrplanDto(String title, String start_date, String end_date,  String img, int like_count) {
 		this.title = title;
 		this.start_date = start_date;
 		this.end_date = end_date;

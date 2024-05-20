@@ -15,10 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -50,12 +54,37 @@ public class AttrplanController {
         return ResponseEntity.ok().body(attrplanDtoList);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> registAttrplan(
-            @RequestBody(required = true) AttrplanDto attrplanDto
-    ) throws SQLException {
+    @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
+    public ResponseEntity<?> registAttrplan(@RequestParam(value = "title") String title,
+                                            @RequestParam(value = "start_date") String start_date,
+                                            @RequestParam(value = "end_date") String end_date,
+                                            @RequestParam(value = "user_id") int user_id,
+                                            @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
+        AttrplanDto attrplanDto = new AttrplanDto(title,start_date,end_date,user_id);
+        // 이미지 파일 처리
+        String imagePath = saveImage(img);
+        attrplanDto.setImg(imagePath);
         attrplanService.registAttrplan(attrplanDto);
         return ResponseEntity.ok().build();
+    }
+
+    private String saveImage(MultipartFile image){
+        if (image != null && !image.isEmpty()) {
+            String uuid = UUID.randomUUID().toString();	//파일 이름 중복 방지
+            String savedFilename = uuid;
+
+            String savedPath = "C:/upload/" + savedFilename;
+
+            File file = new File(savedPath);
+
+            try {
+                image.transferTo(file);
+                return savedFilename;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @GetMapping("/{id}")
@@ -65,6 +94,7 @@ public class AttrplanController {
         AttrplanDto attrplanDto = attrplanService.getAttrplan(id);
         return ResponseEntity.ok().body(attrplanDto);
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<AttrplanDto> updateAttrplan(
@@ -134,7 +164,7 @@ public class AttrplanController {
         } else throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
         return ResponseEntity.ok().build();
     }
-
+    
     @PostMapping("/{id}/add")
     public ResponseEntity<?> addAttr2plan(
             @PathVariable("id") int plans_id,

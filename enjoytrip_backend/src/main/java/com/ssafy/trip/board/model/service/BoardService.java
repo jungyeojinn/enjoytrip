@@ -4,9 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.ssafy.trip.board.model.BoardDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BoardService {
-	List<BoardDto> boardList()  throws SQLException ;
+	Page<BoardDto> boardList(Pageable pageable, int offset, int pageSize)  throws SQLException ;
 	BoardDto getBoard(int id)  throws SQLException ;
 	void registBoard(BoardDto board) throws SQLException ;
 	void updateBoard(BoardDto board) throws SQLException ;

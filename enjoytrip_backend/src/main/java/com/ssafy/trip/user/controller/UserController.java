@@ -1,5 +1,7 @@
 package com.ssafy.trip.user.controller;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -7,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.trip.jwt.model.service.JwtService;
+import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.service.UserService;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -29,10 +32,12 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	private UserService userService;
+	private JwtService jwtService;
 
-	public UserController(UserService userService) {
+	public UserController(UserService userService, JwtService jwtService) {
 		super();
 		this.userService = userService;
+		this.jwtService = jwtService;
 	}
 
 	// @GetMapping(value = "/regi")
@@ -43,17 +48,18 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDto user) throws Exception {
 		logger.debug("login {}", user);
-		UserDto login = userService.login(user);
+		LoginResponse login = userService.login(user);
 		// session.setMaxInactiveInterval(30*60);
+		logger.info("{}", login);
 		return ResponseEntity.ok().body(login);
 	}
 
-	// @GetMapping("/logout")
-	// public String logout(HttpSession session) throws Exception {
-	// logger.debug("logout ");
-	// session.invalidate();
-	// return "redirect:/";
-	// }
+	 @GetMapping("/logout/{id}")
+	 public ResponseEntity<?> logout(@PathVariable("id") String id) throws Exception {
+	 logger.debug("logout ");
+	 userService.logout(id);
+	 return ResponseEntity.ok().body("성공");
+	 }
 
 	@GetMapping("/{id}")
 	@ResponseBody
@@ -61,6 +67,23 @@ public class UserController {
 		logger.debug("getuser {}", id);
 		UserDto user = userService.getUser(id);
 		return ResponseEntity.ok().body(user);
+	}
+	
+	@PostMapping("/refresh")
+	public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> userIds, HttpServletRequest request)
+			throws Exception {
+		String token = request.getHeader("refresh-token");
+		
+		if (jwtService.checkToken(token)) {
+			String userId = userIds.get("userId");
+			String accessToken = userService.reAccessToken(userId, token);
+			logger.debug("리프레쉬토큰 발급!!!!!!!");
+			return ResponseEntity.ok().body(accessToken);
+		} else {
+			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
 	}
 
 	@PostMapping("/")
