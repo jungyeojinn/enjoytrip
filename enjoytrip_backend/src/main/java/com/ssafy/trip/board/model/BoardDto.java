@@ -5,7 +5,7 @@ public class BoardDto {
 	private int type;
 	private String title;
 	private String content;
-	private byte[] img;
+	private String img;
 	private int views;
 	private String created_at;
 	private String modified_at;
@@ -24,7 +24,7 @@ public class BoardDto {
 		this.content = content;
 	}
 
-	public BoardDto(int id, int type, String title, String content, byte[] img, int views, String created_at,
+	public BoardDto(int id, int type, String title, String content, String img, int views, String created_at,
 					String modified_at, int user_id) {
 		super();
 		this.id = id;
@@ -38,7 +38,7 @@ public class BoardDto {
 		this.user_id = user_id;
 	}
 
-	public BoardDto(int type, String title, String content, byte[] img, int views) {
+	public BoardDto(int type, String title, String content, String img, int views) {
 		super();
 		this.type = type;
 		this.title = title;
@@ -48,7 +48,7 @@ public class BoardDto {
 	}
 	
 
-	public BoardDto(int id, int type, String title, String content, byte[] img, int views, String created_at,
+	public BoardDto(int id, int type, String title, String content, String img, int views, String created_at,
 			String modified_at) {
 		super();
 		this.id = id;
@@ -93,11 +93,11 @@ public class BoardDto {
 		this.content = content;
 	}
 
-	public byte[] getImg() {
+	public String getImg() {
 		return img;
 	}
 
-	public void setImg(byte[] img) {
+	public void setImg(String img) {
 		this.img = img;
 	}
 
