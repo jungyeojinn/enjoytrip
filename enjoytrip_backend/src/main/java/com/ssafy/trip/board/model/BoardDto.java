@@ -17,8 +17,15 @@ public class BoardDto {
 		super();
 	}
 
+	public BoardDto(int user_id, int type, String title, String content) {
+		this.user_id = user_id;
+		this.type = type;
+		this.title = title;
+		this.content = content;
+	}
+
 	public BoardDto(int id, int type, String title, String content, String img, int views, String created_at,
-			String modified_at, int user_id) {
+					String modified_at, int user_id) {
 		super();
 		this.id = id;
 		this.type = type;

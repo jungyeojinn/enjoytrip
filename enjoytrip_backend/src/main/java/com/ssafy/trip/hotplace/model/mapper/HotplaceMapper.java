@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.trip.hotplace.model.HotplaceDto;
+import com.ssafy.trip.hotplace.model.HotplaceLikeDto;
 
 @Mapper
 public interface HotplaceMapper {
@@ -16,4 +17,7 @@ public interface HotplaceMapper {
 	int deleteHotplace(int id);
 	int plusLikeCount(int id);
 	int minusLikeCount(int id);
+	Integer getLike(HotplaceLikeDto hotplaceLike);
+	int addLike(HotplaceLikeDto hotplaceLike);
+	int deleteLike(HotplaceLikeDto hotplaceLike);
 }

@@ -2,15 +2,17 @@ package com.ssafy.trip.user.model.service;
 
 import java.sql.SQLException;
 
+import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 
 public interface UserService {
-	void regi(UserDto user) throws SQLException;
-	
-	UserDto login(UserDto user) throws SQLException;
-	UserDto loginNaver(UserDto user) throws SQLException;
-	UserDto getUser(String userId) throws SQLException;
-	void updateUser(UserDto user) throws SQLException;
-	void deleteUser(String userId) throws SQLException;
-	String getPassword(String userId) throws SQLException;
+	void regi(UserDto user);
+	UserDto login(UserDto user);
+	UserDto loginNaver(UserDto user);
+	public void logout(String userId);
+	UserDto getUser(String userId);
+	void updateUser(UserDto user);
+	void deleteUser(String userId);
+	String getPassword(String userId);
+	String reAccessToken(String userId, String refreshToken);
 }

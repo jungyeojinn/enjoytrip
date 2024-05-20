@@ -2,6 +2,7 @@ package com.ssafy.trip.attrplan.model.mapper;
 
 import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
+import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.w3c.dom.Attr;
 
@@ -26,4 +27,9 @@ public interface AttrplanMapper {
 
 	int getUserid(String user_id) throws SQLException;
 //	void updateHit(int id) throws SQLException ;
+
+	// 순서..?
+	// 1개의 plans 안에 n개의 attraction_info가 포함 -> 순서가 존재할 것이다.
+	void Add2Attrplan(AttrplanOrderDto AttrplanOrder) throws SQLException;
+	void Del2Attrplan(int plans_id) throws SQLException;
 }

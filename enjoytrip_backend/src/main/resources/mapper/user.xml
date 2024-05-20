@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="login" parameterType="userDto" resultType="userDto">
 		select
-		user_id, nickname
+		id, user_id, nickname
 		from user
 		where user_id=#{userId} and
 		password=#{password}
@@ -41,8 +41,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getUser" parameterType="string" resultType="userDto">
 		select
-		user_id, nickname from user
+		id, user_id, nickname from user
 		where user_id=#{userId}
+	</select>
+	
+	<select id="getUserById" parameterType="int" resultType="userDto">
+		select
+		id, user_id, nickname from user
+		where id=#{id}
 	</select>
 
 	<update id="updateUser" parameterType="userDto">
@@ -65,4 +71,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		password from user
 		where user_id=#{userId}
 	</select>
+	
+	<select id="getRefreshToken" parameterType="int" resultType="string">
+		select refresh_token
+		from refresh_tokens
+		where user_id = #{userId}
+	</select>
+	
+	<insert id="saveRefreshToken" parameterType="refreshTokenDto">
+		insert into refresh_tokens
+		values(#{userId}, #{refreshToken})
+	</insert> 
+	
+	<delete id="deleteRefreshToken" parameterType="int">
+		delete from refresh_tokens
+		where user_id = #{userId}
+	</delete>
 </mapper>

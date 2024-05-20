@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +24,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDto> boardList() throws SQLException {
-		return boardMapper.boardList();
+	public Page<BoardDto> boardList( Pageable pageable, int pageNum, int pageSize) throws SQLException {
+		BoardDto board = new BoardDto();
+		int offset=pageNum*pageSize;
+		List<BoardDto> content = boardMapper.boardList(offset, pageSize);
+
+		int total = boardMapper.getListBoardCount(board);
+		return new PageImpl<>(content, pageable, total);
 	}
+
+
 
 	@Override
 	public BoardDto getBoard(int id) throws SQLException {

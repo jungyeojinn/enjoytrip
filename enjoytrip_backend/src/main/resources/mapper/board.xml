@@ -2,11 +2,12 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.board.model.mapper.BoardMapper"> 
-	
-	<select id="boardList" resultType="boardDto">
+<mapper namespace="com.ssafy.trip.board.model.mapper.BoardMapper">
+
+	<select id="boardList" parameterType="int" resultType="boardDto">
 	select type, title, content, img, views, modified_at from board
 	order by modified_at
+	limit #{offset} , #{pageSize}
 	</select>
 	
 	<select id="getBoard" parameterType="int" resultType="boardDto">
@@ -24,7 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	views=#{views}, modified_at = now()
 	where id=#{id}
 	</update>
-	
+
+	<select id="getListBoardCount" parameterType="boardDto" resultType="int">
+		SELECT COUNT(*) AS CNT
+		FROM BOARD
+	</select>
+
 	<delete id="deleteBoard" parameterType="int">
 	delete from board where id=#{id}
 	</delete>
