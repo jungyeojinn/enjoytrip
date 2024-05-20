@@ -24,6 +24,6 @@ public interface AttrplanService {
 
 	int getUserid(String user_id) throws SQLException;
 
-	void Add2Attrplan(AttrplanOrderDto AttrplanOrder) throws SQLException;
+	void Add2Attrplan(AttrplanOrderDto[] AttrplanOrder, int plans_id) throws SQLException;
 	void Del2Attrplan(int plans_id) throws SQLException;
 }

@@ -79,8 +79,16 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void Add2Attrplan(AttrplanOrderDto AttrplanOrder) throws SQLException {
-		attrplanMapper.Add2Attrplan(AttrplanOrder);
+	@Transactional
+	public void Add2Attrplan(AttrplanOrderDto[] AttrplanOrder, int plans_id) throws SQLException {
+		for (int i = 0; i < AttrplanOrder.length; i++) {
+			AttrplanOrderDto attrplanOrder = AttrplanOrderDto.builder()
+					.order(AttrplanOrder[i].getOrder())
+					.plans_id(plans_id)
+					.attraction_info_id(AttrplanOrder[i].getAttraction_info_id())
+					.build();
+			attrplanMapper.Add2Attrplan(attrplanOrder);
+		}
 	}
 
 	@Override

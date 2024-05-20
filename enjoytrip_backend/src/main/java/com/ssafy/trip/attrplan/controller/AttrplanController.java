@@ -136,19 +136,11 @@ public class AttrplanController {
     }
 
     @PostMapping("/{id}/add")
-    @Transactional
     public ResponseEntity<?> addAttr2plan(
             @PathVariable("id") int plans_id,
             @RequestBody AttrplanOrderDto[] attrInfos
     ) throws SQLException {
-        for (int i = 0; i < attrInfos.length; i++) {
-            AttrplanOrderDto attrplanOrder = AttrplanOrderDto.builder()
-                    .order(attrInfos[i].getOrder())
-                    .plans_id(plans_id)
-                    .attraction_info_id(attrInfos[i].getAttraction_info_id())
-                    .build();
-            attrplanService.Add2Attrplan(attrplanOrder);
-        }
+        attrplanService.Add2Attrplan(attrInfos, plans_id);
         return ResponseEntity.ok().build();
     }
 
