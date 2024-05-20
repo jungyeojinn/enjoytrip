@@ -1,8 +1,10 @@
 package com.ssafy.trip.board.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.transform.OutputKeys;
 
@@ -40,12 +42,29 @@ public class BoardController {
 										@RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
 		BoardDto board=new BoardDto(user_id, type, title, content);
 		// 이미지 파일 처리
-		if (img != null && !img.isEmpty()) {
-			byte[] imageBytes = img.getBytes();
-			board.setImg(imageBytes);
-		}
+		String imagePath = saveImage(img);
+		board.setImg(imagePath);
 		boardservice.registBoard(board);
 		return ResponseEntity.ok().build();
+	}
+
+	private String saveImage(MultipartFile image){
+		if (image != null && !image.isEmpty()) {
+			String uuid = UUID.randomUUID().toString();	//파일 이름 중복 방지
+			String savedFilename = uuid;
+
+			String savedPath = "C:/upload/" + savedFilename;
+
+			File file = new File(savedPath);
+
+			try {
+				image.transferTo(file);
+				return savedFilename;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	@GetMapping("/{id}")
