@@ -45,6 +45,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserDto loginNaver(UserDto user) throws SQLException {
+		UserDto login = userDao.loginNaver(user);
+		if (login == null) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		} else {
+			return login;
+		}
+	}
+
+	@Override
 	public UserDto getUser(String userId) throws SQLException {
 		UserDto user = userDao.getUser(userId);
 		return user;

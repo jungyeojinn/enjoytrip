@@ -41,7 +41,7 @@ public class UserController {
 	// }
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@ModelAttribute UserDto user) throws Exception {
+	public ResponseEntity<?> login(@RequestBody UserDto user) throws Exception {
 		logger.debug("login {}", user);
 		UserDto login = userService.login(user);
 		// session.setMaxInactiveInterval(30*60);
