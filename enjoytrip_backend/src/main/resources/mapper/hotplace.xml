@@ -9,7 +9,7 @@
 		<result column="title" property="title"/>
 		<result column="img" property="img"/>
 		<result column="description" property="description"/>
-		<result column="placeName" property="placeName"/>
+		<result column="place_name" property="placeName"/>
 		<result column="latitude" property="latitude"/>
 		<result column="longitude" property="longitude"/>
 		<result column="like_count" property="likeCount"/>
@@ -26,23 +26,23 @@
 	</resultMap>
 	
 	<insert id="insertHotplace" parameterType="hotplaceDto">
-		insert into hotplaces (title, img, description, placeName, latitude, longitude, like_count, user_id)
+		insert into hotplaces (title, img, description, place_name, latitude, longitude, like_count, user_id)
 		values (#{title}, #{img}, #{description}, #{placeName}, #{latitude}, #{longitude}, 0, #{userId})
 	</insert>
 	
 	<select id="listHotplaces" resultMap="hotplace">
-		select id, title, img, description, placeName, latitude, longitude, like_count
+		select id, title, img, description, place_name, latitude, longitude, like_count
 		from hotplaces
 	</select>
 	
 	<select id="userHotplaces" parameterType="int" resultMap="hotplace">
-		select title, img, description, placeName, latitude, longitude
+		select title, img, description, place_name, latitude, longitude
 		from hotplaces
 		where user_id = #{userId}
 	</select>
 	
 	<select id="getHotplace" parameterType="int" resultMap="hotplaceWithUser">
-		select h.id, h.title, h.img, h.description, h.placeName, h.latitude, h.longitude, h.like_count,
+		select h.id, h.title, h.img, h.description, h.place_name, h.latitude, h.longitude, h.like_count,
 			h.user_id, u.user_id, u.nickname
 		from hotplaces h, user u
 		where id = #{id} and h.user_id = u.id
@@ -51,7 +51,7 @@
 	<update id="updateHotplace" parameterType="hotplaceDto">
 		update hotplaces
 		set title = #{title}, img = #{img}, description = #{description},
-		 placeName = #{placeName}, latitude = #{latitude}, longitude = #{longitude}
+		 place_name = #{placeName}, latitude = #{latitude}, longitude = #{longitude}
 		where id = #{id}
 	</update>
 	
