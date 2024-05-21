@@ -28,7 +28,12 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signUp } from '@/api/user';
+import { login, signUp } from '@/api/user';
+import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const userId = ref(undefined)
 const nickName = ref(undefined);;
@@ -62,6 +67,17 @@ const singup = async () => {
     emailId, emailDomain
   }
 
-  signUp(userData);
+  let reuslt = await signUp(userData);
+
+  if (reuslt) {
+    const data = await login({ userId: userData.userId, password: userData.password });
+
+    userStore.setUserInfo(data.userId, data.nickname);
+    userStore.setCookie(data.accessToken, data.refreshToken);
+
+    router.push({ name: 'home' });
+  } else {
+    alert('아이디가 중복되었습니다.');
+  }
 }
 </script>
