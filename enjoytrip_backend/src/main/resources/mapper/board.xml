@@ -16,8 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="registBoard" parameterType="boardDto">
-	insert into board (type, title, content, img, views, created_at, modified_at, user_id)
-	values (#{type}, #{title}, #{content}, #{img}, 0, now(), now(), #{user_id})
+	insert into board (type, title, content, views, created_at, modified_at, user_id)
+	values (#{type}, #{title}, #{content}, 0, now(), now(), #{user_id})
 	</insert>
 	
 	<update id="updateBoard" parameterType="boardDto">
@@ -25,6 +25,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	views=#{views}, modified_at = now()
 	where id=#{id}
 	</update>
+
+	<select id="getImg" parameterType="boardDto">
+		select img from board
+		where id=#{id}
+	</select>
 
 	<select id="getListBoardCount" parameterType="boardDto" resultType="int">
 		SELECT COUNT(*) AS CNT
