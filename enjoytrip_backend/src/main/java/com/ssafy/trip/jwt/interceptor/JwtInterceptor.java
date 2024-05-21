@@ -1,7 +1,5 @@
 package com.ssafy.trip.jwt.interceptor;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import com.ssafy.trip.jwt.model.service.JwtService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
@@ -30,13 +27,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.info(request.getRequestURI());
-		if (request.getMethod().equals("POST") && request.getRequestURI().equals("/user/")) {
+		if (request.getMethod().equals("POST") && request.getRequestURI().equals("/trip/user/")) {
 			return true;
 		}
 		final String token = request.getHeader(HEADER_AUTH);
 		String jwt = null;
 		if (token == null || !token.startsWith("Bearer ")) {
-			throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED); 
+			throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
 		}
 		logger.info(token);
 		jwt = token.substring(7);

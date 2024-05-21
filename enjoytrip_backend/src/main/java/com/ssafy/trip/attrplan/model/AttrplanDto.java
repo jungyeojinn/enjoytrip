@@ -1,6 +1,5 @@
 package com.ssafy.trip.attrplan.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -8,6 +8,7 @@ public class UserDto {
 	private String emailId;
 	private String emailDomain;
 	private String joinDate;
+	private String profileImg;
 	private int authoritiesId;
 
 	public UserDto() {
@@ -15,24 +16,26 @@ public class UserDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserDto(String userId, String nickName, String password, String emailId, String emailDomain,
+	public UserDto(String userId, String nickName, String password, String profileImg, String emailId, String emailDomain,
 			String joinDate, int authoritiesId) {
 		super();
 		this.userId = userId;
 		this.nickName = nickName;
 		this.password = password;
+		this.profileImg = profileImg;
 		this.emailId = emailId;
 		this.emailDomain = emailDomain;
 		this.joinDate = joinDate;
 		this.authoritiesId = authoritiesId;
 	}
 
-	public UserDto(String userId, String nickName, String password, String emailId, String emailDomain,
+	public UserDto(String userId, String nickName, String password, String profileImg, String emailId, String emailDomain,
 			int authoritiesId) {
 		super();
 		this.userId = userId;
 		this.nickName = nickName;
 		this.password = password;
+		this.profileImg = profileImg;
 		this.emailId = emailId;
 		this.emailDomain = emailDomain;
 		this.authoritiesId = authoritiesId;
@@ -40,7 +43,7 @@ public class UserDto {
 
 	@Override
 	public String toString() {
-		return " [id=" + id + ", userId=" + userId + ", nickName=" + nickName + ", password=" + password + ", emailId="
+		return " [id=" + id + ", userId=" + userId + ", nickName=" + nickName + ", password=" + password + ", profileImg" + profileImg + ", emailId="
 				+ emailId + ", emailDomain=" + emailDomain + ", joinDate=" + joinDate + ", authoritiesId="
 				+ authoritiesId + "]";
 	}
@@ -73,6 +76,10 @@ public class UserDto {
 		return password;
 	}
 
+	public String getProfileImg() {
+		return profileImg;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -87,6 +94,10 @@ public class UserDto {
 
 	public String getEmailDomain() {
 		return emailDomain;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 
 	public void setEmailDomain(String emailDomain) {

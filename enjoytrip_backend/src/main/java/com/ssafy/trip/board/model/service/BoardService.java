@@ -2,9 +2,11 @@ package com.ssafy.trip.board.model.service;
 
 import java.sql.SQLException;
 
-import com.ssafy.trip.board.model.BoardDto;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.ssafy.trip.board.model.BoardDto;
 
 public interface BoardService {
 	Page<BoardDto> boardList( int offset, int pageSize)  throws SQLException ;
