@@ -2,7 +2,6 @@ package com.ssafy.trip.config;
 
 import javax.sql.DataSource;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

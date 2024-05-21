@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.ssafy.trip.exception.AuthorizationFailedException;
+import com.ssafy.trip.exception.DatabaseRequestFailedException;
 import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
@@ -58,4 +59,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST.value())
                 .body(new BaseResponseDto(BaseResponseCode.INVALID_INPUT));
     }
+	
+	@ExceptionHandler(DatabaseRequestFailedException.class)
+	public ResponseEntity<BaseResponseDto> handleDatabaseRequestFailedException(DatabaseRequestFailedException e) {
+		log.error("DatabaseRequestFailedException handle");
+		return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .body(new BaseResponseDto(BaseResponseCode.DATABASE_REQUEST_FAILED));
+	}
 }

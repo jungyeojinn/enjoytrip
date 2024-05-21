@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import com.ssafy.trip.Oauth.model.NaverOauthTokenDto;
 
 import java.util.UUID;
 
