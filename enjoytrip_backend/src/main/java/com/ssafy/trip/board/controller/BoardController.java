@@ -42,38 +42,10 @@ public class BoardController {
 		return ResponseEntity.ok().body(boardservice.boardList(pageable, offset, pageSize));
 	}
 
-
-	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> writeBoard(@RequestParam(value = "title") String title,
-										@RequestParam(value = "content") String content,
-										@RequestParam(value = "type") int type,
-										@RequestParam(value = "user_id") int user_id,
-										@RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
-		BoardDto board=new BoardDto(user_id, type, title, content);
-		// 이미지 파일 처리
-		String imagePath = saveImage(img);
-		board.setImg(imagePath);
-		boardservice.registBoard(board);
+	@RequestMapping(value="/", method = RequestMethod.POST, produces =  "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> writeBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+		boardservice.registBoard(board, img);
 		return ResponseEntity.ok().build();
-	}
-
-	private String saveImage(MultipartFile image){
-		if (image != null && !image.isEmpty()) {
-			String uuid = UUID.randomUUID().toString();	//파일 이름 중복 방지
-			String savedFilename = uuid;
-
-			String savedPath = "C:/upload/" + savedFilename;
-
-			File file = new File(savedPath);
-
-			try {
-				image.transferTo(file);
-				return savedFilename;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
 	}
 
 	@GetMapping("/{id}")
@@ -83,8 +55,8 @@ public class BoardController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board) throws SQLException {
-		boardservice.updateBoard(board);
+	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+		boardservice.updateBoard(board, img);
 		return ResponseEntity.ok().build();
 	}
 	
