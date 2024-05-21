@@ -2,7 +2,9 @@ package com.ssafy.trip.user.model.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.trip.common.ImgUtils;
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.DatabaseRequestFailedException;
 import com.ssafy.trip.exception.DuplicateUserException;
@@ -20,10 +22,13 @@ public class UserServiceImpl implements UserService {
 
 	private UserMapper userDao;
 	private JwtService jwtService;
-	public UserServiceImpl(UserMapper userDao, JwtService jwtService) {
+	private ImgUtils imgUtils;
+	
+	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils) {
 		super();
 		this.userDao = userDao;
 		this.jwtService = jwtService;
+		this.imgUtils = imgUtils;
 	}
 
 	@Override
@@ -64,6 +69,7 @@ public class UserServiceImpl implements UserService {
 					.id(login.getId())
 					.userId(login.getUserId())
 					.nickname(login.getNickName())
+					.profileImg(login.getProfileImg())
 					.accessToken(accessToken)
 					.refreshToken(refreshToken)
 					.build();
@@ -97,12 +103,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(UserDto user) {
+	@Transactional
+	public void updateUser(String userId, UserDto user, MultipartFile img) {
+		String originPath = "";
+		user.setUserId(userId);
+		if (img != null && !img.isEmpty()) {
+			originPath = userDao.getProfileImgByUserId(userId);
+			if (originPath != null && !originPath.isEmpty()) {
+				imgUtils.deleteImage(originPath, "user");
+			}
+			String imgPath = imgUtils.saveImage(img, "user");
+			user.setProfileImg(imgPath);
+		}
 		userDao.updateUser(user);
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(String userId) {
+		String originPath = userDao.getProfileImgByUserId(userId);
+		if (originPath != null && !originPath.isEmpty()) {
+			imgUtils.deleteImage(originPath, "user");
+		}
 		userDao.deleteUser(userId);
 	}
 
