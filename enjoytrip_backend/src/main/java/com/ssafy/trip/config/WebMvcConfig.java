@@ -30,7 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final List<String> excludePointList = Arrays.asList(
 			"/user/login",
-			"/attraction/**",
+			"/oauth2/**",
 			"/swagger-resources/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
