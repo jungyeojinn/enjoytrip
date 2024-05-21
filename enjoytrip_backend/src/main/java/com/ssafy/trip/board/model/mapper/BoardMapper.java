@@ -17,3 +17,4 @@ public interface BoardMapper {
 	int getListBoardCount(BoardDto board);
 	void updateHit(int id) throws SQLException ;
 }
+

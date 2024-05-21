@@ -15,8 +15,8 @@ public interface BoardService {
 	void updateBoard(BoardDto board, MultipartFile img) throws SQLException ;
 	void deleteBoard(int id) throws SQLException ;
 	void deleteBoards(int[] ids)throws SQLException ;
-	
+
 	void updateHit(int id)  throws SQLException ;
-	
+
 	BoardDto getBoardWithHit(int id)  throws SQLException ;
 }

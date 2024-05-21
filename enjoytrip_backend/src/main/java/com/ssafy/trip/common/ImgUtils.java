@@ -11,8 +11,12 @@ public class ImgUtils {
     public String saveImage(MultipartFile img, String path) {
         String uuid = UUID.randomUUID().toString();    //파일 이름 중복 방지
         String savedFilename = uuid;
+        String fileName=img.getOriginalFilename();
+        int extensionIdx = fileName.lastIndexOf(".");
+        String extension=fileName.substring(extensionIdx + 1);
 
-        String savedPath = "C:/upload/" + path + savedFilename;
+        savedFilename = savedFilename+'.'+extension;
+        String savedPath = "C:/upload/" + path +'/' + savedFilename;
 
         File file = new File(savedPath);
 
@@ -26,7 +30,7 @@ public class ImgUtils {
     }
 
     public void deleteImage(String imgPath, String path) {
-        File fileToDelete = new File("C:/upload/" + path + imgPath);
+        File fileToDelete = new File("C:/upload/" + path +'/'+ imgPath);
         boolean success = fileToDelete.delete();
     }
 }
