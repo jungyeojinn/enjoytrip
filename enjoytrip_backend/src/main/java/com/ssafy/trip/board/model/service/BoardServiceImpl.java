@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+import com.ssafy.trip.common.ImgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardServiceImpl implements BoardService {
 
     BoardMapper boardMapper;
+    ImgUtils imgUtils = new ImgUtils();
 
     @Autowired
     public BoardServiceImpl(BoardMapper boardDao) {
@@ -49,31 +51,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void registBoard(BoardDto board, MultipartFile img) throws SQLException {
         String imgPath = "";
-        if (img != null && !img.isEmpty()) imgPath = saveImage(img);
+        if (img != null && !img.isEmpty()) imgPath = imgUtils.saveImage(img, "board");
         board.setImg(imgPath);
         boardMapper.registBoard(board);
-    }
-
-    private String saveImage(MultipartFile img) {
-        String uuid = UUID.randomUUID().toString();    //파일 이름 중복 방지
-        String savedFilename = uuid;
-
-        String savedPath = "C:/upload/" + savedFilename;
-
-        File file = new File(savedPath);
-
-        try {
-            img.transferTo(file);
-            return savedFilename;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void deleteImage(String imgPath) {
-        File fileToDelete = new File("C:/upload/" + imgPath);
-        boolean success = fileToDelete.delete();
     }
 
     @Transactional
@@ -83,9 +63,9 @@ public class BoardServiceImpl implements BoardService {
         if (img != null && !img.isEmpty()){
             originPath=boardMapper.getImg(board.getId());
             if(!originPath.equals("")){
-                deleteImage(originPath);
+                imgUtils.deleteImage(originPath, "board");
             }
-            String imgPath = saveImage(img);
+            String imgPath = imgUtils.saveImage(img, "board");
             board.setImg(imgPath);
         }
         boardMapper.updateBoard(board);
@@ -96,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(int id) throws SQLException {
         String originPath=boardMapper.getImg(id);
         if(!originPath.equals("")){
-            deleteImage(originPath);
+            imgUtils.deleteImage(originPath, "board");;
         }
         boardMapper.deleteBoard(id);
     }
