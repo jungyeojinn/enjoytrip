@@ -12,17 +12,18 @@ import BoardDeatil from "@/components/board/BoardDeatil.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/", component: Home },
-    { path: "/hotplace", component: HotPlace },
+    { path: "/", component: Home, name: "home" },
+    { path: "/hotplace", component: HotPlace, name: "hotplace" },
     {
       path: "/board",
       component: Board,
+      name: "board",
     },
     {
       path: "/board/:id",
       component: BoardDeatil,
     },
-    { path: "/attraction", component: Attraction },
+    { path: "/attraction", component: Attraction, name: "attraction" },
     { path: "/attraction-board", component: AttractionBoard },
     { path: "/login", component: Login },
     { path: "/signup", component: SignUp },
