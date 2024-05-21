@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.trip.board.model.BoardDto;
 
 public interface BoardService {
-	Page<BoardDto> boardList(Pageable pageable, int offset, int pageSize)  throws SQLException ;
+	Page<BoardDto> boardList( int offset, int pageSize)  throws SQLException ;
 	BoardDto getBoard(int id)  throws SQLException ;
 	void registBoard(BoardDto board, MultipartFile img) throws SQLException ;
 	void updateBoard(BoardDto board, MultipartFile img) throws SQLException ;

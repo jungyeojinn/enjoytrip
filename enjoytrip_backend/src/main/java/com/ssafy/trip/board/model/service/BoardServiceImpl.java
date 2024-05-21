@@ -32,13 +32,13 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<BoardDto> boardList(Pageable pageable, int pageNum, int pageSize) throws SQLException {
+    public Page<BoardDto> boardList(int pageNum, int pageSize) throws SQLException {
         BoardDto board = new BoardDto();
         int offset = pageNum * pageSize;
         List<BoardDto> content = boardMapper.boardList(offset, pageSize);
 
         int total = boardMapper.getListBoardCount(board);
-        return new PageImpl<>(content, pageable, total);
+        return new PageImpl<>(content, Pageable.ofSize(pageSize), total);
     }
 
     @Transactional(readOnly = true)
