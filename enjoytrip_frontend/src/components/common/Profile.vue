@@ -1,7 +1,12 @@
 <script setup>
 import { useUserStore } from '@/store/userStore';
+import { logout } from '@/api/user';
 
 const userStore = useUserStore();
+const exit = () => {
+  logout(userStore.id);
+  userStore.clear();
+}
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const userStore = useUserStore();
               <v-divider class="my-3"></v-divider>
               <v-btn variant="text" rounded> 회원 정보 수정 </v-btn>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded> 로그아웃 </v-btn>
+              <v-btn variant="text" rounded @click="exit"> 로그아웃 </v-btn>
             </div>
           </v-card-text>
         </v-card>

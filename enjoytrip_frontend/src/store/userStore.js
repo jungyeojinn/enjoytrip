@@ -8,14 +8,12 @@ export const useUserStore = defineStore(
   () => {
     const id = ref("");
     const nickname = ref("");
-    const token = ref("");
 
     const isLogin = () => {
       return id.value !== "";
     };
 
     const setCookie = (accessToken, refreshToken) => {
-      token.value = accessToken;
       cookies.set("accessToken", accessToken, import.meta.env.VITE_ACCESS_TIME);
       cookies.set(
         "refreshToken",
@@ -29,19 +27,20 @@ export const useUserStore = defineStore(
       nickname.value = nickName;
     };
 
-    const clearUserName = () => {
+    const clear = () => {
       id.value = "";
       nickname.value = "";
+      cookies.remove("accessToken");
+      cookies.remove("refreshToken");
     };
 
     return {
       id,
       nickname,
-      token,
       isLogin,
       setCookie,
       setUserInfo,
-      clearUserName,
+      clear,
     };
   },
   {

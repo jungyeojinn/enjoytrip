@@ -14,6 +14,16 @@ const login = async (userData) => {
   }
 };
 
+const logout = async (id) => {
+  try {
+    await api.get(`/user/logout/${id}`);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 const signUp = async (userData) => {
   try {
     await api.post(`/user/`, {
@@ -26,4 +36,4 @@ const signUp = async (userData) => {
   }
 };
 
-export { login, signUp };
+export { login, logout, signUp };
