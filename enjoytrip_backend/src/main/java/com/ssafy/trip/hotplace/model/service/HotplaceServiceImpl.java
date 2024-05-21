@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.trip.common.ImgUtils;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
@@ -16,20 +18,26 @@ import com.ssafy.trip.hotplace.model.mapper.HotplaceMapper;
 public class HotplaceServiceImpl implements HotplaceService {
 
 	private final HotplaceMapper hotplaceMapper;
+	private final ImgUtils imgUtils;
 
-	public HotplaceServiceImpl(HotplaceMapper hotplaceMapper) {
+	public HotplaceServiceImpl(HotplaceMapper hotplaceMapper, ImgUtils imgUtils) {
 		this.hotplaceMapper = hotplaceMapper;
+		this.imgUtils = imgUtils;
 	}
 
 	@Override
-	public void insertHotplace(HotplaceDto hotplace) {
+	@Transactional
+	public void insertHotplace(HotplaceDto hotplace, MultipartFile img) {
+		String imgPath = imgUtils.saveImage(img, "hotplace");
+		hotplace.setImg(imgPath);
 		int result = hotplaceMapper.insertHotplace(hotplace);
 		if (result == 0) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<HotplaceDto> listHotplaces() {
 		List<HotplaceDto> list = hotplaceMapper.listHotplaces();
 		if (list == null || list.size() == 0) {
@@ -40,6 +48,7 @@ public class HotplaceServiceImpl implements HotplaceService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<HotplaceDto> userHotplaces(int id) {
 		List<HotplaceDto> list = hotplaceMapper.userHotplaces(id);
 		if (list == null || list.size() == 0) {
@@ -50,6 +59,7 @@ public class HotplaceServiceImpl implements HotplaceService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public HotplaceDto getHotplace(int id) {
 		HotplaceDto hotplace = hotplaceMapper.getHotplace(id);
 		if (hotplace == null) {
@@ -60,34 +70,51 @@ public class HotplaceServiceImpl implements HotplaceService {
 	}
 
 	@Override
-	public void updateHotplace(HotplaceDto hotplace) {
+	@Transactional
+	public void updateHotplace(int id, HotplaceDto hotplace, MultipartFile img) {
+		String originPath = "";
+		if (img != null && !img.isEmpty()) {
+			originPath = hotplaceMapper.getImgById(hotplace.getId());
+			if (originPath != null && !originPath.isEmpty()) {
+				imgUtils.deleteImage(originPath, "hotplace");
+			}
+			String imgPath = imgUtils.saveImage(img, "hotplace");
+			hotplace.setImg(imgPath);
+		}
 		int result = hotplaceMapper.updateHotplace(hotplace);
 		if (result == 0) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 
 	@Override
+	@Transactional
 	public void deleteHotplace(int id) {
+		String originPath = hotplaceMapper.getImgById(id);
 		int result = hotplaceMapper.deleteHotplace(id);
 		if (result == 0) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
+		}
+		if (originPath != null && !originPath.isEmpty()) {
+			imgUtils.deleteImage(originPath, "hotplace");
 		}
 	}
 
 	@Override
+	@Transactional
 	public void plusLikeCount(int id) {
 		int result = hotplaceMapper.plusLikeCount(id);
 		if (result == 0) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 
 	@Override
+	@Transactional
 	public void minusLikeCount(int id) {
 		int result = hotplaceMapper.minusLikeCount(id);
 		if (result == 0) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 
@@ -101,10 +128,10 @@ public class HotplaceServiceImpl implements HotplaceService {
 				int rst= hotplaceMapper.addLike(hotplaceLike);
 				hotplaceMapper.plusLikeCount(hotplaceLike.getHotplacesId());
 			} catch (Exception e) {
-				throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+				throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 			}
 		} else {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 
@@ -118,10 +145,10 @@ public class HotplaceServiceImpl implements HotplaceService {
 				int rst= hotplaceMapper.deleteLike(hotplaceLike);
 				hotplaceMapper.minusLikeCount(hotplaceLike.getHotplacesId());
 			} catch (Exception e) {
-				throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+				throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 			}
 		} else {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
+			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 	}
 

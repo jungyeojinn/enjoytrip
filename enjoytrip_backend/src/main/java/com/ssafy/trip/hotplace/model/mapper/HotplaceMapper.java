@@ -20,4 +20,6 @@ public interface HotplaceMapper {
 	Integer getLike(HotplaceLikeDto hotplaceLike);
 	int addLike(HotplaceLikeDto hotplaceLike);
 	int deleteLike(HotplaceLikeDto hotplaceLike);
+	
+	String getImgById(int id);
 }

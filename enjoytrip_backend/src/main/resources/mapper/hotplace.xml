@@ -13,17 +13,19 @@
 		<result column="latitude" property="latitude"/>
 		<result column="longitude" property="longitude"/>
 		<result column="like_count" property="likeCount"/>
-	</resultMap>
-	
-	<resultMap type="HotplaceDto" id="hotplaceWithId" extends="hotplace">
-		<result column="id" property="userId"/>
+		<result column="user_id" property="userId"/>
 	</resultMap>
 
 	<resultMap type="HotplaceDto" id="hotplaceWithUser" extends="hotplace">
-		<result column="id" property="userId"/>
-		<result column="user_id" property="userUserId"/>
+		<result column="user_user_id" property="userUserId"/>
 		<result column="nickname" property="userNickname"/>
 	</resultMap>
+	
+	<select id="getImgById" parameterType="int" resultType="string">
+		select img
+		from hotplaces
+		where id = #{id}
+	</select>
 	
 	<insert id="insertHotplace" parameterType="hotplaceDto">
 		insert into hotplaces (title, img, description, place_name, latitude, longitude, like_count, user_id)
@@ -43,9 +45,9 @@
 	
 	<select id="getHotplace" parameterType="int" resultMap="hotplaceWithUser">
 		select h.id, h.title, h.img, h.description, h.place_name, h.latitude, h.longitude, h.like_count,
-			h.user_id, u.user_id, u.nickname
+			h.user_id, u.user_id as user_user_id, u.nickname
 		from hotplaces h, user u
-		where id = #{id} and h.user_id = u.id
+		where h.id = #{id} and h.user_id = u.id
 	</select>
 	
 	<update id="updateHotplace" parameterType="hotplaceDto">

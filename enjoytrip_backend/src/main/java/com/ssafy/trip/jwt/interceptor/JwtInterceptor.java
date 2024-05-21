@@ -27,6 +27,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.info(request.getRequestURI());
+		if (request.getMethod().equals("GET") || request.getMethod().equals("OPTIONS")) {
+			return true;
+		}
 		if (request.getMethod().equals("POST") && request.getRequestURI().equals("/trip/user/")) {
 			return true;
 		}
