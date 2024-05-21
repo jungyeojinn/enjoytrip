@@ -1,6 +1,6 @@
 <template>
   <div class="h-100 d-flex justify-md-center align-center">
-    <v-card class="mx-auto" style="min-width: 500px">
+    <v-card class="mx-auto" elevation="8" style="min-width: 500px" rounded="lg">
       <v-img class="mx-auto my-6" max-width="228" src="/src/assets/logo.png"></v-img>
       <v-form ref="form" v-model="isValid" class="d-flex flex-column ga-md-3 pa-4 pt-6">
         <v-text-field v-model="userId" color="deep-purple" counter="6" :rules="[rules.short(6)]" label="아이디"

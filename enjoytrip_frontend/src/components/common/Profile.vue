@@ -20,9 +20,9 @@
                 {{ user.email }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded> Edit Account </v-btn>
+              <v-btn variant="text" rounded> 회원 정보 수정 </v-btn>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded> Disconnect </v-btn>
+              <v-btn variant="text" rounded> 로그아웃 </v-btn>
             </div>
           </v-card-text>
         </v-card>
