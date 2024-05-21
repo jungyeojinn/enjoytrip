@@ -1,14 +1,16 @@
 package com.ssafy.trip.board.controller;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.board.model.BoardDto;
 import com.ssafy.trip.board.model.service.BoardService;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin

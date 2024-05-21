@@ -1,12 +1,11 @@
 package com.ssafy.trip.attrplan.model.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
 import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
-import org.apache.ibatis.jdbc.SQL;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public interface AttrplanService {
 	List<AttrplanDto> AttrplanList()  throws SQLException ;

@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="user_id" property="userId" />
 		<result column="nickname" property="nickName" />
 		<result column="password" property="password" />
+		<result column="profile_img" property="profileImg" />
 		<result column="email_id" property="emailId" />
 		<result column="email_domain" property="emailDomain" />
 		<result column="join_date" property="joinDate" />
@@ -15,10 +16,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<insert id="regi" parameterType="userDto">
-		insert into user (user_id, nickname, password,
+		insert into user (user_id, nickname, password, profile_img,
 		email_id, email_domain, join_date, authorities_id)
 		values
-		(#{userId}, #{nickName}, #{password}, #{emailId},
+		(#{userId}, #{nickName}, #{password}, #{profileImg}, #{emailId},
 		#{emailDomain},
 		now(), #{authoritiesId})
 	</insert>
@@ -29,6 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from user
 		where user_id=#{userId} and
 		password=#{password}
+	</select>
+
+	<select id="loginNaver" parameterType="userDto" resultType="userDto">
+		select
+			user_id, nickname
+		from user
+		where user_id=#{userId}
 	</select>
 
 	<select id="getUser" parameterType="string" resultType="userDto">

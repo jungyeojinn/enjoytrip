@@ -1,7 +1,10 @@
 package com.ssafy.trip.board.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import com.ssafy.trip.common.ImgUtils;
 import org.springframework.beans.factory.annotation.Autowired;
