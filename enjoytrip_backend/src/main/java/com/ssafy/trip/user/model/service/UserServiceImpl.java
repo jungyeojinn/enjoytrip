@@ -1,11 +1,10 @@
 package com.ssafy.trip.user.model.service;
 
-import java.sql.SQLException;
-
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.trip.exception.AuthorizationFailedException;
+import com.ssafy.trip.exception.DatabaseRequestFailedException;
 import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
 		if (alreadyUser == null) {
 			int result = userDao.regi(user);
 			if (result == 0) {
-				throw new SQLException();
+				throw new DatabaseRequestFailedException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 			}
 		} else {
 			throw new DuplicateUserException(BaseResponseCode.DUPLICATE_USER);
@@ -121,6 +120,8 @@ public class UserServiceImpl implements UserService {
 		
 		if (refreshToken.equals(userDao.getRefreshToken(user.getId()))) {
 			accessToken = jwtService.createAccessToken("userid", user.getUserId());
+		} else {
+			throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
 		}
 		return accessToken;
 	}

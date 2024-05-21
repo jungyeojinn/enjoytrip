@@ -1,13 +1,11 @@
 package com.ssafy.trip.user.model.service;
 
-import java.sql.SQLException;
-
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 
 public interface UserService {
 	void regi(UserDto user);
-	UserDto login(UserDto user);
+	LoginResponse login(UserDto user);
 	UserDto loginNaver(UserDto user);
 	public void logout(String userId);
 	UserDto getUser(String userId);
