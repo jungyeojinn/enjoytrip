@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router/auto";
+import { useCookies } from "vue3-cookies";
 
 import Home from "@/pages/Home.vue";
 import HotPlace from "@/pages/HotPlace.vue";
@@ -9,6 +10,8 @@ import Login from "@/pages/Login.vue";
 import SignUp from "@/pages/SignUp.vue";
 
 import BoardDeatil from "@/components/board/BoardDeatil.vue";
+
+const { cookies } = useCookies();
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

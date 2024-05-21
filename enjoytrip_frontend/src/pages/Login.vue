@@ -11,11 +11,6 @@ const userId = ref();
 const password = ref();
 const userStore = useUserStore();
 
-const setUserData = ({ data }) => {
-
-  console.log(data);
-}
-
 const onSubmit = async () => {
 
   const userData = {
