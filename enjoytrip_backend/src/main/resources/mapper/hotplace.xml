@@ -21,6 +21,12 @@
 		<result column="nickname" property="userNickname"/>
 	</resultMap>
 	
+	<select id="getImgById" parameterType="int" resultType="string">
+		select img
+		from hotplaces
+		where id = #{id}
+	</select>
+	
 	<insert id="insertHotplace" parameterType="hotplaceDto">
 		insert into hotplaces (title, img, description, place_name, latitude, longitude, like_count, user_id)
 		values (#{title}, #{img}, #{description}, #{placeName}, #{latitude}, #{longitude}, 0, #{userId})

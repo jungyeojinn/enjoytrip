@@ -47,4 +47,8 @@ public class HotplaceDto {
 		this.userUserId = userUserId;
 		this.userNickname = userNickname;
 	}
+	
+	public void setImg(String img) {
+		this.img = img;
+	}
 }

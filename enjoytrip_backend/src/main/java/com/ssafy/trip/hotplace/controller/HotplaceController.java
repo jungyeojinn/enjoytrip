@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.InvalidInputException;
@@ -37,10 +39,10 @@ public class HotplaceController {
 		this.userService = userService;
 	}
 
-	@PostMapping("/")
-	public ResponseEntity<?> writeHotplace(@RequestBody HotplaceDto hotplace) {
-		System.out.println(hotplace);
-		hotplaceService.insertHotplace(hotplace);
+	@PostMapping(value = "/", produces = "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> writeHotplace(@RequestPart("hotplace") HotplaceDto hotplace, 
+			@RequestPart(value = "img", required = false) MultipartFile img) {
+		hotplaceService.insertHotplace(hotplace, img);
 		return ResponseEntity.ok().body("핫플레이스 등록 성공");
 	}
 
@@ -62,12 +64,10 @@ public class HotplaceController {
 		return ResponseEntity.ok().body(hotplace);
 	}
 
-	@PatchMapping("/{id}")
-	public ResponseEntity<?> modifyHotplace(@PathVariable("id") int id, @RequestBody HotplaceDto hotplace) {
-		if (id != hotplace.getId()) {
-			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
-		}
-		hotplaceService.updateHotplace(hotplace);
+	@PatchMapping(value = "/{id}", produces = "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> modifyHotplace(@PathVariable("id") int id, @RequestPart("hotplace") HotplaceDto hotplace, 
+			@RequestPart(value = "img", required = false) MultipartFile img) {
+		hotplaceService.updateHotplace(id, hotplace, img);
 		return ResponseEntity.ok().body("핫플레이스 수정 성공");
 	}
 
