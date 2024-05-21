@@ -1,18 +1,9 @@
 package com.ssafy.trip.board.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.UUID;
-
-import javax.xml.transform.OutputKeys;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.trip.board.model.BoardDto;
@@ -32,42 +23,14 @@ public class BoardController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<Page<BoardDto>> getAllBoards(@PageableDefault(size = 10) Pageable pageable, @RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException {
-		return ResponseEntity.ok().body(boardservice.boardList(pageable, offset, pageSize));
+	public ResponseEntity<Page<BoardDto>> getAllBoards(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException {
+		return ResponseEntity.ok().body(boardservice.boardList(offset, pageSize));
 	}
 
-
-	@RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> writeBoard(@RequestParam(value = "title") String title,
-										@RequestParam(value = "content") String content,
-										@RequestParam(value = "type") int type,
-										@RequestParam(value = "user_id") int user_id,
-										@RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
-		BoardDto board=new BoardDto(user_id, type, title, content);
-		// 이미지 파일 처리
-		String imagePath = saveImage(img);
-		board.setImg(imagePath);
-		boardservice.registBoard(board);
+	@RequestMapping(value="/", method = RequestMethod.POST, produces =  "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> writeBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+		boardservice.registBoard(board, img);
 		return ResponseEntity.ok().build();
-	}
-
-	private String saveImage(MultipartFile image){
-		if (image != null && !image.isEmpty()) {
-			String uuid = UUID.randomUUID().toString();	//파일 이름 중복 방지
-			String savedFilename = uuid;
-
-			String savedPath = "C:/upload/" + savedFilename;
-
-			File file = new File(savedPath);
-
-			try {
-				image.transferTo(file);
-				return savedFilename;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
 	}
 
 	@GetMapping("/{id}")
@@ -77,8 +40,8 @@ public class BoardController {
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board) throws SQLException {
-		boardservice.updateBoard(board);
+	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+		boardservice.updateBoard(board, img);
 		return ResponseEntity.ok().build();
 	}
 	
