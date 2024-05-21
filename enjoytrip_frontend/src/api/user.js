@@ -14,4 +14,16 @@ const login = async (userData) => {
   }
 };
 
-export { login };
+const signUp = async (userData) => {
+  try {
+    await api.post(`/user/`, {
+      ...userData,
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export { login, signUp };

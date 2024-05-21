@@ -18,7 +18,7 @@
       <v-card-actions>
         <v-btn variant="text" @click="form.reset()"> 초기화 </v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!isValid" :loading="isLoading" color="deep-purple-accent-4">
+        <v-btn :disabled="!isValid" :loading="isLoading" color="deep-purple-accent-4" @click="singup">
           회원가입
         </v-btn>
       </v-card-actions>
@@ -28,6 +28,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { signUp } from '@/api/user';
 
 const userId = ref(undefined)
 const nickName = ref(undefined);;
@@ -50,4 +51,17 @@ const rules = ref({
   equvalent: v => password.value === v || '비밀번호가 다릅니다. 😥',
   required: v => !!v || 'This field is required'
 });
+
+const singup = async () => {
+  const [emailId, emailDomain] = email.value.split('@');
+
+  const userData = {
+    userId: userId.value,
+    nickName: nickName.value,
+    password: password.value,
+    emailId, emailDomain
+  }
+
+  signUp(userData);
+}
 </script>
