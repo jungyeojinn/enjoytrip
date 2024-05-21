@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
@@ -93,16 +96,14 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 	}
 
-	@PatchMapping("/")
-	@ResponseBody
-	public ResponseEntity<?> updateuser(@RequestBody UserDto user) throws Exception {
-		userService.updateUser(user);
+	@PatchMapping(value="/{id}", produces = "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> updateuser(@PathVariable("id") String id, @RequestPart("user") UserDto user, @RequestPart(value = "img", required = false) MultipartFile img) throws Exception {
+		userService.updateUser(id, user, img);
 		return ResponseEntity.status(HttpStatus.OK).body("회원정보 수정 성공");
 	}
 
-	@DeleteMapping("/")
-	@ResponseBody
-	public ResponseEntity<?> deleteuser(@RequestParam("userId") String id) throws Exception {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteuser(@PathVariable("id") String id) throws Exception {
 		userService.deleteUser(id);
 		return ResponseEntity.status(HttpStatus.OK).body("회원삭제 성공");
 	}

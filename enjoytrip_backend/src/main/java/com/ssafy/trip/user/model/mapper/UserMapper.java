@@ -15,7 +15,7 @@ public interface UserMapper {
 	void updateUser(UserDto user);
 	void deleteUser(String userId);
 	String getPassword(String userId);
-
+	String getProfileImgByUserId(String userId);
 	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);
 	String getRefreshToken(int userId);

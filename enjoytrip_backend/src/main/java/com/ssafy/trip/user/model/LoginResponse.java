@@ -10,15 +10,17 @@ public class LoginResponse {
 	private int id;
 	private String userId;
 	private String nickname;
+	private String profileImg;
 	private String accessToken;
 	private String refreshToken;
 	
 	@Builder
-	public LoginResponse(int id, String userId, String nickname, String accessToken, String refreshToken) {
+	public LoginResponse(int id, String userId, String nickname, String profileImg, String accessToken, String refreshToken) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.nickname = nickname;
+		this.profileImg = profileImg;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}

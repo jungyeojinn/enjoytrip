@@ -1,5 +1,7 @@
 package com.ssafy.trip.user.model.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 
@@ -9,7 +11,7 @@ public interface UserService {
 	UserDto loginNaver(UserDto user);
 	public void logout(String userId);
 	UserDto getUser(String userId);
-	void updateUser(UserDto user);
+	void updateUser(String userId, UserDto user, MultipartFile img);
 	void deleteUser(String userId);
 	String getPassword(String userId);
 	String reAccessToken(String userId, String refreshToken);

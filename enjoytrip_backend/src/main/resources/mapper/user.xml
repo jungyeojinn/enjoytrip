@@ -24,28 +24,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		now(), #{authoritiesId})
 	</insert>
 
-	<select id="login" parameterType="userDto" resultType="userDto">
+	<select id="login" parameterType="userDto" resultMap="user">
 		select
-		id, user_id, nickname
+		id, user_id, nickname, profile_img
 		from user
 		where user_id=#{userId} and
 		password=#{password}
 	</select>
 
-	<select id="loginNaver" parameterType="userDto" resultType="userDto">
+	<select id="loginNaver" parameterType="userDto" resultMap="user">
 		select
 			user_id, nickname
 		from user
 		where user_id=#{userId}
 	</select>
 
-	<select id="getUser" parameterType="string" resultType="userDto">
+	<select id="getUser" parameterType="string" resultMap="user">
 		select
 		id, user_id, nickname from user
 		where user_id=#{userId}
 	</select>
 	
-	<select id="getUserById" parameterType="int" resultType="userDto">
+	<select id="getUserById" parameterType="int" resultMap="user">
 		select
 		id, user_id, nickname from user
 		where id=#{id}
@@ -55,7 +55,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update user set
 		nickname=#{nickName}, password=#{password},
 		email_id=#{emailId},
-		email_domain=#{emailDomain}
+		email_domain=#{emailDomain},
+		profile_img=#{profileImg}
 		where user_id=#{userId}
 	</update>
 
@@ -87,4 +88,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from refresh_tokens
 		where user_id = #{userId}
 	</delete>
+	
+	<select id="getProfileImgByUserId" parameterType="string" resultType="string">
+		select profile_img
+		from user
+		where user_id = #{userId}
+	</select>
 </mapper>
