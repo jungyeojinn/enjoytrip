@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-import { login } from '@/api/user';
-import { useUserStore } from '@/store/userStore';
+import { login } from "@/api/user";
+import { useUserStore } from "@/store/userStore";
 
 const router = useRouter();
 const visible = ref(false);
@@ -15,7 +15,7 @@ const onSubmit = async () => {
   const userData = {
     userId: userId.value,
     password: password.value,
-  }
+  };
 
   const data = await login(userData);
 
@@ -26,10 +26,8 @@ const onSubmit = async () => {
 
   userStore.setUserInfo(data.userId, data.nickname);
   userStore.setCookie(data.accessToken, data.refreshToken);
-  router.push({ name: 'home' });
-}
-
-
+  router.push({ name: "home" });
+};
 </script>
 
 <template>
@@ -54,6 +52,10 @@ const onSubmit = async () => {
       <v-btn class="mb-8" color="blue" size="large" variant="tonal" block @click="onSubmit">
         Log In
       </v-btn>
+
+      <a href="http://localhost:8080/trip/oauth2/login/naver">
+        <v-img class="cursor-pointer" :height="44" src="/src/assets/naver-login.png"></v-img>
+      </a>
 
       <v-card-text class="text-center">
         <a class="text-blue text-decoration-none" href="/signup" rel="noopener noreferrer">
