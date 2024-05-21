@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserProfileResponse;
 import com.ssafy.trip.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,11 +66,17 @@ public class UserController {
 	 }
 
 	@GetMapping("/{id}")
-	@ResponseBody
 	public ResponseEntity<UserDto> getuser(@PathVariable("id") String id) throws Exception {
 		logger.debug("getuser {}", id);
 		UserDto user = userService.getUser(id);
 		return ResponseEntity.ok().body(user);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<UserProfileResponse> getuserProfile(@PathVariable("id") String id) throws Exception {
+		logger.debug("getuserProfile {}", id);
+		UserProfileResponse userProfile = userService.getUserProfile(id);
+		return ResponseEntity.ok().body(userProfile);
 	}
 	
 	@PostMapping("/refresh")
