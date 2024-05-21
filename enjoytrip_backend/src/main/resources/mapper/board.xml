@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper 
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.trip.board.model.mapper.BoardMapper">
 
 	<select id="boardList" parameterType="int" resultType="boardDto">
-	select type, title, content, img, views, modified_at from board
-	order by modified_at
-	limit #{offset} , #{pageSize}
+		select type, title, content, img, views, modified_at from board
+		order by modified_at
+		limit #{offset} , #{pageSize}
 	</select>
-	
+
 	<select id="getBoard" parameterType="int" resultType="boardDto">
-	select type, title, content, img, views, created_at, modified_at from board
-	where id=#{id}
+		select type, title, content, img, views, created_at, modified_at from board
+		where id=#{id}
 	</select>
-	
+
 	<insert id="registBoard" parameterType="boardDto">
-	insert into board (type, title, content, img, views, created_at, modified_at, user_id)
-	values (#{type}, #{title}, #{content}, #{img}, 0, now(), now(), #{user_id})
+		insert into board (type, title, img, content, views, created_at, modified_at, user_id)
+		values (#{type}, #{title}, #{img}, #{content}, 0, now(), now(), #{user_id})
 	</insert>
-	
+
 	<update id="updateBoard" parameterType="boardDto">
-	update board set type=#{type}, title=#{title}, content=#{content}, img=#{img},
-	views=#{views}, modified_at = now()
-	where id=#{id}
+		update board set type=#{type}, title=#{title}, content=#{content}, img=#{img},
+		views=#{views}, modified_at = now()
+		where id=#{id}
 	</update>
+
+	<select id="getImg" parameterType="boardDto">
+		select img from board
+		where id=#{id}
+	</select>
 
 	<select id="getListBoardCount" parameterType="boardDto" resultType="int">
 		SELECT COUNT(*) AS CNT
@@ -32,12 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<delete id="deleteBoard" parameterType="int">
-	delete from board where id=#{id}
+		delete from board where id=#{id}
 	</delete>
-	
+
 	<update id="updateHit" parameterType="int">
-	update board set views=views+1
-	where id=#{id}
+		update board set views=views+1
+		where id=#{id}
 	</update>
 
 </mapper>

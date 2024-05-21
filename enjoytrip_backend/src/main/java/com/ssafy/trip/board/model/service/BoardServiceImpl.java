@@ -48,7 +48,9 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void registBoard(BoardDto board, MultipartFile img) throws SQLException {
         String imgPath = "";
-        if (img != null && !img.isEmpty()) imgPath = imgUtils.saveImage(img, "board");
+        if (img != null && !img.isEmpty()) {
+            imgPath = imgUtils.saveImage(img, "board");
+        }
         board.setImg(imgPath);
         boardMapper.registBoard(board);
     }
@@ -59,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
         String originPath="";
         if (img != null && !img.isEmpty()){
             originPath=boardMapper.getImg(board.getId());
-            if(!originPath.equals("")){
+            if(originPath!=null&&!originPath.isEmpty()){
                 imgUtils.deleteImage(originPath, "board");
             }
             String imgPath = imgUtils.saveImage(img, "board");
@@ -72,7 +74,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteBoard(int id) throws SQLException {
         String originPath=boardMapper.getImg(id);
-        if(!originPath.equals("")){
+        if(!originPath.isEmpty()){
             imgUtils.deleteImage(originPath, "board");;
         }
         boardMapper.deleteBoard(id);

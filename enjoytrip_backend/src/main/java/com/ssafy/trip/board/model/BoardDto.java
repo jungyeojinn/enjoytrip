@@ -125,11 +125,11 @@ public class BoardDto {
 		this.modified_at = modified_at;
 	}
 
-	public int getUsers_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUsers_id(int user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 

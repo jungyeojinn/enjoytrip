@@ -1,5 +1,6 @@
 package com.ssafy.trip.board.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value="/", method = RequestMethod.POST, produces =  "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> writeBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+	public ResponseEntity<?> writeBoard(@RequestPart(value="board") BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException  {
 		boardservice.registBoard(board, img);
 		return ResponseEntity.ok().build();
 	}
@@ -39,8 +40,8 @@ public class BoardController {
 		return ResponseEntity.ok().body(board);
 	}
 
-	@PutMapping("/")
-	public ResponseEntity<?> updateBoard(@RequestBody BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException {
+	@RequestMapping(value="/", method = RequestMethod.PATCH, produces =  "application/json", consumes = "multipart/form-data")
+	public ResponseEntity<?> updateBoard(@RequestPart(value="board") BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
 		boardservice.updateBoard(board, img);
 		return ResponseEntity.ok().build();
 	}
