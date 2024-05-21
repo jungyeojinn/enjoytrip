@@ -72,7 +72,7 @@ public class UserController {
 		return ResponseEntity.ok().body(user);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/profile/{id}")
 	public ResponseEntity<UserProfileResponse> getuserProfile(@PathVariable("id") String id) throws Exception {
 		logger.debug("getuserProfile {}", id);
 		UserProfileResponse userProfile = userService.getUserProfile(id);
