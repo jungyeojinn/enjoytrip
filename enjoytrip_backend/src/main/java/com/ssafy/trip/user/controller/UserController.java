@@ -25,6 +25,7 @@ import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
+import com.ssafy.trip.user.model.UserRegistRequest;
 import com.ssafy.trip.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,9 +98,9 @@ public class UserController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> regiaf(@RequestBody UserDto user) throws Exception {
+	public ResponseEntity<?> registUser(@RequestBody UserRegistRequest user) throws Exception {
 		logger.debug("sign up {}", user);
-		userService.regi(user);
+		userService.regist(user);
 		return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 	}
 
