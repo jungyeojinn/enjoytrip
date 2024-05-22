@@ -51,4 +51,10 @@ public class CommentServiceImpl implements CommentService{
         return commentMapper.existsById(id);
     }
 
+	@Override
+	@Transactional
+	public void deleteByBoardId(int id) {
+		commentMapper.deleteCommentsByBoardId(id);
+	}
+
 }
