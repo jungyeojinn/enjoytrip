@@ -6,9 +6,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.hotplace.model.HotplaceDto;
 import com.ssafy.trip.hotplace.model.HotplaceLikeDto;
+import com.ssafy.trip.hotplace.model.WriteHotplaceRequest;
 
 public interface HotplaceService {
-	void insertHotplace(HotplaceDto hotplace, MultipartFile img);
+	void insertHotplace(WriteHotplaceRequest hotplace, MultipartFile img);
 	List<HotplaceDto> listHotplaces();
 	List<HotplaceDto> userHotplaces(int id);
 	HotplaceDto getHotplace(int id);

@@ -12,25 +12,36 @@ import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
 import com.ssafy.trip.hotplace.model.HotplaceDto;
 import com.ssafy.trip.hotplace.model.HotplaceLikeDto;
+import com.ssafy.trip.hotplace.model.WriteHotplaceRequest;
 import com.ssafy.trip.hotplace.model.mapper.HotplaceMapper;
+import com.ssafy.trip.user.model.service.UserService;
 
 @Service
 public class HotplaceServiceImpl implements HotplaceService {
 
 	private final HotplaceMapper hotplaceMapper;
+	private final UserService userService;
 	private final ImgUtils imgUtils;
 
-	public HotplaceServiceImpl(HotplaceMapper hotplaceMapper, ImgUtils imgUtils) {
+	public HotplaceServiceImpl(HotplaceMapper hotplaceMapper, UserService userService, ImgUtils imgUtils) {
 		this.hotplaceMapper = hotplaceMapper;
+		this.userService = userService;
 		this.imgUtils = imgUtils;
 	}
 
 	@Override
 	@Transactional
-	public void insertHotplace(HotplaceDto hotplace, MultipartFile img) {
+	public void insertHotplace(WriteHotplaceRequest hotplace, MultipartFile img) {
 		String imgPath = imgUtils.saveImage(img, "hotplace");
-		hotplace.setImg(imgPath);
-		int result = hotplaceMapper.insertHotplace(hotplace);
+		int result = hotplaceMapper.insertHotplace(HotplaceDto.builder()
+				.title(hotplace.getTitle())
+				.img(imgPath)
+				.description(hotplace.getDescription())
+				.placeName(hotplace.getPlaceName())
+				.latitude(hotplace.getLatitude())
+				.longitude(hotplace.getLongitude())
+				.userId(userService.getIdByUserId(hotplace.getUserId()))
+				.build());
 		if (result == 0) {
 			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
