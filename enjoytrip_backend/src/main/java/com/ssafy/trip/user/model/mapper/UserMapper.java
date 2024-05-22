@@ -8,7 +8,7 @@ import com.ssafy.trip.user.model.UserProfileResponse;
 
 @Mapper
 public interface UserMapper {
-	int regi(UserDto user);
+	int insertUser(UserDto user);
 	UserDto login(UserDto user);
 	UserDto loginNaver(UserDto user);
 	UserDto getUser(String userId);
@@ -18,6 +18,8 @@ public interface UserMapper {
 	String getPassword(String userId);
 	String getProfileImgByUserId(String userId);
 	UserProfileResponse getUserProfileByUserId(String userId);
+	
+	boolean checkAlreadyExists(String userId);
 	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);
 	String getRefreshToken(int userId);

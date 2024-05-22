@@ -5,9 +5,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
+import com.ssafy.trip.user.model.UserRegistRequest;
 
 public interface UserService {
-	void regi(UserDto user);
+	void regist(UserRegistRequest user);
 	LoginResponse login(UserDto user);
 	UserDto loginNaver(UserDto user);
 	public void logout(String userId);

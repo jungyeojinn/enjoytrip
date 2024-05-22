@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +22,7 @@ import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
+import com.ssafy.trip.user.model.UserRegistRequest;
 import com.ssafy.trip.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,9 +95,9 @@ public class UserController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> regiaf(@RequestBody UserDto user) throws Exception {
+	public ResponseEntity<?> registUser(@RequestBody UserRegistRequest user) throws Exception {
 		logger.debug("sign up {}", user);
-		userService.regi(user);
+		userService.regist(user);
 		return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 	}
 

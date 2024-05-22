@@ -1,123 +1,38 @@
 package com.ssafy.trip.user.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
 public class UserDto {
 	private int id;
 	private String userId;
-	private String nickName;
+	private String nickname;
 	private String password;
 	private String emailId;
 	private String emailDomain;
 	private String joinDate;
 	private String profileImg;
 	private int authoritiesId;
-
-	public UserDto() {
+	
+	@Builder
+	public UserDto(int id, String userId, String nickname, String password, String emailId, String emailDomain,
+			String joinDate, String profileImg, int authoritiesId) {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public UserDto(String userId, String nickName, String password, String profileImg, String emailId, String emailDomain,
-			String joinDate, int authoritiesId) {
-		super();
-		this.userId = userId;
-		this.nickName = nickName;
-		this.password = password;
-		this.profileImg = profileImg;
-		this.emailId = emailId;
-		this.emailDomain = emailDomain;
-		this.joinDate = joinDate;
-		this.authoritiesId = authoritiesId;
-	}
-
-	public UserDto(String userId, String nickName, String password, String profileImg, String emailId, String emailDomain,
-			int authoritiesId) {
-		super();
-		this.userId = userId;
-		this.nickName = nickName;
-		this.password = password;
-		this.profileImg = profileImg;
-		this.emailId = emailId;
-		this.emailDomain = emailDomain;
-		this.authoritiesId = authoritiesId;
-	}
-
-	@Override
-	public String toString() {
-		return " [id=" + id + ", userId=" + userId + ", nickName=" + nickName + ", password=" + password + ", profileImg" + profileImg + ", emailId="
-				+ emailId + ", emailDomain=" + emailDomain + ", joinDate=" + joinDate + ", authoritiesId="
-				+ authoritiesId + "]";
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getProfileImg() {
-		return profileImg;
-	}
-
-	public void setPassword(String password) {
+		this.nickname = nickname;
 		this.password = password;
-	}
-
-	public String getEmailId() {
-		return emailId;
-	}
-
-	public void setEmailId(String emailId) {
 		this.emailId = emailId;
-	}
-
-	public String getEmailDomain() {
-		return emailDomain;
-	}
-
-	public void setProfileImg(String profileImg) {
-		this.profileImg = profileImg;
-	}
-
-	public void setEmailDomain(String emailDomain) {
 		this.emailDomain = emailDomain;
-	}
-
-	public String getJoinDate() {
-		return joinDate;
-	}
-
-	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
-	}
-
-	public int getAuthoritiesId() {
-		return authoritiesId;
-	}
-
-	public void setAuthoritiesId(int authoritiesId) {
+		this.profileImg = profileImg;
 		this.authoritiesId = authoritiesId;
 	}
-
+	
+	public void updateProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
 }
