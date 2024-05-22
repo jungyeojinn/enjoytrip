@@ -1,4 +1,6 @@
 import http from "./http.js";
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 const api = http;
 
@@ -38,7 +40,7 @@ const signUp = async (userData) => {
 
 const getUserInfo = async (userId) => {
   try {
-    let { data } = await api.get(`/user/${userId}`);
+    let { data } = await api.get(`/user/profile/${userId}`);
     return data;
   } catch (error) {
     console.log(error);
@@ -51,12 +53,27 @@ const updateUserInfo = async (userId, formData) => {
     await api.patch(`/user/${userId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
       },
     });
     return true;
   } catch (error) {
     console.log(error);
-    return null;
+    return false;
   }
 };
-export { login, logout, signUp, getUserInfo, updateUserInfo };
+
+const deleteUser = async (userId) => {
+  try {
+    await api.delete(`/user/${userId}`, {
+      headers: {
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+export { login, logout, signUp, getUserInfo, updateUserInfo, deleteUser };

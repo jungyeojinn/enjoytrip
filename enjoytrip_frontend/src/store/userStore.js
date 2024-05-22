@@ -8,6 +8,7 @@ export const useUserStore = defineStore(
   () => {
     const id = ref("");
     const nickname = ref("");
+    const profileImage = ref(null);
 
     const isLogin = () => {
       return id.value !== "";

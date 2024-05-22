@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-import { getUserInfo, updateUserInfo } from "@/api/user";
+import { getUserInfo, updateUserInfo, deleteUser } from "@/api/user";
 import { useUserStore } from "@/store/userStore";
 
 const userStore = useUserStore();
 const route = useRoute();
+const router = useRouter();
 
 const nickName = ref();
 const email = ref();
@@ -20,27 +21,52 @@ onMounted(async () => {
     return;
   }
 
-  nickName.value = userStore.nickname;
+  nickName.value = userData.nickname;
+  email.value = `${userData.emailId}@${userData.emailDomain}`;
+  avatarSrc.value =
+    userData.profileImg === null ? "/src/assets/default-avatar.png" : userData.profileImg;
+
+  // const reader = new FileReader();
+
+  // reader.readAsDataURL(profileImg);
 });
 
 const submitData = async () => {
   const formData = new FormData();
 
-  formData.append("emailId", email.value.split("@")[0]);
-  formData.append("emailDomain", email.value.split("@")[1]);
-  formData.append("nickName", nickName.value);
-  formData.append("profileImg", avatarSrc.value);
+  const data = {
+    userId: route.params.id,
+    emailId: email.value.split("@")[0],
+    emailDomain: email.value.split("@")[1],
+    nickName: nickName.value,
+  };
 
-  let result = updateUserInfo(route.params.id, formData);
+  const json = JSON.stringify(data);
+  const blob = new Blob([json], { type: "application/json" });
+
+  formData.append("user", blob);
+
+  const base64Data = avatarSrc.value.split(",")[1];
+  const byteCharacters = atob(base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const imageBlob = new Blob([byteArray], { type: "image/png" }); // 이미지 유형에 맞게 MIME 타입 지정
+
+  formData.append("img", imageBlob, "avatar.png");
+
+  let result = await updateUserInfo(route.params.id, formData);
 
   if (result) {
     alert("회원정보 수정 완료");
+    router.push({ name: "home" });
   } else {
     alert("회원정보 수정 오류");
   }
 };
 
-// 파일이 업로드되면 호출되는 함수
 const onFileChange = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -53,7 +79,16 @@ const onFileChange = (event) => {
   }
 };
 
-console.log(route.params.id);
+const signout = async () => {
+  let result = window.confirm("정말 탈퇴하시겠습니까?");
+  if (result) {
+    await deleteUser(route.params.id);
+    userStore.clear();
+    router.push({ name: "home" });
+  } else {
+    console.log("no");
+  }
+};
 </script>
 
 <template>
@@ -72,8 +107,8 @@ console.log(route.params.id);
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" variant="text"> 정보 수정 </v-btn>
-        <v-btn color="red" variant="text"> 회원 탈퇴 </v-btn>
+        <v-btn color="primary" variant="text" @click="submitData"> 정보 수정 </v-btn>
+        <v-btn color="red" variant="text" @click="signout"> 회원 탈퇴 </v-btn>
       </v-card-actions>
     </v-card>
   </div>

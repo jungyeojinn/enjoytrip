@@ -1,12 +1,18 @@
 <script setup>
-import { useUserStore } from '@/store/userStore';
-import { logout } from '@/api/user';
+import { useUserStore } from "@/store/userStore";
+import { useRouter } from "vue-router";
+import { logout } from "@/api/user";
 
+const router = useRouter();
 const userStore = useUserStore();
 const exit = () => {
   logout(userStore.id);
   userStore.clear();
-}
+};
+
+const goProfile = () => {
+  router.push({ path: `/mypage/${userStore.id}` });
+};
 </script>
 
 <template>
@@ -23,13 +29,12 @@ const exit = () => {
         <v-card>
           <v-card-text>
             <div class="mx-auto text-center">
-
               <h3>{{ userStore.nickname }}</h3>
               <p class="text-caption mt-1">
                 {{ userStore.id }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded> 회원 정보 수정 </v-btn>
+              <v-btn variant="text" rounded @click="goProfile"> 회원 정보 수정 </v-btn>
               <v-divider class="my-3"></v-divider>
               <v-btn variant="text" rounded @click="exit"> 로그아웃 </v-btn>
             </div>
