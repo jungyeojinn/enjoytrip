@@ -113,4 +113,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    SELECT * FROM user WHERE user_id = #{userId}
 	  )
 	</select>
+	
+	<update id="deActivate" parameterType="string">
+		update user set
+		user_id="",
+		nickname="",
+		email_id="",
+		email_domain="",
+		profile_img="",
+		is_deleted = true
+		where user_id = #{userId}
+	</update>
 </mapper>

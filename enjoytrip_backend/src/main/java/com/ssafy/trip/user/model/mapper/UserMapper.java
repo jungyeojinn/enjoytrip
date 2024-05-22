@@ -19,7 +19,7 @@ public interface UserMapper {
 	String getPassword(String userId);
 	String getProfileImgByUserId(String userId);
 	UserProfileResponse getUserProfileByUserId(String userId);
-	
+	int deActivate(String userId);
 	boolean checkAlreadyExists(String userId);
 	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);

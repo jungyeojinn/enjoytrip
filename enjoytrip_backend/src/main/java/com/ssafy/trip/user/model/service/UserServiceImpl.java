@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.trip.attrplan.model.service.AttrplanService;
+import com.ssafy.trip.board.model.service.BoardService;
+import com.ssafy.trip.comments.model.service.CommentService;
 import com.ssafy.trip.common.ImgUtils;
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.DatabaseRequestFailedException;
@@ -11,6 +14,7 @@ import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
+import com.ssafy.trip.hotplace.model.service.HotplaceService;
 import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.RefreshTokenDto;
@@ -26,12 +30,22 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userDao;
 	private JwtService jwtService;
 	private ImgUtils imgUtils;
+	private BoardService boardService;
+	private CommentService commentService;
+	private AttrplanService attrplanService;
+	private HotplaceService hotplaceService;
 	
-	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils) {
+	
+	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils, BoardService boardService,
+			CommentService commentService, AttrplanService attrplanService, HotplaceService hotplaceService) {
 		super();
 		this.userDao = userDao;
 		this.jwtService = jwtService;
 		this.imgUtils = imgUtils;
+		this.boardService = boardService;
+		this.commentService = commentService;
+		this.attrplanService = attrplanService;
+		this.hotplaceService = hotplaceService;
 	}
 
 	@Override
@@ -88,8 +102,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void logout(String userId) {
-		UserDto user = getUser(userId);
-		int result = userDao.deleteRefreshToken(user.getId());
+		int id = userDao.getIdByUserId(userId);
+		int result = userDao.deleteRefreshToken(id);
 		if (result == 0) {
 			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
 		}
@@ -152,7 +166,7 @@ public class UserServiceImpl implements UserService {
 				.nickname(updateUser.getNickname())
 				.emailId(updateUser.getEmailId())
 				.emailDomain(updateUser.getEmailDomain())
-				.emailDomain(imgPath)
+				.profileImg(imgPath)
 				.build());
 	}
 
@@ -160,10 +174,16 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void deleteUser(String userId) {
 		String originPath = userDao.getProfileImgByUserId(userId);
+		int id = userDao.getIdByUserId(userId);
+		userDao.deActivate(userId);
+		boardService.deActivateFromUser(id);
+		commentService.deActivateFromUser(id);
+		attrplanService.deActivateFromUser(id);
+		hotplaceService.deActivateFromUser(id);
 		if (originPath != null && !originPath.isEmpty()) {
 			imgUtils.deleteImage(originPath, "user");
 		}
-		userDao.deleteUser(userId);
+		
 	}
 
 	@Override
