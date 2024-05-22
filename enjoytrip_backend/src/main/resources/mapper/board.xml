@@ -45,4 +45,10 @@
 		where id=#{id}
 	</update>
 
+	<select id="existsById" parameterType="int" resultType="boolean">
+		select exists (
+			select * from board where id=#{id}
+		)
+	</select>
+
 </mapper>

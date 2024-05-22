@@ -30,7 +30,7 @@ public class CommentController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllComments(@PathVariable("id") int id) throws SQLException {
+    public ResponseEntity<?> getAllComments(@PathVariable("id") int id) throws Exception {
         List<CommentDto> boardlist = commentservice.commentList(id);
         return ResponseEntity.ok().body(boardlist);
     }
@@ -42,13 +42,13 @@ public class CommentController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateComment(@RequestBody CommentDto comment) throws SQLException {
+    public ResponseEntity<?> updateComment(@RequestBody CommentDto comment) throws Exception {
         commentservice.updateComment(comment);
         return ResponseEntity.status(HttpStatus.OK).body("댓글 수정 성공");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteComment(@PathVariable("id") int id) throws SQLException {
+    public ResponseEntity<?> deleteComment(@PathVariable("id") int id) throws Exception {
         commentservice.deleteComment(id);
         return ResponseEntity.status(HttpStatus.OK).body("댓글 삭제 성공");
     }

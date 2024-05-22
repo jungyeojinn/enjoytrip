@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.ssafy.trip.common.ImgUtils;
+import com.ssafy.trip.exception.ResourceNotFoundException;
+import com.ssafy.trip.exception.util.BaseResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -43,7 +45,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public BoardDto getBoard(int id) throws SQLException {
+    public BoardDto getBoard(int id) throws Exception {
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         return boardMapper.getBoard(id);
     }
 
@@ -60,50 +63,67 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public void updateBoard(BoardDto board, MultipartFile img) throws SQLException {
-        String originPath="";
-        if (img != null && !img.isEmpty()){
-            originPath=boardMapper.getImg(board.getId());
-            if(originPath!=null&&!originPath.isEmpty()){
+    public void updateBoard(BoardDto board, MultipartFile img) throws Exception {
+        if(!existsById(board.getId())) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        else {
+            String originPath = "";
+            if (img != null && !img.isEmpty()) {
+                originPath = boardMapper.getImg(board.getId());
+                if (originPath != null && !originPath.isEmpty()) {
+                    imgUtils.deleteImage(originPath, "board");
+                }
+                String imgPath = imgUtils.saveImage(img, "board");
+                board.setImg(imgPath);
+            }
+            boardMapper.updateBoard(board);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteBoard(int id) throws Exception {
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        else {
+            String originPath = boardMapper.getImg(id);
+            if (!originPath.isEmpty()) {
                 imgUtils.deleteImage(originPath, "board");
             }
-            String imgPath = imgUtils.saveImage(img, "board");
-            board.setImg(imgPath);
+            boardMapper.deleteBoard(id);
         }
-        boardMapper.updateBoard(board);
     }
 
     @Transactional
     @Override
-    public void deleteBoard(int id) throws SQLException {
-        String originPath=boardMapper.getImg(id);
-        if(!originPath.isEmpty()){
-            imgUtils.deleteImage(originPath, "board");;
-        }
-        boardMapper.deleteBoard(id);
-    }
-
-    @Transactional
-    @Override
-    public void deleteBoards(int[] ids) throws SQLException {
+    public void deleteBoards(int[] ids) throws Exception {
         // ids 없을 때 체크
         if (ids.length == 0 || ids == null) throw new SQLException();
         for (int i = 0; i < ids.length; i++) {
-            deleteBoard(ids[i]);
+            if(!existsById(ids[i])) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+            else deleteBoard(ids[i]);
         }
     }
 
     @Transactional
     @Override
-    public void updateHit(int id) throws SQLException {
-        boardMapper.updateHit(id);
+    public void updateHit(int id) throws Exception {
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        else boardMapper.updateHit(id);
     }
 
     @Override
     @Transactional
-    public BoardDto getBoardWithHit(int id) throws SQLException {
-        updateHit(id);
-        return getBoard(id);
+    public BoardDto getBoardWithHit(int id) throws Exception {
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        else {
+            updateHit(id);
+            return getBoard(id);
+        }
     }
+
+    @Transactional(readOnly = true)
+    public boolean existsById(int id) throws Exception {
+        return boardMapper.existsById(id);
+    }
+
 
 }

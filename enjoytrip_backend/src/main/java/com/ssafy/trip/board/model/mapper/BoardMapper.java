@@ -16,5 +16,6 @@ public interface BoardMapper {
 	void deleteBoard(int id) throws SQLException ;
 	int getListBoardCount(BoardDto board);
 	void updateHit(int id) throws SQLException ;
+	boolean existsById(int id) throws Exception;
 }
 

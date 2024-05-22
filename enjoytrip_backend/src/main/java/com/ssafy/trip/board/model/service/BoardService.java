@@ -10,13 +10,13 @@ import com.ssafy.trip.board.model.BoardDto;
 
 public interface BoardService {
 	Page<BoardDto> boardList( int offset, int pageSize)  throws SQLException ;
-	BoardDto getBoard(int id)  throws SQLException ;
+	BoardDto getBoard(int id) throws Exception;
 	void registBoard(BoardDto board, MultipartFile img) throws SQLException ;
-	void updateBoard(BoardDto board, MultipartFile img) throws SQLException ;
-	void deleteBoard(int id) throws SQLException ;
-	void deleteBoards(int[] ids)throws SQLException ;
+	void updateBoard(BoardDto board, MultipartFile img) throws Exception;
+	void deleteBoard(int id) throws Exception;
+	void deleteBoards(int[] ids) throws Exception;
 
-	void updateHit(int id)  throws SQLException ;
+	void updateHit(int id) throws Exception;
 
-	BoardDto getBoardWithHit(int id)  throws SQLException ;
+	BoardDto getBoardWithHit(int id)  throws SQLException, Exception;
 }
