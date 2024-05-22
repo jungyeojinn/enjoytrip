@@ -19,4 +19,5 @@ public interface UserService {
 	UserProfileResponse getUserProfile(String userId);
 	String getPassword(String userId);
 	String reAccessToken(String userId, String refreshToken);
+	int getIdByUserId(String userId);
 }

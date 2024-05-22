@@ -202,4 +202,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return userProfile;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int getIdByUserId(String userId) {
+		int id = userDao.getIdByUserId(userId);
+		if (id == 0) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		}
+		return id;
+	}
 }

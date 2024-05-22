@@ -22,6 +22,7 @@ import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
 import com.ssafy.trip.hotplace.model.HotplaceDto;
 import com.ssafy.trip.hotplace.model.HotplaceLikeDto;
+import com.ssafy.trip.hotplace.model.WriteHotplaceRequest;
 import com.ssafy.trip.hotplace.model.service.HotplaceService;
 import com.ssafy.trip.user.model.service.UserService;
 
@@ -40,7 +41,7 @@ public class HotplaceController {
 	}
 
 	@PostMapping(value = "/", produces = "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> writeHotplace(@RequestPart("hotplace") HotplaceDto hotplace, 
+	public ResponseEntity<?> writeHotplace(@RequestPart("hotplace") WriteHotplaceRequest hotplace, 
 			@RequestPart(value = "img", required = false) MultipartFile img) {
 		hotplaceService.insertHotplace(hotplace, img);
 		return ResponseEntity.ok().body("핫플레이스 등록 성공");
