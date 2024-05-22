@@ -4,12 +4,13 @@ import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
 import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
 import com.ssafy.trip.attrplan.model.mapper.AttrplanMapper;
+import com.ssafy.trip.common.ImgUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Attr;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,10 +20,13 @@ public class AttrplanServiceImpl implements AttrplanService {
 
 	private static final Logger log = LoggerFactory.getLogger(AttrplanServiceImpl.class);
 	AttrplanMapper attrplanMapper;
+	ImgUtils imgUtils;
+
 	@Autowired
-	public AttrplanServiceImpl(AttrplanMapper attrplanMapper) {
+	public AttrplanServiceImpl(AttrplanMapper attrplanMapper, ImgUtils imgUtils) {
 		super();
 		this.attrplanMapper = attrplanMapper;
+		this.imgUtils = imgUtils;
 	}
 
 	@Override
@@ -41,7 +45,12 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void registAttrplan(AttrplanDto Attrplan) throws SQLException {
+	public void registAttrplan(AttrplanDto Attrplan, MultipartFile img) throws SQLException {
+		String imgPath = "";
+		if (img != null && !img.isEmpty()) {
+			imgPath = imgUtils.saveImage(img, "board");
+		}
+		Attrplan.setImg(imgPath);
 		attrplanMapper.registAttrplan(Attrplan);
 	}
 

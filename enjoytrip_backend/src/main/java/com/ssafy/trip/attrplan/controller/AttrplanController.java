@@ -69,30 +69,8 @@ public class AttrplanController {
                                             @RequestParam(value = "user_id") int user_id,
                                             @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
         AttrplanDto attrplanDto = new AttrplanDto(title,start_date,end_date,user_id);
-        // 이미지 파일 처리
-        String imagePath = saveImage(img);
-        attrplanDto.setImg(imagePath);
-        attrplanService.registAttrplan(attrplanDto);
+        attrplanService.registAttrplan(attrplanDto, img);
         return ResponseEntity.ok().build();
-    }
-
-    private String saveImage(MultipartFile image){
-        if (image != null && !image.isEmpty()) {
-            String uuid = UUID.randomUUID().toString();	//파일 이름 중복 방지
-            String savedFilename = uuid;
-
-            String savedPath = "C:/upload/" + savedFilename;
-
-            File file = new File(savedPath);
-
-            try {
-                image.transferTo(file);
-                return savedFilename;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
     @GetMapping("/{id}")
