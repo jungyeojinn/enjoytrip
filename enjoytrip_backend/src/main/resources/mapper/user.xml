@@ -47,7 +47,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getUserProfileByUserId" parameterType="string" resultType="userProfileResponse">
 		select
-		user_id, nickname, email_id, email_domain, profile_img from user
+		user_id as userId, nickname, email_id as emailId, email_domain as emailDomain, profile_img as profileImg
+		from user
 		where user_id=#{userId}
 	</select>
 	
