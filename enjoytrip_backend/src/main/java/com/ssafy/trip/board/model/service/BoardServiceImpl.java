@@ -18,22 +18,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.trip.board.model.BoardDto;
 import com.ssafy.trip.board.model.mapper.BoardMapper;
+import com.ssafy.trip.comments.model.service.CommentService;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
     BoardMapper boardMapper;
+    CommentService commentService;
     ImgUtils imgUtils;
 
-    @Autowired
-    public BoardServiceImpl(BoardMapper boardDao, ImgUtils imgUtils) {
-        super();
-        this.boardMapper = boardDao;
-        this.imgUtils=imgUtils;
-    }
+    public BoardServiceImpl(BoardMapper boardMapper, CommentService commentService, ImgUtils imgUtils) {
+		super();
+		this.boardMapper = boardMapper;
+		this.commentService = commentService;
+		this.imgUtils = imgUtils;
+	}
 
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
     @Override
     public Page<BoardDto> boardList(int pageNum, int pageSize) throws Exception {
         //pageNum은 0부터 시작함
@@ -91,6 +94,7 @@ public class BoardServiceImpl implements BoardService {
             if (!originPath.isEmpty()) {
                 imgUtils.deleteImage(originPath, "board");
             }
+            commentService.deleteByBoardId(id);
             boardMapper.deleteBoard(id);
         }
     }
@@ -127,6 +131,12 @@ public class BoardServiceImpl implements BoardService {
     public boolean existsById(int id) throws Exception {
         return boardMapper.existsById(id);
     }
+
+	@Override
+	@Transactional
+	public void deActivateFromUser(int id) throws Exception {
+		deleteBoards(boardMapper.getBoardIdsByUserId(id));
+	}
 
 
 }

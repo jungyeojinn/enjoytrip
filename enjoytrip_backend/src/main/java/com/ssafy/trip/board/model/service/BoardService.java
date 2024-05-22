@@ -3,13 +3,12 @@ package com.ssafy.trip.board.model.service;
 import java.sql.SQLException;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.board.model.BoardDto;
 
 public interface BoardService {
-	Page<BoardDto> boardList( int offset, int pageSize)  throws SQLException, Exception;
+	Page<BoardDto> boardList( int offset, int pageSize)  throws Exception;
 	BoardDto getBoard(int id) throws Exception;
 	void registBoard(BoardDto board, MultipartFile img) throws SQLException ;
 	void updateBoard(BoardDto board, MultipartFile img) throws Exception;
@@ -18,5 +17,6 @@ public interface BoardService {
 
 	void updateHit(int id) throws Exception;
 
-	BoardDto getBoardWithHit(int id)  throws SQLException, Exception;
+	BoardDto getBoardWithHit(int id)  throws Exception;
+	void deActivateFromUser(int id) throws Exception;
 }

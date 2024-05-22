@@ -51,4 +51,9 @@
 		)
 	</select>
 
+	<select id="getBoardIdsByUserId" parameterType="int" resultType="int">
+	  SELECT id 
+	  FROM board
+	  WHERE user_id = #{userId}
+	</select>
 </mapper>
