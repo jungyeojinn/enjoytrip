@@ -16,6 +16,7 @@ import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.RefreshTokenDto;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
+import com.ssafy.trip.user.model.UserRegistRequest;
 import com.ssafy.trip.user.model.mapper.UserMapper;
 
 @Service
@@ -34,11 +35,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void regi(UserDto user) {
+	public void regist(UserRegistRequest user) {
 		// 이미 아이디가 같은 유저가 있다면 안됨
 		UserDto alreadyUser = getUser(user.getUserId());
 		if (alreadyUser == null) {
-			int result = userDao.regi(user);
+			int result = userDao.insertUser(user);
 			if (result == 0) {
 				throw new DatabaseRequestFailedException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 			}
