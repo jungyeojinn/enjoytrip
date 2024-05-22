@@ -17,10 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insertUser" parameterType="userDto">
 		insert into user (user_id, nickname, password,
-		email_id, email_domain, join_date, authorities_id)
+		email_id, email_domain, profile_img, join_date, authorities_id)
 		values
 		(#{userId}, #{nickname}, #{password}, #{emailId},
-		#{emailDomain},
+		#{emailDomain}, #{profileImg},
 		now(), #{authoritiesId})
 	</insert>
 
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="loginNaver" parameterType="userDto" resultMap="user">
 		select
-			user_id, nickname
+		id, user_id, nickname, profile_img
 		from user
 		where user_id=#{userId}
 	</select>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="updateUser" parameterType="userDto">
 		update user set
-		nickname=#{nickname}, password=#{password},
+		nickname=#{nickname},
 		email_id=#{emailId},
 		email_domain=#{emailDomain},
 		profile_img=#{profileImg}
