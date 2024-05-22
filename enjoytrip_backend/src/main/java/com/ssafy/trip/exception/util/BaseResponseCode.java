@@ -17,9 +17,7 @@ public enum BaseResponseCode {
 	
 	INVALID_INPUT(HttpStatus.BAD_REQUEST, "올바르지 않은 입력값입니다."),
 	
-	DATABASE_REQUEST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "요청 처리 중 에러가 발생했습니다."),
-
-	PAGE_NOT_EXISTS(HttpStatus.BAD_REQUEST, "존재하지 않는 페이지 번호입니다.");
+	DATABASE_REQUEST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "요청 처리 중 에러가 발생했습니다.");
 
 
 
