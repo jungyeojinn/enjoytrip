@@ -23,9 +23,10 @@ export const useUserStore = defineStore(
       );
     };
 
-    const setUserInfo = (userId, nickName) => {
+    const setUserInfo = (userId, nickName, imgPath) => {
       id.value = userId;
       nickname.value = nickName;
+      profileImage.value = imgPath;
     };
 
     const clear = () => {

@@ -34,7 +34,7 @@ const goProfile = () => {
                 {{ userStore.id }}
               </p>
               <v-divider class="my-3"></v-divider>
-              <v-btn variant="text" rounded @click="goProfile"> 회원 정보 수정 </v-btn>
+              <v-btn variant="text" rounded @click="goProfile"> 마이페이지 </v-btn>
               <v-divider class="my-3"></v-divider>
               <v-btn variant="text" rounded @click="exit"> 로그아웃 </v-btn>
             </div>

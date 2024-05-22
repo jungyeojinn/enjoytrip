@@ -9,7 +9,7 @@ import AttractionBoard from "@/pages/AttractionBoard.vue";
 import Login from "@/pages/Login.vue";
 import SignUp from "@/pages/SignUp.vue";
 import MyPage from "@/pages/MyPage.vue";
-
+import HotPlaceWrite from "@/components/hotplace/HotPlaceWrite.vue";
 import BoardDeatil from "@/components/board/BoardDeatil.vue";
 
 const { cookies } = useCookies();
@@ -31,8 +31,8 @@ const router = createRouter({
     { path: "/attraction-board", component: AttractionBoard },
     { path: "/login", component: Login },
     { path: "/signup", component: SignUp },
-
     { path: "/mypage/:id", component: MyPage },
+    { path: "/hotplace/write", component: HotPlaceWrite },
   ],
   linkExactActiveClass: "active-link",
 });
