@@ -30,10 +30,6 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userDao;
 	private JwtService jwtService;
 	private ImgUtils imgUtils;
-	private BoardService boardService;
-	private CommentService commentService;
-	private AttrplanService attrplanService;
-	private HotplaceService hotplaceService;
 	
 	
 	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils, BoardService boardService,
@@ -42,10 +38,6 @@ public class UserServiceImpl implements UserService {
 		this.userDao = userDao;
 		this.jwtService = jwtService;
 		this.imgUtils = imgUtils;
-		this.boardService = boardService;
-		this.commentService = commentService;
-		this.attrplanService = attrplanService;
-		this.hotplaceService = hotplaceService;
 	}
 
 	@Override

@@ -29,39 +29,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		id, user_id, nickname, profile_img
 		from user
 		where user_id=#{userId} and
-		password=#{password}
+		password=#{password} and is_deleted = false
 	</select>
 
 	<select id="loginNaver" parameterType="userDto" resultMap="user">
 		select
 		id, user_id, nickname, profile_img
 		from user
-		where user_id=#{userId}
+		where user_id=#{userId} and is_deleted = false
 	</select>
 
 	<select id="getUser" parameterType="string" resultMap="user">
 		select
 		id, user_id, nickname, profile_img from user
-		where user_id=#{userId}
+		where user_id=#{userId} and is_deleted = false
 	</select>
 	
 	<select id="getUserProfileByUserId" parameterType="string" resultType="userProfileResponse">
 		select
 		user_id as userId, nickname, email_id as emailId, email_domain as emailDomain, profile_img as profileImg
 		from user
-		where user_id=#{userId}
+		where user_id=#{userId} and is_deleted = false
 	</select>
 	
 	<select id="getUserById" parameterType="int" resultMap="user">
 		select
 		id, user_id, nickname from user
-		where id=#{id}
+		where id=#{id} and is_deleted = false
 	</select>
 	
 	<select id="getIdByUserId" parameterType="string" resultType="int">
 		select
 		id from user
-		where user_id=#{userId}
+		where user_id=#{userId} and is_deleted = false
 	</select>
 
 	<update id="updateUser" parameterType="userDto">
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="string">
 		select
 		password from user
-		where user_id=#{userId}
+		where user_id=#{userId} and is_deleted = false
 	</select>
 	
 	<select id="getRefreshToken" parameterType="int" resultType="string">
@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="checkAlreadyExists" resultType="boolean" parameterType="string">
 	  SELECT EXISTS (
-	    SELECT * FROM user WHERE user_id = #{userId}
+	    SELECT * FROM user WHERE user_id = #{userId} and is_deleted = false
 	  )
 	</select>
 	
