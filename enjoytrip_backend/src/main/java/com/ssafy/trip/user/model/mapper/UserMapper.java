@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.trip.user.model.RefreshTokenDto;
 import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserProfileResponse;
 
 @Mapper
 public interface UserMapper {
@@ -16,6 +17,7 @@ public interface UserMapper {
 	void deleteUser(String userId);
 	String getPassword(String userId);
 	String getProfileImgByUserId(String userId);
+	UserProfileResponse getUserProfileByUserId(String userId);
 	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);
 	String getRefreshToken(int userId);

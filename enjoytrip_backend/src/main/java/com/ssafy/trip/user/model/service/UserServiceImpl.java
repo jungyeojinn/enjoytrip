@@ -15,6 +15,7 @@ import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.RefreshTokenDto;
 import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserProfileResponse;
 import com.ssafy.trip.user.model.mapper.UserMapper;
 
 @Service
@@ -146,5 +147,14 @@ public class UserServiceImpl implements UserService {
 			throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
 		}
 		return accessToken;
+	}
+
+	@Override
+	public UserProfileResponse getUserProfile(String userId) {
+		UserProfileResponse userProfile = userDao.getUserProfileByUserId(userId);
+		if (userProfile == null) {
+			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+		}
+		return userProfile;
 	}
 }

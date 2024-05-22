@@ -18,8 +18,8 @@ import java.util.UUID;
 @Service
 public class OauthServiceImpl implements OauthService{
     private static final Logger log = LoggerFactory.getLogger(OauthServiceImpl.class);
-    private final String client_id = "GXMg6oG2GLJnlT9GdRk5";
-    private final String client_key = "pUXslYGx63";
+    private final String client_id = "sXE8Bh2IfRdKXY9W2y7P";
+    private final String client_key = "KMbuTwaZYs";
     private final String tokenUrl = "https://nid.naver.com/oauth2.0/token";
     private final String userInfoUrl = "https://openapi.naver.com/v1/nid/me";
 
