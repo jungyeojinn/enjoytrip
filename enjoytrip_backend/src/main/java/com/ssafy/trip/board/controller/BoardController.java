@@ -26,7 +26,7 @@ public class BoardController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<Page<BoardDto>> getAllBoards(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws SQLException {
+	public ResponseEntity<Page<BoardDto>> getAllBoards(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws Exception {
 		return ResponseEntity.ok().body(boardservice.boardList(offset, pageSize));
 	}
 

@@ -54,10 +54,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/*.html**").addResourceLocations("classpath:/static/");
 	}
 
-	@Override
+	/*@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(jwtInterceptor)
 		.addPathPatterns(addEndPointList)
 		.excludePathPatterns(excludePointList);
-	}
+	}*/
 }

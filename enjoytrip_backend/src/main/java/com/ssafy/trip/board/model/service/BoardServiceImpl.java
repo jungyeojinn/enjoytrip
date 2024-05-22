@@ -24,12 +24,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class BoardServiceImpl implements BoardService {
 
     BoardMapper boardMapper;
-    ImgUtils imgUtils = new ImgUtils();
+    ImgUtils imgUtils;
 
     @Autowired
-    public BoardServiceImpl(BoardMapper boardDao) {
+    public BoardServiceImpl(BoardMapper boardDao, ImgUtils imgUtils) {
         super();
         this.boardMapper = boardDao;
+        this.imgUtils=imgUtils;
     }
 
     @Transactional(readOnly = true)
