@@ -8,6 +8,7 @@ import Attraction from "@/pages/Attraction.vue";
 import AttractionBoard from "@/pages/AttractionBoard.vue";
 import Login from "@/pages/Login.vue";
 import SignUp from "@/pages/SignUp.vue";
+import MyPage from "@/pages/MyPage.vue";
 
 import BoardDeatil from "@/components/board/BoardDeatil.vue";
 
@@ -30,6 +31,8 @@ const router = createRouter({
     { path: "/attraction-board", component: AttractionBoard },
     { path: "/login", component: Login },
     { path: "/signup", component: SignUp },
+
+    { path: "/mypage/:id", component: MyPage },
   ],
   linkExactActiveClass: "active-link",
 });

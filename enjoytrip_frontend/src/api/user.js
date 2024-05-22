@@ -36,4 +36,27 @@ const signUp = async (userData) => {
   }
 };
 
-export { login, logout, signUp };
+const getUserInfo = async (userId) => {
+  try {
+    let { data } = await api.get(`/user/${userId}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const updateUserInfo = async (userId, formData) => {
+  try {
+    await api.patch(`/user/${userId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export { login, logout, signUp, getUserInfo, updateUserInfo };
