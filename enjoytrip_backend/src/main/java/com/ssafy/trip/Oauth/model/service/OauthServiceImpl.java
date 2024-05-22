@@ -13,6 +13,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.ssafy.trip.user.model.UserDto;
+
 import java.util.UUID;
 
 @Service
@@ -102,14 +104,15 @@ public class OauthServiceImpl implements OauthService{
         JsonNode rootNode = mapper.readTree(responseBody);
         JsonNode responseNode = rootNode.path("response");
 
-        UserDto user = new UserDto();
-        user.setUserId(responseNode.path("id").asText());
-        user.setEmailId(responseNode.path("email").asText().split("@")[0]);
-        user.setEmailDomain("naver.com");
-        user.setNickName(responseNode.path("name").asText());
         log.debug("profile_img:{}", responseNode.path("profile_image").asText());
-        user.setProfileImg(responseNode.path("profile_image").asText());
-        user.setAuthoritiesId(2);
+        UserDto user = UserDto.builder()
+        .userId(responseNode.path("id").asText())
+        .emailId(responseNode.path("email").asText().split("@")[0])
+        .emailDomain("naver.com")
+        .nickname(responseNode.path("name").asText())
+        .profileImg(responseNode.path("profile_image").asText())
+        .authoritiesId(2)
+        .build();
         return user;
     }
     private String generateRandomString() {

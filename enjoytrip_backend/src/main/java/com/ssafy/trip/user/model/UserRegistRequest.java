@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegistRequest {
 	private String userId;
-	private String nickName;
+	private String nickname;
 	private String password;
 	private String emailId;
 	private String emailDomain;
 	
 	@Builder
-	public UserRegistRequest(String userId, String nickName, String password, String emailId, String emailDomain) {
+	public UserRegistRequest(String userId, String nickname, String password, String emailId, String emailDomain) {
 		this.userId = userId;
-		this.nickName = nickName;
+		this.nickname = nickname;
 		this.password = password;
 		this.emailId = emailId;
 		this.emailDomain = emailDomain;

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<resultMap type="userDto" id="user">
 		<result column="user_id" property="userId" />
-		<result column="nickname" property="nickName" />
+		<result column="nickname" property="nickname" />
 		<result column="password" property="password" />
 		<result column="profile_img" property="profileImg" />
 		<result column="email_id" property="emailId" />
@@ -15,11 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="authorities_id" property="authoritiesId" />
 	</resultMap>
 
-	<insert id="regi" parameterType="userDto">
-		insert into user (user_id, nickname, password, profile_img,
+	<insert id="insertUser" parameterType="userDto">
+		insert into user (user_id, nickname, password,
 		email_id, email_domain, join_date, authorities_id)
 		values
-		(#{userId}, #{nickName}, #{password}, #{profileImg}, #{emailId},
+		(#{userId}, #{nickname}, #{password}, #{emailId},
 		#{emailDomain},
 		now(), #{authoritiesId})
 	</insert>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<update id="updateUser" parameterType="userDto">
 		update user set
-		nickname=#{nickName}, password=#{password},
+		nickname=#{nickname}, password=#{password},
 		email_id=#{emailId},
 		email_domain=#{emailDomain},
 		profile_img=#{profileImg}

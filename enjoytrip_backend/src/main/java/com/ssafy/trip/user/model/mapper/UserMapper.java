@@ -8,7 +8,7 @@ import com.ssafy.trip.user.model.UserProfileResponse;
 
 @Mapper
 public interface UserMapper {
-	int regi(UserDto user);
+	int insertUser(UserDto user);
 	UserDto login(UserDto user);
 	UserDto loginNaver(UserDto user);
 	UserDto getUser(String userId);

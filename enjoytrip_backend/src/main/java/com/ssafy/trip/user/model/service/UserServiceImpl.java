@@ -35,11 +35,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void regist(UserRegistRequest user) {
+	public void regist(UserRegistRequest userRegist) {
 		// 이미 아이디가 같은 유저가 있다면 안됨
-		UserDto alreadyUser = getUser(user.getUserId());
+		UserDto alreadyUser = getUser(userRegist.getUserId());
+		
 		if (alreadyUser == null) {
-			int result = userDao.insertUser(user);
+			int result = userDao.insertUser(UserDto.builder()
+					.userId(userRegist.getUserId())
+					.nickname(userRegist.getNickname())
+					.password(userRegist.getPassword())
+					.emailId(userRegist.getEmailId())
+					.emailDomain(userRegist.getEmailDomain())
+					.authoritiesId(2)
+					.build());
 			if (result == 0) {
 				throw new DatabaseRequestFailedException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 			}
@@ -70,7 +78,7 @@ public class UserServiceImpl implements UserService {
 			return LoginResponse.builder()
 					.id(login.getId())
 					.userId(login.getUserId())
-					.nickname(login.getNickName())
+					.nickname(login.getNickname())
 					.profileImg(login.getProfileImg())
 					.accessToken(accessToken)
 					.refreshToken(refreshToken)
@@ -108,14 +116,13 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void updateUser(String userId, UserDto user, MultipartFile img) {
 		String originPath = "";
-		user.setUserId(userId);
 		if (img != null && !img.isEmpty()) {
 			originPath = userDao.getProfileImgByUserId(userId);
 			if (originPath != null && !originPath.isEmpty()) {
 				imgUtils.deleteImage(originPath, "user");
 			}
 			String imgPath = imgUtils.saveImage(img, "user");
-			user.setProfileImg(imgPath);
+			user.updateProfileImg(imgPath);
 		}
 		userDao.updateUser(user);
 	}
