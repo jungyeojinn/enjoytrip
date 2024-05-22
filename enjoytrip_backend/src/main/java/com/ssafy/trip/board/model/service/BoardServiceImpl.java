@@ -46,7 +46,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     @Override
     public BoardDto getBoard(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         return boardMapper.getBoard(id);
     }
 
@@ -64,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void updateBoard(BoardDto board, MultipartFile img) throws Exception {
-        if(existsById(board.getId())) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(board.getId())) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else {
             String originPath = "";
             if (img != null && !img.isEmpty()) {
@@ -82,7 +82,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void deleteBoard(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else {
             String originPath = boardMapper.getImg(id);
             if (!originPath.isEmpty()) {
@@ -98,7 +98,7 @@ public class BoardServiceImpl implements BoardService {
         // ids 없을 때 체크
         if (ids.length == 0 || ids == null) throw new SQLException();
         for (int i = 0; i < ids.length; i++) {
-            if(existsById(ids[i])) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+            if(!existsById(ids[i])) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
             else deleteBoard(ids[i]);
         }
     }
@@ -106,14 +106,14 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void updateHit(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else boardMapper.updateHit(id);
     }
 
     @Override
     @Transactional
     public BoardDto getBoardWithHit(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else {
             updateHit(id);
             return getBoard(id);

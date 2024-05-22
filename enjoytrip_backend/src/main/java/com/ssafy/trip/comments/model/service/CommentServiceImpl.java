@@ -22,7 +22,7 @@ public class CommentServiceImpl implements CommentService{
     @Transactional(readOnly = true)
     @Override
     public List<CommentDto> commentList(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else return commentMapper.commentList(id);
     }
 
@@ -35,14 +35,14 @@ public class CommentServiceImpl implements CommentService{
     @Transactional
     @Override
     public void updateComment(CommentDto comment) throws Exception {
-        if(existsById(comment.getId())) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(comment.getId())) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else commentMapper.updateComment(comment);
     }
 
     @Transactional
     @Override
     public void deleteComment(int id) throws Exception {
-        if(existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
+        if(!existsById(id)) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         else commentMapper.deleteComment(id);
     }
 
