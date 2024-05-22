@@ -5,6 +5,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +24,7 @@ import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
 import com.ssafy.trip.user.model.UserRegistRequest;
+import com.ssafy.trip.user.model.UserUpdateRequest;
 import com.ssafy.trip.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -101,8 +103,10 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
 	}
 
-	@PatchMapping(value="/{id}", produces = "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> updateuser(@PathVariable("id") String id, @RequestPart("user") UserDto user, @RequestPart(value = "img", required = false) MultipartFile img) throws Exception {
+	@PatchMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> updateuser(@PathVariable("id") String id,
+			@RequestPart("user") UserUpdateRequest user,
+			@RequestPart(value = "img", required = false) MultipartFile img) throws Exception {
 		userService.updateUser(id, user, img);
 		return ResponseEntity.status(HttpStatus.OK).body("회원정보 수정 성공");
 	}

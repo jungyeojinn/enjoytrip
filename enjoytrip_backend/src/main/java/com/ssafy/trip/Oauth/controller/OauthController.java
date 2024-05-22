@@ -6,6 +6,8 @@ import com.ssafy.trip.Oauth.model.service.OauthService;
 import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.hotplace.model.service.HotplaceService;
 import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserRegistRequest;
+
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +43,13 @@ public class OauthController {
         NaverOauthTokenDto naverOauthToken = oauthService.getAccessToken(code, state);
         UserDto user = oauthService.requestUserInfo(naverOauthToken);
         try {
-            userService.regi(user);
+            userService.regist(UserRegistRequest.builder()
+            		.userId(user.getUserId())
+            		.nickname(user.getNickname())
+            		.emailId(user.getEmailId())
+            		.emailDomain(user.getEmailDomain())
+            		.profileImg(user.getProfileImg())
+            		.build());
         } catch (DuplicateUserException e){
             userService.loginNaver(user);
         }

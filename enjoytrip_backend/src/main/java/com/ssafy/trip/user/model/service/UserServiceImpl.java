@@ -17,6 +17,7 @@ import com.ssafy.trip.user.model.RefreshTokenDto;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserProfileResponse;
 import com.ssafy.trip.user.model.UserRegistRequest;
+import com.ssafy.trip.user.model.UserUpdateRequest;
 import com.ssafy.trip.user.model.mapper.UserMapper;
 
 @Service
@@ -95,12 +96,32 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto loginNaver(UserDto user) {
+	@Transactional
+	public LoginResponse loginNaver(UserDto user) {
 		UserDto login = userDao.loginNaver(user);
 		if (login == null) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
 		} else {
-			return login;
+			// 성공 시 토큰 발급
+						String accessToken = jwtService.createAccessToken("userid", login.getUserId());// key, data
+						String refreshToken = jwtService.createRefreshToken("userid", login.getUserId());// key, data
+						
+						//refresh 토큰 재설정
+						userDao.deleteRefreshToken(login.getId());
+						userDao.saveRefreshToken(RefreshTokenDto.builder()
+								.userId(login.getId())
+								.refreshToken(refreshToken)
+								.build());
+						
+						//리턴
+						return LoginResponse.builder()
+								.id(login.getId())
+								.userId(login.getUserId())
+								.nickname(login.getNickname())
+								.profileImg(login.getProfileImg())
+								.accessToken(accessToken)
+								.refreshToken(refreshToken)
+								.build();
 		}
 	}
 
@@ -112,17 +133,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void updateUser(String userId, UserDto user, MultipartFile img) {
-		String originPath = "";
-		if (img != null && !img.isEmpty()) {
-			originPath = userDao.getProfileImgByUserId(userId);
-			if (originPath != null && !originPath.isEmpty()) {
-				imgUtils.deleteImage(originPath, "user");
-			}
-			String imgPath = imgUtils.saveImage(img, "user");
-			user.updateProfileImg(imgPath);
+	public void updateUser(String userId, UserUpdateRequest updateUser, MultipartFile img) {
+		if (!userId.equals(updateUser.getUserId())) {
+			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
 		}
-		userDao.updateUser(user);
+		
+		String originPath = userDao.getProfileImgByUserId(userId);
+		if (originPath != null && !originPath.isEmpty()) {
+			imgUtils.deleteImage(originPath, "user");
+		}
+		
+		String imgPath = "";
+		if (img != null && !img.isEmpty()) {	
+			imgPath = imgUtils.saveImage(img, "user");
+		}
+		userDao.updateUser(UserDto.builder()
+				.userId(updateUser.getUserId())
+				.nickname(updateUser.getNickname())
+				.emailId(updateUser.getEmailId())
+				.emailDomain(updateUser.getEmailDomain())
+				.emailDomain(imgPath)
+				.build());
 	}
 
 	@Override
