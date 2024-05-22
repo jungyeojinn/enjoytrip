@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.trip.Oauth.model.NaverOauthTokenDto;
 import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserRegistRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -13,7 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.ssafy.trip.user.model.UserDto;
+import com.ssafy.trip.user.model.UserRegistRequest;
 
 import java.util.UUID;
 
@@ -111,12 +113,10 @@ public class OauthServiceImpl implements OauthService{
         .emailDomain("naver.com")
         .nickname(responseNode.path("name").asText())
         .profileImg(responseNode.path("profile_image").asText())
-        .authoritiesId(2)
         .build();
         return user;
     }
     private String generateRandomString() {
         return UUID.randomUUID().toString();
     }
-
 }
