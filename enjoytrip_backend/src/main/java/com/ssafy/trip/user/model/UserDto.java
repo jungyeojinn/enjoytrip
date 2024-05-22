@@ -16,10 +16,10 @@ public class UserDto {
 	private String joinDate;
 	private String profileImg;
 	private int authoritiesId;
-	
+	private boolean isDeleted;
 	@Builder
 	public UserDto(int id, String userId, String nickname, String password, String emailId, String emailDomain,
-			String joinDate, String profileImg, int authoritiesId) {
+			String joinDate, String profileImg, int authoritiesId, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -30,6 +30,7 @@ public class UserDto {
 		this.joinDate = joinDate;
 		this.profileImg = profileImg;
 		this.authoritiesId = authoritiesId;
+		this.isDeleted = isDeleted;
 	}
 	
 	public void updateProfileImg(String profileImg) {

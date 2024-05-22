@@ -17,5 +17,6 @@ public interface BoardMapper {
 	int getListBoardCount(BoardDto board);
 	void updateHit(int id) throws SQLException ;
 	boolean existsById(int id) throws Exception;
+	int[] getBoardIdsByUserId(int id);
 }
 

@@ -10,5 +10,6 @@ public interface CommentService {
     void registComment(CommentDto comment) throws SQLException ;
     void updateComment(CommentDto comment) throws Exception;
     void deleteComment(int id) throws Exception;
-
+	void deleteByBoardId(int id);
+	void deleteByUserId(int id);
 }
