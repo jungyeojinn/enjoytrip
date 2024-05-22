@@ -25,4 +25,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from comments where id=#{id}
 	</delete>
 
+	<select id="existsById" parameterType="int" resultType="boolean">
+		select exists (
+		select * from comments where id=#{id}
+		)
+	</select>
+
 </mapper>

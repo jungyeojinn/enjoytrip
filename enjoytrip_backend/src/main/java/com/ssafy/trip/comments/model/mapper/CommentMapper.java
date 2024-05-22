@@ -13,5 +13,5 @@ public interface CommentMapper {
     void registComment(CommentDto comment) throws SQLException ;
     void updateComment(CommentDto comment) throws SQLException ;
     void deleteComment(int id) throws SQLException ;
-
+    boolean existsById(int id);
 }

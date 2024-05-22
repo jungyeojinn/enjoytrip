@@ -37,27 +37,27 @@ public class BoardController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getBoard(@PathVariable("id") int id) throws SQLException {
+	public ResponseEntity<?> getBoard(@PathVariable("id") int id) throws Exception {
 		BoardDto board = boardservice.getBoardWithHit(id);
 		return ResponseEntity.ok().body(board);
 	}
 
 	@RequestMapping(value="/", method = RequestMethod.PATCH, produces =  "application/json", consumes = "multipart/form-data")
-	public ResponseEntity<?> updateBoard(@RequestPart(value="board") BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
+	public ResponseEntity<?> updateBoard(@RequestPart(value="board") BoardDto board, @RequestPart(value = "img", required = false) MultipartFile img) throws Exception {
 		boardservice.updateBoard(board, img);
 		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteBoard(@PathVariable("id") int id)
-			throws SQLException {
+            throws Exception {
 		boardservice.deleteBoard(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/")
 	public ResponseEntity<?> deleteBoards(@RequestParam(value = "del-board", required = false) int[] ids)
-			throws SQLException {
+            throws Exception {
 		boardservice.deleteBoards(ids);
 		return ResponseEntity.ok().build();
 	}

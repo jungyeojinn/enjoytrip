@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<CommentDto> commentList(int id)  throws SQLException;
+    List<CommentDto> commentList(int id) throws Exception;
     void registComment(CommentDto comment) throws SQLException ;
-    void updateComment(CommentDto comment) throws SQLException ;
-    void deleteComment(int id) throws SQLException ;
+    void updateComment(CommentDto comment) throws Exception;
+    void deleteComment(int id) throws Exception;
 
 }
