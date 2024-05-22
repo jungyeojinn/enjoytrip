@@ -57,6 +57,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		id, user_id, nickname from user
 		where id=#{id}
 	</select>
+	
+	<select id="getIdByUserId" parameterType="string" resultType="int">
+		select
+		id from user
+		where user_id=#{userId}
+	</select>
 
 	<update id="updateUser" parameterType="userDto">
 		update user set

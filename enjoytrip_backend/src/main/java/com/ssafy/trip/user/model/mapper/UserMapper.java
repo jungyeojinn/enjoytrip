@@ -13,6 +13,7 @@ public interface UserMapper {
 	UserDto loginNaver(UserDto user);
 	UserDto getUser(String userId);
 	UserDto getUserById(int userId);
+	int getIdByUserId(String userId);
 	void updateUser(UserDto user);
 	void deleteUser(String userId);
 	String getPassword(String userId);
