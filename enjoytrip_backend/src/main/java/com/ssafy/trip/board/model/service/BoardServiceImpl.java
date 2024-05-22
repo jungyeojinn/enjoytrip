@@ -103,7 +103,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void deleteBoards(int[] ids) throws Exception {
         // ids 없을 때 체크
-        if (ids.length == 0 || ids == null) throw new SQLException();
         for (int i = 0; i < ids.length; i++) {
             if(!existsById(ids[i])) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
             else deleteBoard(ids[i]);
@@ -137,6 +136,4 @@ public class BoardServiceImpl implements BoardService {
 	public void deActivateFromUser(int id) throws Exception {
 		deleteBoards(boardMapper.getBoardIdsByUserId(id));
 	}
-
-
 }

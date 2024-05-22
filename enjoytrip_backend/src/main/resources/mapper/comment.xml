@@ -31,8 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</select>
 	
-	<delete id="deleteCommentsByBoardId" parameterType="int">
+	<delete id="deleteByBoardId" parameterType="int">
 		delete from comments where board_id = #{boardId}
+	</delete>
+	
+	<delete id="deleteByUserId" parameterType="int">
+		delete from comments where user_id = #{userId}
 	</delete>
 
 </mapper>

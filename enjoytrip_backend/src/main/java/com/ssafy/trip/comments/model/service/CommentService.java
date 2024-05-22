@@ -11,5 +11,5 @@ public interface CommentService {
     void updateComment(CommentDto comment) throws Exception;
     void deleteComment(int id) throws Exception;
 	void deleteByBoardId(int id);
-
+	void deleteByUserId(int id);
 }

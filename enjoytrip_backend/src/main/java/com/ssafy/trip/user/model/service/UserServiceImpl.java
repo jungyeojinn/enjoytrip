@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
 		int id = userDao.getIdByUserId(userId);
 		userDao.deActivate(userId);
 		boardService.deActivateFromUser(id);
-		commentService.deActivateFromUser(id);
+		commentService.deleteByUserId(id);
 		attrplanService.deActivateFromUser(id);
 		hotplaceService.deActivateFromUser(id);
 		if (originPath != null && !originPath.isEmpty()) {
