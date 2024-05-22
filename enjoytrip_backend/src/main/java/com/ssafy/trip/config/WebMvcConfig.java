@@ -30,7 +30,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	private final List<String> excludePointList = Arrays.asList(
 			"/user/login",
-			"/attraction/**",
+			"/user/refresh",
+			"/oauth2/**",
 			"/swagger-resources/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
@@ -50,14 +51,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/img/**").addResourceLocations("classpath:/static/assets/img/");
+		registry.addResourceHandler("/img/**").addResourceLocations("file:///C:/upload/");
 		registry.addResourceHandler("/*.html**").addResourceLocations("classpath:/static/");
 	}
 
-	/*@Override
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(jwtInterceptor)
 		.addPathPatterns(addEndPointList)
 		.excludePathPatterns(excludePointList);
-	}*/
+	}
 }
