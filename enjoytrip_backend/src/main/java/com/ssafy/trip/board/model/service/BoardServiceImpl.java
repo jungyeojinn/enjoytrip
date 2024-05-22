@@ -34,12 +34,14 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<BoardDto> boardList(int pageNum, int pageSize) throws SQLException {
+    public Page<BoardDto> boardList(int pageNum, int pageSize) throws Exception {
+        //pageNum은 0부터 시작함
         BoardDto board = new BoardDto();
         int offset = pageNum * pageSize;
         List<BoardDto> content = boardMapper.boardList(offset, pageSize);
-
         int total = boardMapper.getListBoardCount(board);
+
+        if(offset<0||offset>total) throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
         return new PageImpl<>(content, Pageable.ofSize(pageSize), total);
     }
 

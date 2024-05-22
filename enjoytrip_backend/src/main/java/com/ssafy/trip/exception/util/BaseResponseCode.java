@@ -19,8 +19,8 @@ public enum BaseResponseCode {
 	
 	DATABASE_REQUEST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "요청 처리 중 에러가 발생했습니다.");
 
-	
-	
+
+
 	private final HttpStatus status;
 	private final String message;
 	
