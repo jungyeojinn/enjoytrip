@@ -176,10 +176,6 @@ public class UserServiceImpl implements UserService {
 		String originPath = userDao.getProfileImgByUserId(userId);
 		int id = userDao.getIdByUserId(userId);
 		userDao.deActivate(userId);
-		boardService.deActivateFromUser(id);
-		commentService.deleteByUserId(id);
-		attrplanService.deActivateFromUser(id);
-		hotplaceService.deActivateFromUser(id);
 		if (originPath != null && !originPath.isEmpty()) {
 			imgUtils.deleteImage(originPath, "user");
 		}
