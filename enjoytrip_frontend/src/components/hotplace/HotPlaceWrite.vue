@@ -48,7 +48,7 @@ const onSubmit = async () => {
     placeName: placeName.value,
     latitude: Number(latitude.value),
     longitude: Number(longitude.value),
-    userId: 16,
+    userId: userStore.id,
   };
 
   const json = JSON.stringify(data);

@@ -2,18 +2,11 @@
 import { ref, onMounted } from "vue";
 import { useUserStore } from "@/store/userStore";
 import { useRouter } from "vue-router";
+import { getHotplace } from "@/api/hotPlace";
 
 const userStore = useUserStore();
 const router = useRouter();
-// {
-//     img: "/src/assets/img-placeholder.png",
-//     title: "제목",
-//     description: "소제목",
-//     placeName: false,
-//     latitude: "8",
-//     longitude: "",
-//     user_id: "",
-//   }
+
 const content = ref([]);
 const addHotPlace = () => {
   if (!userStore.isLogin()) {
@@ -24,6 +17,23 @@ const addHotPlace = () => {
 
   router.push({ path: "/hotplace/write" });
 };
+
+const goDetail = (id) => {
+  console.log(id);
+  router.push({ path: `/hotplace/${id}` });
+};
+
+onMounted(async () => {
+  let data = await getHotplace();
+  content.value = data.map((elem) => {
+    let img =
+      elem.img === null
+        ? "/src/assets/img-placeholder.png"
+        : `${import.meta.env.VITE_BACKEND_BASE_URL}/img/hotplace/${elem.img}`;
+
+    return { ...elem, img };
+  });
+});
 </script>
 
 <template>
@@ -54,7 +64,14 @@ const addHotPlace = () => {
                       <div class="text-truncate">{{ item.raw.duration }}</div>
                     </div>
 
-                    <v-btn class="text-none" size="small" text="더 알아보기" border flat>
+                    <v-btn
+                      class="text-none"
+                      size="small"
+                      text="더 알아보기"
+                      border
+                      flat
+                      @click="goDetail(item.raw.id)"
+                    >
                     </v-btn>
                   </div>
                 </v-card>

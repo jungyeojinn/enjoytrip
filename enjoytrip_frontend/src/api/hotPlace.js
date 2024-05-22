@@ -20,4 +20,24 @@ const addHotplace = async (formData) => {
   }
 };
 
-export { addHotplace };
+const getHotplace = async () => {
+  try {
+    let { data } = await api.get(`/hotplace/`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const getHotplaceDetail = async (id) => {
+  try {
+    let { data } = await api.get(`/hotplace/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export { addHotplace, getHotplace, getHotplaceDetail };
