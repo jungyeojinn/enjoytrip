@@ -101,4 +101,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from user
 		where user_id = #{userId}
 	</select>
+	
+	<select id="checkAlreadyExists" resultType="boolean" parameterType="string">
+	  SELECT EXISTS (
+	    SELECT * FROM user WHERE user_id = #{userId}
+	  )
+	</select>
 </mapper>

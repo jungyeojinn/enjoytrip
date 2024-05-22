@@ -18,6 +18,8 @@ public interface UserMapper {
 	String getPassword(String userId);
 	String getProfileImgByUserId(String userId);
 	UserProfileResponse getUserProfileByUserId(String userId);
+	
+	boolean checkAlreadyExists(String userId);
 	//JWT
 	int saveRefreshToken(RefreshTokenDto refreshToken);
 	String getRefreshToken(int userId);

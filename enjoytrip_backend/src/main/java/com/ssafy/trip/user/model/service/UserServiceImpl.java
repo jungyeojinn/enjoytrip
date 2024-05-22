@@ -36,10 +36,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void regist(UserRegistRequest userRegist) {
-		// 이미 아이디가 같은 유저가 있다면 안됨
-		UserDto alreadyUser = getUser(userRegist.getUserId());
-		
-		if (alreadyUser == null) {
+		// 이미 아이디가 같은 유저가 있다면 안됨		
+		if (!userDao.checkAlreadyExists(userRegist.getUserId())) {
 			int result = userDao.insertUser(UserDto.builder()
 					.userId(userRegist.getUserId())
 					.nickname(userRegist.getNickname())
