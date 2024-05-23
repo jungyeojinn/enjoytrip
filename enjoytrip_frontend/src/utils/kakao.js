@@ -34,34 +34,17 @@ const createOveray = (marker, { title, img_url, addr1 }) => {
   });
 };
 
-const createMarker = (
-  map,
-  { latitude, longitude, title, img_url, addr1, content_id },
-  markers
-) => {
+const createMarker = (map, { latitude, longitude, content_id }, markers) => {
   let position = new kakao.maps.LatLng(latitude, longitude);
-  let imageSize = new kakao.maps.Size(30, 30);
 
   const marker = new kakao.maps.Marker({
     position: position,
-    image: new kakao.maps.MarkerImage(
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
-      imageSize
-    ),
   });
 
   marker.setMap(map);
   marker.contenttypeid = content_id;
 
   markers.push(marker);
-
-  // kakao.maps.event.addListener(marker, "click", function () {
-  //   if (overlay !== null) {
-  //     closeOverlay(overlay);
-  //   }
-  //   createOveray(marker, { title, img_url, addr1 });
-  //   map.setCenter(marker.getPosition());
-  // });
 };
 
 const createBounds = (map, array) => {

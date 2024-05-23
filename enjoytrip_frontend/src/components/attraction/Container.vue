@@ -15,7 +15,6 @@ const addPlace = (value) => {
   let newArr = selectPlace.value.slice(0);
   newArr.push(value);
   selectPlace.value.push(value);
-  console.log(selectPlace.value);
 };
 
 const deletePlace = (contentId) => {
@@ -24,8 +23,6 @@ const deletePlace = (contentId) => {
   });
   selectPlace.value = newArr;
 };
-
-const swapPlace = (num1, num2) => { };
 </script>
 
 <template>

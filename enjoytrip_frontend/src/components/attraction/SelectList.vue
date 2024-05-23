@@ -68,7 +68,8 @@ const onSubmit = async () => {
 
   await addPlanItem(planId, items);
 
-  dialog.value = true;
+  dialog.value = false;
+  router.push({ path: "/attraction-board" });
 };
 </script>
 
@@ -78,15 +79,30 @@ const onSubmit = async () => {
       <v-btn @click="dialog = true"> 여행계획 만들기 </v-btn>
 
       <v-dialog v-model="dialog" width="auto">
-        <v-card max-width="400" prepend-icon="mdi-airplane" text="여행 계획 제목을 입력해주세요">
+        <v-card
+          max-width="400"
+          prepend-icon="mdi-airplane"
+          text="여행 계획 제목을 입력해주세요"
+        >
           <div style="width: 150px; margin: 0 auto">
             <v-avatar size="150">
               <v-img :src="imageSrc" cover></v-img>
             </v-avatar>
-            <v-file-input accept="image/png, image/jpeg, image/bmp" prepend-icon="mdi-camera" hide-input
-              style="bottom: 0; right: 0" @change="onFileChange"></v-file-input>
+            <v-file-input
+              accept="image/png, image/jpeg, image/bmp"
+              prepend-icon="mdi-camera"
+              hide-input
+              style="bottom: 0; right: 0"
+              @change="onFileChange"
+            ></v-file-input>
           </div>
-          <v-text-field v-model="title" class="mx-auto" width="200" label="제목" variant="outlined"></v-text-field>
+          <v-text-field
+            v-model="title"
+            class="mx-auto"
+            width="200"
+            label="제목"
+            variant="outlined"
+          ></v-text-field>
           <template v-slot:actions>
             <v-btn class="ms-auto" text="Ok" @click="onSubmit"></v-btn>
           </template>
@@ -97,14 +113,22 @@ const onSubmit = async () => {
     <h2>선택한 여행지</h2>
     <div style="display: flex; align-items: center">
       <label style="padding-right: 5px">시작</label>
-      <input v-model="startDate" type="date" style="border: solid 1px; margin-right: 10px" />
+      <input
+        v-model="startDate"
+        type="date"
+        style="border: solid 1px; margin-right: 10px"
+      />
 
       <label style="padding-right: 5px">종료</label>
       <input v-model="endDate" type="date" style="border: solid 1px" />
     </div>
     <div class="card-con">
-      <Card class="mx-auto mb-2" v-for="locateInfo of props.selectPlace" :locateInfo="locateInfo"
-        @del-place="delPlace" />
+      <Card
+        class="mx-auto mb-2"
+        v-for="locateInfo of props.selectPlace"
+        :locateInfo="locateInfo"
+        @del-place="delPlace"
+      />
     </div>
   </div>
 </template>

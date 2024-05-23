@@ -29,10 +29,10 @@
 	</select>
 	
 	<select id="getPlanOrder" parameterType="int" resultType="attrplanOrderDto">
-		SELECT id, order, plans_id, attraction_info_id
+		SELECT id, `order`, plans_id, attraction_info_id
 		FROM attraction_order
 		WHERE plans_id = #{plansId}
-		order by order asc
+		order by `order` asc
 	</select>
 
 	<update id="updateAttrplan" parameterType="attrplanDto">

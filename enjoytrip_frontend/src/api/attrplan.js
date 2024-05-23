@@ -37,4 +37,9 @@ const getDetailPlan = async (id) => {
   return data;
 };
 
-export { addPlan, addPlanItem, addPlans };
+const getPlanOrder = async (id) => {
+  const { data } = await api.get(`/attrplan/${id}/plans`);
+  return data;
+};
+
+export { addPlan, addPlanItem, addPlans, getDetailPlan, getPlanOrder };
