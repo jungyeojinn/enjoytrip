@@ -23,7 +23,7 @@ const { cookies } = useCookies();
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: "/", component: Home, name: "home" },
+    { path: "/", component: Attraction, name: "home" },
     { path: "/hotplace", component: HotPlace, name: "hotplace" },
     {
       path: "/board",

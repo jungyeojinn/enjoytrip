@@ -52,7 +52,6 @@ onMounted(async () => {
       <v-btn v-if="content.userId === userStore.num" class="mt-2" @click="onClickEditBtn">수정하기</v-btn>
     </v-card>
   </v-container>
-  <!-- <BoardComment /> -->
 </template>
 
 <style scoped></style>
