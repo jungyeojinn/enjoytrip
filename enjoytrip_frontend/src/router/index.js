@@ -10,6 +10,7 @@ import Login from "@/pages/Login.vue";
 import SignUp from "@/pages/SignUp.vue";
 import MyPage from "@/pages/MyPage.vue";
 
+import AttractionDetail from "@/components/attraction/AttractionDetail.vue";
 import HotPlaceWrite from "@/components/hotplace/HotPlaceWrite.vue";
 import HotPlaceEdit from "@/components/hotplace/HotPlaceEdit.vue";
 
@@ -34,6 +35,7 @@ const router = createRouter({
       component: BoardDeatil,
     },
     { path: "/attraction", component: Attraction, name: "attraction" },
+    { path: "/attraction/:id", component: AttractionDetail },
     { path: "/attraction-board", component: AttractionBoard },
     { path: "/login", component: Login, name: "login" },
     { path: "/signup", component: SignUp },

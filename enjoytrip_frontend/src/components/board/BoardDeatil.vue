@@ -2,7 +2,7 @@
 import BoardComment from "./BoardComment.vue";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getBoard } from "@/api/board";
+import { getBoard, deleteBoard } from "@/api/board";
 import { useUserStore } from "@/store/userStore";
 
 const route = useRoute();
@@ -13,7 +13,7 @@ const userStore = useUserStore();
 const onClickDelBtn = async () => {
   let result = window.confirm("정말 삭제하시겠습니까?");
   if (result) {
-    await deleteHotPlace(route.params.id);
+    await deleteBoard(route.params.id);
     alert("삭제 되었습니다.");
     router.push({ name: "board" });
   }

@@ -73,7 +73,6 @@ const onFileChange = (event) => {
       avatarSrc.value = e.target.result;
     };
     reader.readAsDataURL(file);
-    console.log(reader);
   }
 };
 
@@ -92,21 +91,12 @@ const signout = async () => {
 <template>
   <div class="h-100 d-flex justify-md-center align-center">
     <v-card style="width: 344px">
-      <v-card-item
-        class="position-relative mx-auto"
-        style="width: 150px; box-sizing: content-box"
-      >
+      <v-card-item class="position-relative mx-auto" style="width: 150px; box-sizing: content-box">
         <v-avatar color="grey" size="150">
           <v-img :src="avatarSrc" cover></v-img>
         </v-avatar>
-        <v-file-input
-          accept="image/png, image/jpeg, image/bmp"
-          prepend-icon="mdi-camera"
-          hide-input
-          class="position-absolute"
-          style="bottom: 0; right: 0"
-          @change="onFileChange"
-        ></v-file-input>
+        <v-file-input accept="image/png, image/jpeg, image/bmp" prepend-icon="mdi-camera" hide-input
+          class="position-absolute" style="bottom: 0; right: 0" @change="onFileChange"></v-file-input>
       </v-card-item>
       <v-card-text>
         <v-text-field v-model="nickName" label="닉네임" required></v-text-field>
