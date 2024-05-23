@@ -13,7 +13,7 @@ public interface AttrplanService {
 	List<AttrplanDto> AttrplanListbyId(int user_id) throws SQLException ;
 
 	AttrplanDto getAttrplan(int id)  throws SQLException ;
-	void registAttrplan(AttrplanDto Attrplan, MultipartFile img) throws SQLException ;
+	int registAttrplan(AttrplanDto Attrplan, MultipartFile img) throws SQLException ;
 	void updateAttrplan(AttrplanDto Attrplan) throws SQLException ;
 	void deleteAttrplan(int id) throws SQLException ;
 

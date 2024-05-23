@@ -69,8 +69,8 @@ public class AttrplanController {
                                             @RequestParam(value = "user_id") int user_id,
                                             @RequestPart(value = "img", required = false) MultipartFile img) throws SQLException, IOException {
         AttrplanDto attrplanDto = new AttrplanDto(title,start_date,end_date,user_id);
-        attrplanService.registAttrplan(attrplanDto, img);
-        return ResponseEntity.ok().build();
+        int id = attrplanService.registAttrplan(attrplanDto, img);
+        return ResponseEntity.ok().body(id);
     }
 
     @GetMapping("/{id}")

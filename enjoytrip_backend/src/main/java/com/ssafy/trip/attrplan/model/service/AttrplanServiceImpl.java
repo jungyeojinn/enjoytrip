@@ -45,13 +45,14 @@ public class AttrplanServiceImpl implements AttrplanService {
 	}
 
 	@Override
-	public void registAttrplan(AttrplanDto Attrplan, MultipartFile img) throws SQLException {
+	public int registAttrplan(AttrplanDto Attrplan, MultipartFile img) throws SQLException {
 		String imgPath = "";
 		if (img != null && !img.isEmpty()) {
 			imgPath = imgUtils.saveImage(img, "board");
 		}
 		Attrplan.setImg(imgPath);
 		attrplanMapper.registAttrplan(Attrplan);
+		return Attrplan.getId();
 	}
 
 	@Override

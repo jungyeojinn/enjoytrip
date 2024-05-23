@@ -17,7 +17,7 @@
 		ORDER BY title DESC
 	</select>
 
-	<insert id="registAttrplan" parameterType="attrplanDto">
+	<insert id="registAttrplan" parameterType="attrplanDto" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO plans (title, start_date, end_date, img, like_count, user_id)
 		VALUES (#{title}, #{start_date}, #{end_date}, #{img}, 0, #{user_id})
 	</insert>

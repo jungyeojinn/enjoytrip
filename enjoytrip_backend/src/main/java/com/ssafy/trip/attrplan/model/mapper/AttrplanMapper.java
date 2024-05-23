@@ -4,7 +4,6 @@ import com.ssafy.trip.attrplan.model.AttrplanDto;
 import com.ssafy.trip.attrplan.model.AttrplanLikeDto;
 import com.ssafy.trip.attrplan.model.AttrplanOrderDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.w3c.dom.Attr;
 
 import java.sql.SQLException;
 import java.util.List;
