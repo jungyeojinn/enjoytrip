@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.board.model.BoardDto;
+import com.ssafy.trip.board.model.BoardWithUserDto;
 import com.ssafy.trip.board.model.service.BoardService;
 
 @RestController
@@ -26,7 +27,7 @@ public class BoardController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<Page<BoardDto>> getAllBoards(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws Exception {
+	public ResponseEntity<Page<BoardWithUserDto>> getAllBoards(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) throws Exception {
 		return ResponseEntity.ok().body(boardservice.boardList(offset, pageSize));
 	}
 
@@ -38,7 +39,7 @@ public class BoardController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getBoard(@PathVariable("id") int id) throws Exception {
-		BoardDto board = boardservice.getBoardWithHit(id);
+		BoardWithUserDto board = boardservice.getBoardWithHit(id);
 		return ResponseEntity.ok().body(board);
 	}
 
