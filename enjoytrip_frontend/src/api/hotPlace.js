@@ -40,4 +40,39 @@ const getHotplaceDetail = async (id) => {
   }
 };
 
-export { addHotplace, getHotplace, getHotplaceDetail };
+const deleteHotPlace = async (hotplaceId) => {
+  try {
+    await api.delete(`/hotplace/${hotplaceId}`, {
+      headers: {
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const updateHotPlace = async (hotplaceId, formData) => {
+  try {
+    await api.patch(`/hotplace/${hotplaceId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export {
+  addHotplace,
+  getHotplace,
+  getHotplaceDetail,
+  deleteHotPlace,
+  updateHotPlace,
+};

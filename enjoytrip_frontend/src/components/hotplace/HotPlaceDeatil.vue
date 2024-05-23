@@ -1,9 +1,12 @@
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import { getHotplaceDetail } from "@/api/hotPlace";
+import { getHotplaceDetail, deleteHotPlace } from "@/api/hotPlace";
+import { useUserStore } from "@/store/userStore";
 
 const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
 const content = ref({});
 const map = ref();
 
@@ -20,6 +23,21 @@ const initMap = (lat, lng) => {
     map: map.value,
     position: new kakao.maps.LatLng(lat, lng),
   });
+};
+
+const onClickDelBtn = async () => {
+  let result = window.confirm("정말 삭제하시겠습니까?");
+  if (result) {
+    await deleteHotPlace(route.params.id);
+    alert("삭제 되었습니다.");
+  } else {
+    alert("삭제 오류.");
+  }
+  router.push({ name: "hotplace" });
+};
+
+const onClickEditBtn = async () => {
+  router.push({ path: `/hotplace/edit/${route.params.id}` });
 };
 
 onMounted(async () => {
@@ -60,6 +78,9 @@ onMounted(async () => {
         <p>{{ content.description }}</p>
       </v-card-text>
       <div id="map" style="height: 400px"></div>
+
+      <v-btn v-if="content.userId === userStore.num" class="mt-2" @click="onClickDelBtn">삭제하기</v-btn>
+      <v-btn v-if="content.userId === userStore.num" class="mt-2" @click="onClickEditBtn">수정하기</v-btn>
     </v-card>
   </v-container>
 </template>

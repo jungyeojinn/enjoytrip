@@ -1,6 +1,12 @@
 <script setup>
-const props = defineProps(['locateInfo']);
+const props = defineProps(["locateInfo"]);
+const emit = defineEmits(["delPlace"]);
+
 console.log(props.locateInfo);
+
+const onClick = () => {
+  emit("delPlace", props.locateInfo.contentId);
+};
 </script>
 
 <template>
@@ -14,7 +20,7 @@ console.log(props.locateInfo);
       <v-card-title> {{ props.locateInfo.title }} </v-card-title>
       <v-card-subtitle> {{ props.locateInfo.addr1 }} </v-card-subtitle>
       <v-col cols="auto" class="pl-0">
-        <v-btn size="small">삭제</v-btn>
+        <v-btn size="small" @click="onClick">삭제</v-btn>
       </v-col>
     </v-card-item>
   </v-card>

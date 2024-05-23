@@ -27,7 +27,6 @@ const getBoard = async (boardId) => {
 };
 
 const addBoard = async (formData) => {
-  console.log(formData);
   try {
     await api.post(`/board/`, formData, {
       headers: {
@@ -42,4 +41,33 @@ const addBoard = async (formData) => {
   }
 };
 
-export { getBoardList, addBoard, getBoard };
+const deleteBoard = async (boardId) => {
+  try {
+    await api.delete(`/board/${boardId}`, {
+      headers: {
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const updateBoard = async (formData) => {
+  try {
+    await api.patch(`/board/`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization ": `Bearer ${cookies.get("accessToken")}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export { getBoardList, addBoard, getBoard, deleteBoard, updateBoard };

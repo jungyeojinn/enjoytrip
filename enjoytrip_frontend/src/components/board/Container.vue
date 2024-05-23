@@ -35,7 +35,7 @@ const headers = ref([
     key: "id",
   },
   { title: "제목", key: "title", align: "end" },
-  { title: "작성일", key: "modified_at", align: "end" },
+  { title: "작성일", key: "modifiedAt", align: "end" },
 ]);
 
 const serverItems = ref([]);
