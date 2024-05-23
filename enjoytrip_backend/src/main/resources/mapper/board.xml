@@ -5,13 +5,13 @@
 <mapper namespace="com.ssafy.trip.board.model.mapper.BoardMapper">
 
 	<select id="boardList" parameterType="int" resultType="boardDto">
-		select type, title, content, img, views, modified_at from board
+		select id, type, title, content, img, views, modified_at from board
 		order by modified_at
 		limit #{offset} , #{pageSize}
 	</select>
 
 	<select id="getBoard" parameterType="int" resultType="boardDto">
-		select type, title, content, img, views, created_at, modified_at from board
+		select id, type, title, content, img, views, created_at, modified_at from board
 		where id=#{id}
 	</select>
 

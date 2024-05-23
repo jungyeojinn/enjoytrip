@@ -4,9 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ssafy.trip.attrplan.model.service.AttrplanService;
-import com.ssafy.trip.board.model.service.BoardService;
-import com.ssafy.trip.comments.model.service.CommentService;
 import com.ssafy.trip.common.ImgUtils;
 import com.ssafy.trip.exception.AuthorizationFailedException;
 import com.ssafy.trip.exception.DatabaseRequestFailedException;
@@ -14,7 +11,6 @@ import com.ssafy.trip.exception.DuplicateUserException;
 import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
-import com.ssafy.trip.hotplace.model.service.HotplaceService;
 import com.ssafy.trip.jwt.model.service.JwtService;
 import com.ssafy.trip.user.model.LoginResponse;
 import com.ssafy.trip.user.model.RefreshTokenDto;
@@ -32,8 +28,7 @@ public class UserServiceImpl implements UserService {
 	private ImgUtils imgUtils;
 	
 	
-	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils, BoardService boardService,
-			CommentService commentService, AttrplanService attrplanService, HotplaceService hotplaceService) {
+	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils) {
 		super();
 		this.userDao = userDao;
 		this.jwtService = jwtService;
