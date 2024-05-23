@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.trip.board.model.BoardDto;
+import com.ssafy.trip.board.model.BoardWithUserDto;
 
 @Mapper
 public interface BoardMapper {
-	List<BoardDto> boardList(int offset, int pageSize)  throws SQLException ;
-	BoardDto getBoard(int id)  throws SQLException ;
+	List<BoardWithUserDto> boardList(int offset, int pageSize)  throws SQLException ;
+	BoardWithUserDto getBoard(int id)  throws SQLException ;
 	void registBoard(BoardDto board) throws SQLException ;
 	void updateBoard(BoardDto board) throws SQLException ;
 	String getImg(int id) throws SQLException ;

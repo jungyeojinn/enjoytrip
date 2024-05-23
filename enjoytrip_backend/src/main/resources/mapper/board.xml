@@ -4,15 +4,18 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.trip.board.model.mapper.BoardMapper">
 
-	<select id="boardList" parameterType="int" resultType="boardDto">
-		select id, type, title, content, img, views, modified_at from board
+	<select id="boardList" parameterType="int" resultType="boardWithUserDto">
+		select b.id, b.type, b.title, b.img, b.views, b.created_at, b.modified_at, b.user_id, u.user_id as user_user_id, u.nickname
+		from board b, user u
+		where b.user_id = u.id
 		order by modified_at
 		limit #{offset} , #{pageSize}
 	</select>
 
-	<select id="getBoard" parameterType="int" resultType="boardDto">
-		select id, type, title, content, img, views, created_at, modified_at from board
-		where id=#{id}
+	<select id="getBoard" parameterType="int" resultType="boardWithUserDto">
+		select b.id, b.type, b.title, b.content, b.img, b.views, b.created_at, b.modified_at, b.user_id, u.user_id as user_user_id, u.nickname
+		from board b, user u
+		where b.id=#{id} and b.user_id = u.id
 	</select>
 
 	<insert id="registBoard" parameterType="boardDto">
