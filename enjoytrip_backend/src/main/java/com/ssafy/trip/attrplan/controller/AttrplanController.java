@@ -167,4 +167,10 @@ public class AttrplanController {
         attrplanService.Del2Attrplan(plans_id);
         return ResponseEntity.ok().build();
     }
+    
+    @GetMapping("/{id}/plans")
+	public ResponseEntity<?> getPlanOrder(@PathVariable("id") int id) {
+		AttrplanOrderDto[] lists = attrplanService.getPlanOrder(id);
+		return ResponseEntity.ok().body(lists);
+	}
 }

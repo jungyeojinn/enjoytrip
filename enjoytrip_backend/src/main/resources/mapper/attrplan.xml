@@ -5,7 +5,7 @@
 <mapper namespace="com.ssafy.trip.attrplan.model.mapper.AttrplanMapper">
 
 	<select id="AttrplanList" resultType="attrplanDto">
-		SELECT title, start_date, end_date, img, like_count
+		SELECT id, title, start_date, end_date, img, like_count
 		FROM plans
 		ORDER BY title DESC
 	</select>
@@ -26,6 +26,13 @@
 		SELECT id, title, start_date, end_date, img, like_count, user_id
 		FROM plans
 		WHERE id = #{id}
+	</select>
+	
+	<select id="getPlanOrder" parameterType="int" resultType="attrplanOrderDto">
+		SELECT id, order, plans_id, attraction_info_id
+		FROM attraction_order
+		WHERE plans_id = #{plansId}
+		order by order asc
 	</select>
 
 	<update id="updateAttrplan" parameterType="attrplanDto">
