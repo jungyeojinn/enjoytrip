@@ -1,81 +1,85 @@
-<script setup>
-import { ref } from "vue";
-
-const content = ref([
-  {
-    name: "Frozen Yogurt",
-    hit: 159,
-  },
-  {
-    name: "Ice cream sandwich",
-    hit: 237,
-  },
-  {
-    name: "Eclair",
-    hit: 262,
-  },
-  {
-    name: "Cupcake",
-    hit: 305,
-  },
-  {
-    name: "Gingerbread",
-    hit: 356,
-  },
-  {
-    name: "Jelly bean",
-    hit: 375,
-  },
-  {
-    name: "Lollipop",
-    hit: 392,
-  },
-  {
-    name: "Honeycomb",
-    hit: 408,
-  },
-  {
-    name: "Donut",
-    hit: 452,
-  },
-  {
-    name: "KitKat",
-    hit: 518,
-  },
-]);
-</script>
-
 <template>
-  <v-table id="table">
-    <thead>
-      <tr>
-        <th class="text-left">작성자</th>
-        <th class="text-left">조회수</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in content" :key="item.name">
-        <td>{{ item.name }}</td>
-        <td>{{ item.hit }}</td>
-      </tr>
-    </tbody>
-  </v-table>
-  <div class="text-center">
+  <h1>게시판</h1>
+
+  <div style="max-width: 1280px; margin: 0 auto">
     <v-container>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-container class="max-width">
-            <v-pagination v-model="page" :length="15"></v-pagination>
-          </v-container>
-        </v-col>
-      </v-row>
+      <v-btn @click="goWritePage">글쓰기</v-btn>
+      <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="serverItems"
+        :items-length="totalItems" :loading="loading" item-value="name" @update:options="loadItems">
+        <template v-slot:item.title="{ item }">
+          <a @click="goToDetail(item.id)" style="cursor: pointer">
+            {{ item.title }}
+          </a>
+        </template>
+      </v-data-table-server>
     </v-container>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+import { getBoardList } from "@/api/board";
+import { useUserStore } from "@/store/userStore";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const content = ref([]);
+const itemsPerPage = ref(10);
+const headers = ref([
+  {
+    title: "게시글 번호",
+    align: "start",
+    key: "id",
+  },
+  { title: "제목", key: "title", align: "end" },
+  { title: "작성일", key: "modified_at", align: "end" },
+]);
+
+const serverItems = ref([]);
+const loading = ref(true);
+const totalItems = ref(0);
+
+onMounted(async () => {
+  const pageSelect = document.querySelector(".v-data-table-footer__items-per-page");
+  pageSelect.style.display = "none";
+
+  const data = await getBoardList(0, itemsPerPage.value);
+});
+
+const loadItems = async ({ page, itemsPerPage, sortBy }) => {
+  loading.value = true;
+
+  const data = await getBoardList(page - 1, itemsPerPage);
+
+  serverItems.value = data.content;
+  totalItems.value = data.totalElements;
+  loading.value = false;
+};
+
+const goWritePage = () => {
+  if (!userStore.isLogin()) {
+    alert("로그인 먼저 해주세요");
+    router.push({ name: "login" });
+  } else {
+    router.push({ name: "boardWrite" });
+  }
+};
+
+const goToDetail = (id) => {
+  router.push({ path: `/board/${id}` });
+};
+</script>
+
 <style scoped>
-#table {
-  max-width: 1280px;
-  margin: 0 auto;
+h1 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.v-data-table-footer__items-per-page {
+  display: none;
 }
 </style>

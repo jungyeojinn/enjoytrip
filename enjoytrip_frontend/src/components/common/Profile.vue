@@ -22,7 +22,7 @@ const goProfile = () => {
         <template v-slot:activator="{ props }">
           <v-btn icon v-bind="props">
             <v-avatar>
-              <v-img src="/src/assets/default-avatar.png" cover></v-img>
+              <v-img :src="`${userStore.profileImage}`" cover></v-img>
             </v-avatar>
           </v-btn>
         </template>

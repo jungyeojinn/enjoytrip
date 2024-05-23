@@ -12,6 +12,8 @@ import MyPage from "@/pages/MyPage.vue";
 
 import HotPlaceWrite from "@/components/hotplace/HotPlaceWrite.vue";
 import BoardDeatil from "@/components/board/BoardDeatil.vue";
+import BoardWrite from "@/components/board/BoardWrite.vue";
+
 import HotPlaceDeatil from "@/components/hotplace/HotPlaceDeatil.vue";
 
 const { cookies } = useCookies();
@@ -31,11 +33,12 @@ const router = createRouter({
     },
     { path: "/attraction", component: Attraction, name: "attraction" },
     { path: "/attraction-board", component: AttractionBoard },
-    { path: "/login", component: Login },
+    { path: "/login", component: Login, name: "login" },
     { path: "/signup", component: SignUp },
     { path: "/mypage/:id", component: MyPage },
     { path: "/hotplace/write", component: HotPlaceWrite },
     { path: "/hotplace/:id", component: HotPlaceDeatil },
+    { path: "/board/write", component: BoardWrite, name: "boardWrite" },
   ],
   linkExactActiveClass: "active-link",
 });

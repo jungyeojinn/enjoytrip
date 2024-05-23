@@ -24,7 +24,7 @@ const onSubmit = async () => {
     return;
   }
 
-  userStore.setUserInfo(data.userId, data.nickname);
+  userStore.setUserInfo(data.id, data.userId, data.nickname, data.profileImg);
   userStore.setCookie(data.accessToken, data.refreshToken);
   router.push({ name: "home" });
 };
