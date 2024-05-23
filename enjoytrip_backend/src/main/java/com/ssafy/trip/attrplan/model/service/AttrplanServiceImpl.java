@@ -105,4 +105,9 @@ public class AttrplanServiceImpl implements AttrplanService {
 	public void Del2Attrplan(int plans_id) throws SQLException {
 		attrplanMapper.Del2Attrplan(plans_id);
 	}
+
+	@Override
+	public AttrplanOrderDto[] getPlanOrder(int plansId) {
+		return attrplanMapper.getPlanOrder(plansId);
+	}
 }

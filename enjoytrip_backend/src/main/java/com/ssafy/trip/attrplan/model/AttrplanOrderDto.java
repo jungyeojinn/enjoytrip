@@ -17,13 +17,13 @@ public class AttrplanOrderDto {
     int plans_id;
     int attraction_info_id;
 
-    @Builder
+    
     public AttrplanOrderDto(int order, int plans_id, int attraction_info_id) {
         this.order = order;
         this.plans_id = plans_id;
         this.attraction_info_id = attraction_info_id;
     }
-
+    @Builder
     public AttrplanOrderDto(int id, int order, int plans_id, int attraction_info_id) {
         this.id = id;
         this.order = order;
