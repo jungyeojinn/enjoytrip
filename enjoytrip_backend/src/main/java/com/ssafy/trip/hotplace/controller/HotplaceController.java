@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.exception.AuthorizationFailedException;
-import com.ssafy.trip.exception.InvalidInputException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
 import com.ssafy.trip.hotplace.model.HotplaceDto;
 import com.ssafy.trip.hotplace.model.HotplaceLikeDto;

@@ -18,7 +18,7 @@ import com.ssafy.trip.user.model.service.UserService;
 
 @Service
 public class HotplaceServiceImpl implements HotplaceService {
-
+	private static final String HOTPLACE_IMAGE_PATH = "hotplace";
 	private final HotplaceMapper hotplaceMapper;
 	private final UserService userService;
 	private final ImgUtils imgUtils;
@@ -32,7 +32,7 @@ public class HotplaceServiceImpl implements HotplaceService {
 	@Override
 	@Transactional
 	public void insertHotplace(WriteHotplaceRequest hotplace, MultipartFile img) {
-		String imgPath = imgUtils.saveImage(img, "hotplace");
+		String imgPath = imgUtils.saveImage(img, HOTPLACE_IMAGE_PATH);
 		int result = hotplaceMapper.insertHotplace(HotplaceDto.builder()
 				.title(hotplace.getTitle())
 				.img(imgPath)
@@ -87,9 +87,9 @@ public class HotplaceServiceImpl implements HotplaceService {
 		if (img != null && !img.isEmpty()) {
 			originPath = hotplaceMapper.getImgById(hotplace.getId());
 			if (originPath != null && !originPath.isEmpty()) {
-				imgUtils.deleteImage(originPath, "hotplace");
+				imgUtils.deleteImage(originPath, HOTPLACE_IMAGE_PATH);
 			}
-			String imgPath = imgUtils.saveImage(img, "hotplace");
+			String imgPath = imgUtils.saveImage(img, HOTPLACE_IMAGE_PATH);
 			hotplace.setImg(imgPath);
 		}
 		int result = hotplaceMapper.updateHotplace(hotplace);
@@ -107,7 +107,7 @@ public class HotplaceServiceImpl implements HotplaceService {
 			throw new InvalidInputException(BaseResponseCode.DATABASE_REQUEST_FAILED);
 		}
 		if (originPath != null && !originPath.isEmpty()) {
-			imgUtils.deleteImage(originPath, "hotplace");
+			imgUtils.deleteImage(originPath, HOTPLACE_IMAGE_PATH);
 		}
 	}
 
