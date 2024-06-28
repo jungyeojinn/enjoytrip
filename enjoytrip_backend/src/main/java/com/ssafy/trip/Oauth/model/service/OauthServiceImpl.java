@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.trip.Oauth.model.NaverOauthTokenDto;
 import com.ssafy.trip.user.model.UserDto;
-import com.ssafy.trip.user.model.UserRegistRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,42 +14,31 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.ssafy.trip.user.model.UserRegistRequest;
-
 import java.util.UUID;
 
 @Service
 public class OauthServiceImpl implements OauthService{
     private static final Logger log = LoggerFactory.getLogger(OauthServiceImpl.class);
-    private final String client_id = "sXE8Bh2IfRdKXY9W2y7P";
-    private final String client_key = "KMbuTwaZYs";
-    private final String tokenUrl = "https://nid.naver.com/oauth2.0/token";
-    private final String userInfoUrl = "https://openapi.naver.com/v1/nid/me";
+    private final String NAVER_CLIENT_ID = "sXE8Bh2IfRdKXY9W2y7P";
+    private final String NAVER_CLIENT_KEY = "KMbuTwaZYs";
+    private final String NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
+    private final String NAVER_INFO_URL = "https://openapi.naver.com/v1/nid/me";
 
     private final RestTemplate restTemplate;
-
 
     public OauthServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-
-//    public NaverOauthTokenDto getUserToken(String code, String state) {
-//        String accessToken = getAccessToken(code, state);
-//        UserInfoOauthDto userInfoOauthDto = getUserInfo(accessToken);
-//
-//        return setUserTokenDto(userInfoOauthDto);
-//    }
-
     @Override
     public String getAuthentication() {
         String state = generateRandomString();
-        String redirect_uri = "http%3A%2F%2Flocalhost%3A8080%2Ftrip%2Foauth2%2Flogin";
-        String redirect_url = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
-        redirect_url += "&client_id="+client_id;
-        redirect_url += "&state="+state;
-        redirect_url += "&redirect_uri="+redirect_uri;
-        return redirect_url;
+        String redirectUri = "http%3A%2F%2Flocalhost%3A8080%2Ftrip%2Foauth2%2Flogin";
+        String redirectUrl = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+        redirectUrl += "&client_id="+ NAVER_CLIENT_ID;
+        redirectUrl += "&state="+state;
+        redirectUrl += "&redirect_uri="+redirectUri;
+        return redirectUrl;
     }
 
     @Override
@@ -60,15 +48,15 @@ public class OauthServiceImpl implements OauthService{
 
         LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.set("grant_type", "authorization_code");
-        params.set("client_id", client_id);
-        params.set("client_secret", client_key);
+        params.set("client_id", NAVER_CLIENT_ID);
+        params.set("client_secret", NAVER_CLIENT_KEY);
         params.set("code", authorizationCode);
         params.set("state", state);
 
         HttpEntity<LinkedMultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                tokenUrl,
+                NAVER_TOKEN_URL,
                 HttpMethod.POST,
                 request,
                 String.class
@@ -96,7 +84,7 @@ public class OauthServiceImpl implements OauthService{
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                userInfoUrl,
+                NAVER_INFO_URL,
                 HttpMethod.GET,
                 request,
                 String.class

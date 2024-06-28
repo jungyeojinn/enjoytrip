@@ -4,15 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.trip.Oauth.model.NaverOauthTokenDto;
 import com.ssafy.trip.Oauth.model.service.OauthService;
 import com.ssafy.trip.exception.DuplicateUserException;
-import com.ssafy.trip.hotplace.model.service.HotplaceService;
 import com.ssafy.trip.user.model.UserDto;
 import com.ssafy.trip.user.model.UserRegistRequest;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import com.ssafy.trip.user.model.service.UserService;
@@ -33,9 +28,6 @@ public class OauthController {
         this.oauthService = oauthService;
         this.userService = userService;
     }
-
-    private static final Logger log = LoggerFactory.getLogger(OauthController.class);
-
 
     @GetMapping("/login")
     public ResponseEntity<?> authNaverGetToken(@RequestParam("code") String code,
@@ -58,8 +50,8 @@ public class OauthController {
 
     @GetMapping("/login/naver")
     public void authNaver(HttpServletResponse response) throws IOException {
-        String redirect_url = oauthService.getAuthentication();
-        response.sendRedirect(redirect_url);
+        String redirectUrl = oauthService.getAuthentication();
+        response.sendRedirect(redirectUrl);
     }
 
 }
