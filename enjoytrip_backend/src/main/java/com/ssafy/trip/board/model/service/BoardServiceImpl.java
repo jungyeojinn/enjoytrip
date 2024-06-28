@@ -1,15 +1,11 @@
 package com.ssafy.trip.board.model.service;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 import com.ssafy.trip.common.ImgUtils;
 import com.ssafy.trip.exception.ResourceNotFoundException;
 import com.ssafy.trip.exception.util.BaseResponseCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BoardServiceImpl implements BoardService {
+    private static final String BOARD_IMAGE_PATH = "board";
 
-    BoardMapper boardMapper;
-    CommentService commentService;
-    ImgUtils imgUtils;
-
+    private final BoardMapper boardMapper;
+    private final CommentService commentService;
+    private final ImgUtils imgUtils;
     public BoardServiceImpl(BoardMapper boardMapper, CommentService commentService, ImgUtils imgUtils) {
 		super();
 		this.boardMapper = boardMapper;
@@ -62,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
     public void registBoard(BoardDto board, MultipartFile img) throws SQLException {
         String imgPath = "";
         if (img != null && !img.isEmpty()) {
-            imgPath = imgUtils.saveImage(img, "board");
+            imgPath = imgUtils.saveImage(img, BOARD_IMAGE_PATH);
         }
         board.setImg(imgPath);
         boardMapper.registBoard(board);
@@ -77,9 +73,9 @@ public class BoardServiceImpl implements BoardService {
             if (img != null && !img.isEmpty()) {
                 originPath = boardMapper.getImg(board.getId());
                 if (originPath != null && !originPath.isEmpty()) {
-                    imgUtils.deleteImage(originPath, "board");
+                    imgUtils.deleteImage(originPath, BOARD_IMAGE_PATH);
                 }
-                String imgPath = imgUtils.saveImage(img, "board");
+                String imgPath = imgUtils.saveImage(img, BOARD_IMAGE_PATH);
                 board.setImg(imgPath);
             }
             boardMapper.updateBoard(board);
@@ -93,7 +89,7 @@ public class BoardServiceImpl implements BoardService {
         else {
             String originPath = boardMapper.getImg(id);
             if (!originPath.isEmpty()) {
-                imgUtils.deleteImage(originPath, "board");
+                imgUtils.deleteImage(originPath, BOARD_IMAGE_PATH);
             }
             commentService.deleteByBoardId(id);
             boardMapper.deleteBoard(id);
