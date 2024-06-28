@@ -1,11 +1,9 @@
 package com.ssafy.trip.attrplan.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +34,6 @@ import com.ssafy.trip.exception.util.BaseResponseCode;
 @CrossOrigin
 @RequestMapping("/attrplan")
 public class AttrplanController {
-    //빌더 패턴 사용
-//    AttrplanDto attrplan = AttrplanDto.builder()
-//            .img("/diflskdfj")
-//            .build();
-
     private final AttrplanService attrplanService;
 
     public AttrplanController(AttrplanService attractionService) {
