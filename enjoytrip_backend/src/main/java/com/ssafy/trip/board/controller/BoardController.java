@@ -2,7 +2,6 @@ package com.ssafy.trip.board.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
