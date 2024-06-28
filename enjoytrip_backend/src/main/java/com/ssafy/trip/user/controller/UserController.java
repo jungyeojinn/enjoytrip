@@ -35,8 +35,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	private UserService userService;
-	private JwtService jwtService;
+	private final UserService userService;
+	private final JwtService jwtService;
 
 	public UserController(UserService userService, JwtService jwtService) {
 		super();
@@ -44,16 +44,10 @@ public class UserController {
 		this.jwtService = jwtService;
 	}
 
-	// @GetMapping(value = "/regi")
-	// public String regi() {
-	// return "regi";
-	// }
-
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDto user) throws Exception {
 		logger.debug("login {}", user);
 		LoginResponse login = userService.login(user);
-		// session.setMaxInactiveInterval(30*60);
 		logger.info("{}", login);
 		return ResponseEntity.ok().body(login);
 	}

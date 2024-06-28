@@ -23,14 +23,14 @@ import com.ssafy.trip.user.model.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private UserMapper userDao;
-	private JwtService jwtService;
-	private ImgUtils imgUtils;
+	private final UserMapper userMapper;
+	private final JwtService jwtService;
+	private final ImgUtils imgUtils;
 	
 	
-	public UserServiceImpl(UserMapper userDao, JwtService jwtService, ImgUtils imgUtils) {
+	public UserServiceImpl(UserMapper userMapper, JwtService jwtService, ImgUtils imgUtils) {
 		super();
-		this.userDao = userDao;
+		this.userMapper = userMapper;
 		this.jwtService = jwtService;
 		this.imgUtils = imgUtils;
 	}
@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void regist(UserRegistRequest userRegist) {
 		// 이미 아이디가 같은 유저가 있다면 안됨		
-		if (!userDao.checkAlreadyExists(userRegist.getUserId())) {
-			int result = userDao.insertUser(UserDto.builder()
+		if (!userMapper.checkAlreadyExists(userRegist.getUserId())) {
+			int result = userMapper.insertUser(UserDto.builder()
 					.userId(userRegist.getUserId())
 					.nickname(userRegist.getNickname())
 					.password(userRegist.getPassword())
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public LoginResponse login(UserDto user) {
-		UserDto login = userDao.login(user);
+		UserDto login = userMapper.login(user);
 		if (login == null) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
 		} else {
@@ -68,8 +68,8 @@ public class UserServiceImpl implements UserService {
 			String refreshToken = jwtService.createRefreshToken("userid", login.getUserId());// key, data
 			
 			//refresh 토큰 재설정
-			userDao.deleteRefreshToken(login.getId());
-			userDao.saveRefreshToken(RefreshTokenDto.builder()
+			userMapper.deleteRefreshToken(login.getId());
+			userMapper.saveRefreshToken(RefreshTokenDto.builder()
 					.userId(login.getId())
 					.refreshToken(refreshToken)
 					.build());
@@ -89,8 +89,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void logout(String userId) {
-		int id = userDao.getIdByUserId(userId);
-		int result = userDao.deleteRefreshToken(id);
+		int id = userMapper.getIdByUserId(userId);
+		int result = userMapper.deleteRefreshToken(id);
 		if (result == 0) {
 			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
 		}
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public LoginResponse loginNaver(UserDto user) {
-		UserDto login = userDao.loginNaver(user);
+		UserDto login = userMapper.loginNaver(user);
 		if (login == null) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
 		} else {
@@ -108,8 +108,8 @@ public class UserServiceImpl implements UserService {
 						String refreshToken = jwtService.createRefreshToken("userid", login.getUserId());// key, data
 						
 						//refresh 토큰 재설정
-						userDao.deleteRefreshToken(login.getId());
-						userDao.saveRefreshToken(RefreshTokenDto.builder()
+						userMapper.deleteRefreshToken(login.getId());
+						userMapper.saveRefreshToken(RefreshTokenDto.builder()
 								.userId(login.getId())
 								.refreshToken(refreshToken)
 								.build());
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getUser(String userId) {
-		UserDto user = userDao.getUser(userId);
+		UserDto user = userMapper.getUser(userId);
 		return user;
 	}
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 			throw new InvalidInputException(BaseResponseCode.INVALID_INPUT);
 		}
 		
-		String originPath = userDao.getProfileImgByUserId(userId);
+		String originPath = userMapper.getProfileImgByUserId(userId);
 		if (originPath != null && !originPath.isEmpty()) {
 			imgUtils.deleteImage(originPath, "user");
 		}
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 		if (img != null && !img.isEmpty()) {	
 			imgPath = imgUtils.saveImage(img, "user");
 		}
-		userDao.updateUser(UserDto.builder()
+		userMapper.updateUser(UserDto.builder()
 				.userId(updateUser.getUserId())
 				.nickname(updateUser.getNickname())
 				.emailId(updateUser.getEmailId())
@@ -160,9 +160,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void deleteUser(String userId) {
-		String originPath = userDao.getProfileImgByUserId(userId);
-		int id = userDao.getIdByUserId(userId);
-		userDao.deActivate(userId);
+		String originPath = userMapper.getProfileImgByUserId(userId);
+		int id = userMapper.getIdByUserId(userId);
+		userMapper.deActivate(userId);
 		if (originPath != null && !originPath.isEmpty()) {
 			imgUtils.deleteImage(originPath, "user");
 		}
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String getPassword(String userId) {
-		return userDao.getPassword(userId);
+		return userMapper.getPassword(userId);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
 		
 		UserDto user = getUser(userId);
 		
-		if (refreshToken.equals(userDao.getRefreshToken(user.getId()))) {
+		if (refreshToken.equals(userMapper.getRefreshToken(user.getId()))) {
 			accessToken = jwtService.createAccessToken("userid", user.getUserId());
 		} else {
 			throw new AuthorizationFailedException(BaseResponseCode.AUTHORIZATION_FAILED);
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserProfileResponse getUserProfile(String userId) {
-		UserProfileResponse userProfile = userDao.getUserProfileByUserId(userId);
+		UserProfileResponse userProfile = userMapper.getUserProfileByUserId(userId);
 		if (userProfile == null) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
 		}
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	public int getIdByUserId(String userId) {
-		int id = userDao.getIdByUserId(userId);
+		int id = userMapper.getIdByUserId(userId);
 		if (id == 0) {
 			throw new ResourceNotFoundException(BaseResponseCode.RESOURCE_NOT_FOUND);
 		}
